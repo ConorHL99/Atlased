@@ -1,0 +1,37 @@
+# ────────────────────────────────────────────────────────────────────────────
+# docker-compose.dev.yml — Atlased LOCAL DEVELOPMENT (DB only)
+#
+# Usage:
+#   docker compose -f docker-compose.dev.yml up -d    # start DB
+#   docker compose -f docker-compose.dev.yml down     # stop DB
+#
+# After starting the DB, run in separate terminals:
+#   cd backend  && npm run dev    # Express on localhost:4000
+#   cd frontend && npm run dev    # Vite on localhost:5173
+#
+# The DB port IS exposed to the host here (unlike production) so that the
+# native backend process can connect via localhost:5432.
+# ────────────────────────────────────────────────────────────────────────────
+
+services:
+  db:
+    image: postgres:16-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    volumes:
+      # Separate dev volume so it doesn't share state with the prod volume.
+      - postgres_dev_data:/var/lib/postgresql/data
+    ports:
+      # Exposed to localhost only — native backend connects via DATABASE_URL.
+      - "127.0.0.1:${DB_PORT:-5432}:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  postgres_dev_data:

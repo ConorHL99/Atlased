@@ -1,0 +1,111 @@
+// Prisma schema — Atlased
+// Docs: https://pris.ly/d/prisma-schema
+//
+// Supports both SQLite (local dev) and PostgreSQL (production on Pi).
+// Provider and URL determined by DATABASE_PROVIDER and DATABASE_URL env vars.
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = env("DATABASE_PROVIDER")
+  url      = env("DATABASE_URL")
+}
+
+// ─── Enums ───────────────────────────────────────────────────────────────────
+
+enum CountryStatus {
+  VISITED
+  WANT_TO_VISIT
+}
+
+// ─── Models ──────────────────────────────────────────────────────────────────
+
+/// Application user. Passwords are never stored in plaintext — only bcrypt hashes.
+model User {
+  id           String   @id @default(cuid())
+  email        String   @unique
+  passwordHash String   @map("password_hash")
+  createdAt    DateTime @default(now()) @map("created_at")
+  updatedAt    DateTime @updatedAt @map("updated_at")
+
+  countryStatuses UserCountryStatus[]
+  cityStatuses    UserCityStatus[]
+
+  @@map("users")
+}
+
+/// Reference data for every country, seeded once from restcountries.com.
+/// This table is read-only at runtime — mutations only happen during seeding.
+model Country {
+  id         String   @id @default(cuid())
+  /// ISO 3166-1 alpha-2 code (e.g. "US", "FR"). Used as the stable external identifier.
+  isoCode    String   @unique @map("iso_code")
+  name       String
+  /// SVG/PNG flag URL from the restcountries.com seed — no live API call at runtime.
+  flagUrl    String   @map("flag_url")
+  /// Representative country image URL (Wikimedia/Unsplash), stored in seed JSON.
+  imageUrl   String   @map("image_url")
+  capital    String
+  population Int
+  /// Array of primary language names, e.g. ["English", "French"]
+  languages  String[]
+  /// GDP in USD. Nullable — some territories/dependencies lack this data.
+  gdpUsd     Float?   @map("gdp_usd")
+  lat        Float
+  lng        Float
+  createdAt  DateTime @default(now()) @map("created_at")
+
+  cities       City[]
+  userStatuses UserCountryStatus[]
+
+  @@map("countries")
+}
+
+/// Cities within a country. Seeded from a static curated JSON (~5 per country).
+model City {
+  id        String @id @default(cuid())
+  countryId String @map("country_id")
+  name      String
+  lat       Float
+  lng       Float
+
+  country      Country          @relation(fields: [countryId], references: [id], onDelete: Cascade)
+  userStatuses UserCityStatus[]
+
+  @@map("cities")
+}
+
+/// Per-user travel status for a country.
+/// A country can be favorited without having a VISITED/WANT_TO_VISIT status,
+/// so `status` is nullable (null = "favorited only, no travel status").
+model UserCountryStatus {
+  userId    String         @map("user_id")
+  countryId String         @map("country_id")
+  /// null means the user has only favorited this country, not set a travel status.
+  status     CountryStatus?
+  isFavorite Boolean       @default(false) @map("is_favorite")
+  updatedAt  DateTime      @updatedAt @map("updated_at")
+
+  user    User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  country Country @relation(fields: [countryId], references: [id], onDelete: Cascade)
+
+  @@id([userId, countryId])
+  @@map("user_country_statuses")
+}
+
+/// Per-user visited/favorite status for individual cities.
+model UserCityStatus {
+  userId     String   @map("user_id")
+  cityId     String   @map("city_id")
+  isVisited  Boolean  @default(false) @map("is_visited")
+  isFavorite Boolean  @default(false) @map("is_favorite")
+  updatedAt  DateTime @updatedAt @map("updated_at")
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  city City @relation(fields: [cityId], references: [id], onDelete: Cascade)
+
+  @@id([userId, cityId])
+  @@map("user_city_statuses")
+}

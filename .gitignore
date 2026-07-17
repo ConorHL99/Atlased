@@ -1,0 +1,36 @@
+# ─── Dependencies ────────────────────────────────────────────────────────────
+node_modules/
+
+# ─── Build outputs ────────────────────────────────────────────────────────────
+dist/
+build/
+
+# ─── Environment files — NEVER commit real secrets ────────────────────────────
+.env
+.env.local
+.env.production
+# .env.example IS committed — it documents required vars without real values.
+
+# ─── Prisma generated client (regenerated from schema on npm ci) ──────────────
+backend/node_modules/
+
+# ─── TypeScript incremental build info ────────────────────────────────────────
+*.tsbuildinfo
+
+# ─── OS artifacts ─────────────────────────────────────────────────────────────
+.DS_Store
+Thumbs.db
+
+# ─── Editor ───────────────────────────────────────────────────────────────────
+.vscode/settings.json
+*.swp
+*.swo
+
+# ─── Logs ─────────────────────────────────────────────────────────────────────
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+
+# ─── Test coverage ────────────────────────────────────────────────────────────
+coverage/

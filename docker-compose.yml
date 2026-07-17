@@ -1,0 +1,91 @@
+# ────────────────────────────────────────────────────────────────────────────
+# docker-compose.yml — Atlased PRODUCTION / Pi full-stack deployment
+#
+# Usage:
+#   docker compose up -d           # start all services
+#   docker compose down            # stop and remove containers
+#   docker compose up --build -d   # rebuild images and start
+#
+# Frontend is published on a host port for reverse-proxy ingress (Nginx Proxy
+# Manager). Backend and DB remain private on the internal Docker network.
+#
+# Port allocation (Pi-safe):
+#   Frontend  : 0.0.0.0:3010 → container :80  (Nginx)
+#   Backend   : internal Docker network only (not published to host)
+#   PostgreSQL: NOT exposed to host — internal Docker network only
+#
+# Pi-hole uses 80/443/53. Tailscale uses 41641/UDP. None of these conflict.
+# ────────────────────────────────────────────────────────────────────────────
+
+services:
+  # ─── PostgreSQL Database ──────────────────────────────────────────────────
+  db:
+    image: postgres:16-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    volumes:
+      # Named volume ensures data persists across container restarts.
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - internal
+    # In production, the DB is NOT exposed to the host — only the backend
+    # service (on the internal Docker network) can reach it.
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # ─── Backend API (Express + Prisma) ───────────────────────────────────────
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      # Use the Docker service name "db" as the host — resolved by Docker's
+      # internal DNS. This overrides the DATABASE_URL in .env which uses
+      # "localhost" (for local native dev).
+      DATABASE_URL: postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db:5432/${POSTGRES_DB}
+      JWT_SECRET: ${JWT_SECRET}
+      JWT_EXPIRES_IN: ${JWT_EXPIRES_IN}
+      BCRYPT_ROUNDS: ${BCRYPT_ROUNDS}
+      # In production, CORS_ORIGIN should be the URL the browser uses to
+      # reach the frontend (e.g., http://100.x.x.x:3010 for Tailscale).
+      CORS_ORIGIN: ${CORS_ORIGIN}
+      NODE_ENV: production
+    networks:
+      - internal
+
+  # ─── Frontend (Vite build served by Nginx) ────────────────────────────────
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    depends_on:
+      - backend
+    ports:
+      # Publish frontend on host LAN so Nginx Proxy Manager can forward to it.
+      - "${FRONTEND_PORT:-3010}:80"
+    networks:
+      - internal
+
+# ─── Networks ──────────────────────────────────────────────────────────────
+networks:
+  internal:
+    # Bridge network isolates these containers from other Docker projects
+    # (e.g., Pi-hole, Tailscale) running on the same host.
+    driver: bridge
+
+# ─── Volumes ───────────────────────────────────────────────────────────────
+volumes:
+  postgres_data:
+    # Data persists here across container restarts and image rebuilds.
+    # To fully reset: docker compose down -v
