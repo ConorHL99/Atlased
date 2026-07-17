@@ -17,6 +17,12 @@ import userRouter from './routes/user';
 
 const app = express();
 
+// Required when running behind a reverse proxy (Nginx Proxy Manager).
+// This allows middleware such as express-rate-limit to use X-Forwarded-For safely.
+if (config.NODE_ENV === 'production') {
+  app.set('trust proxy', 1);
+}
+
 // ─── Security middleware ─────────────────────────────────────────────────────
 
 // helmet sets a suite of security headers:

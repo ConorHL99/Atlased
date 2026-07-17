@@ -47,6 +47,6 @@ USER node
 
 EXPOSE 4000
 
-# Run pending migrations (idempotent) then start the server.
-# `migrate deploy` is safe for production — it only applies new migrations.
-CMD ["sh", "-c", "npx prisma migrate deploy && node dist/index.js"]
+# Run migrations when present; if none exist yet, fall back to db push once.
+# This keeps first-time deployments working before migration files are committed.
+CMD ["sh", "-c", "npx prisma migrate deploy || npx prisma db push; node dist/index.js"]
