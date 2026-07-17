@@ -9,8 +9,6 @@ RUN npm ci
 COPY tsconfig*.json ./
 COPY vite.config.ts ./
 COPY index.html ./
-# public/ contains the GeoJSON and static assets
-COPY public ./public
 COPY src ./src
 
 RUN npm run build
