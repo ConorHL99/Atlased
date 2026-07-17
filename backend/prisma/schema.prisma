@@ -1,15 +1,15 @@
 // Prisma schema — Atlased
 // Docs: https://pris.ly/d/prisma-schema
 //
-// Supports both SQLite (local dev) and PostgreSQL (production on Pi).
-// Provider and URL determined by DATABASE_PROVIDER and DATABASE_URL env vars.
+// Production schema for PostgreSQL deployment on Raspberry Pi.
+// URL is still read from DATABASE_URL at runtime.
 
 generator client {
   provider = "prisma-client-js"
 }
 
 datasource db {
-  provider = env("DATABASE_PROVIDER")
+  provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 

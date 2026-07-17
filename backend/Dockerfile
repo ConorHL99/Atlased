@@ -9,6 +9,7 @@ RUN npm ci
 
 # Copy Prisma schema before generate so the client is built for the right schema
 COPY prisma ./prisma
+ENV DATABASE_URL="postgresql://build:build@localhost:5432/build"
 RUN npx prisma generate
 
 # Compile TypeScript
@@ -25,6 +26,7 @@ WORKDIR /app
 # (copying node_modules from builder would include devDeps; this is cleaner)
 COPY package*.json ./
 COPY prisma ./prisma
+ENV DATABASE_URL="postgresql://build:build@localhost:5432/build"
 RUN npm ci --omit=dev && npx prisma generate
 
 # Copy compiled application from build stage
