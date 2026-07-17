@@ -31,6 +31,8 @@ export const CountryDetailPanel: React.FC<CountryDetailPanelProps> = ({
   const [cities, setCities] = useState<City[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [cityActionError, setCityActionError] = useState<string | null>(null);
+  const [busyCityActions, setBusyCityActions] = useState<Set<string>>(new Set());
 
   // Fetch cities for selected country
   useEffect(() => {
@@ -70,6 +72,76 @@ export const CountryDetailPanel: React.FC<CountryDetailPanelProps> = ({
     theme === 'dark' ? '#334155' : '#e2e8f0';
 
   const citiesVisited = cities.filter((c) => c.userVisited).length;
+
+  const setCityBusy = (cityId: string, isBusy: boolean) => {
+    setBusyCityActions((prev) => {
+      const next = new Set(prev);
+      if (isBusy) {
+        next.add(cityId);
+      } else {
+        next.delete(cityId);
+      }
+      return next;
+    });
+  };
+
+  const handleToggleCityVisited = async (cityId: string) => {
+    setCityActionError(null);
+    setCityBusy(cityId, true);
+
+    try {
+      const res = await fetch(`/api/user/cities/${cityId}/visited`, {
+        method: 'PUT',
+        credentials: 'include',
+      });
+
+      if (!res.ok) {
+        throw new Error(`Failed to update city visited status (${res.status})`);
+      }
+
+      setCities((prev) =>
+        prev.map((city) =>
+          city.id === cityId
+            ? { ...city, userVisited: !city.userVisited }
+            : city,
+        ),
+      );
+    } catch (err) {
+      console.error('Error toggling city visited status:', err);
+      setCityActionError(err instanceof Error ? err.message : 'Failed to update city visited status');
+    } finally {
+      setCityBusy(cityId, false);
+    }
+  };
+
+  const handleToggleCityFavorite = async (cityId: string) => {
+    setCityActionError(null);
+    setCityBusy(cityId, true);
+
+    try {
+      const res = await fetch(`/api/user/cities/${cityId}/favorite`, {
+        method: 'PUT',
+        credentials: 'include',
+      });
+
+      if (!res.ok) {
+        throw new Error(`Failed to update city favorite status (${res.status})`);
+      }
+
+      setCities((prev) =>
+        prev.map((city) =>
+          city.id === cityId
+            ? { ...city, userFavorite: !city.userFavorite }
+            : city,
+        ),
+      );
+    } catch (err) {
+      console.error('Error toggling city favorite status:', err);
+      setCityActionError(err instanceof Error ? err.message : 'Failed to update city favorite status');
+    } finally {
+      setCityBusy(cityId, false);
+    }
+  };
 
   return (
     <div
@@ -137,15 +209,31 @@ export const CountryDetailPanel: React.FC<CountryDetailPanelProps> = ({
         </button>
       </div>
 
-      {/* Flag and Image */}
+      {/* Country photo */}
+      {country.imageUrl && (
+        <div
+          style={{
+            width: '100%',
+            height: '152px',
+            backgroundImage: `url('${country.imageUrl}')`,
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
+            borderBottom: `1px solid ${borderColor}`,
+          }}
+        />
+      )}
+
+      {/* Flag */}
       {country.flagUrl && (
         <div
           style={{
             width: '100%',
-            height: '120px',
+            height: '100px',
             backgroundImage: `url('${country.flagUrl}')`,
-            backgroundSize: 'cover',
+            backgroundSize: 'contain',
+            backgroundRepeat: 'no-repeat',
             backgroundPosition: 'center',
+            backgroundColor: theme === 'dark' ? '#0b1220' : '#f8fafc',
             borderBottom: `1px solid ${borderColor}`,
           }}
         />
@@ -327,6 +415,12 @@ export const CountryDetailPanel: React.FC<CountryDetailPanelProps> = ({
           Cities ({citiesVisited}/{cities.length})
         </div>
 
+        {cityActionError ? (
+          <div style={{ fontSize: '0.8rem', color: '#ef4444', marginBottom: '0.5rem' }}>
+            {cityActionError}
+          </div>
+        ) : null}
+
         {loading ? (
           <div style={{ fontSize: '0.875rem', opacity: 0.6 }}>
             Loading cities...
@@ -343,7 +437,7 @@ export const CountryDetailPanel: React.FC<CountryDetailPanelProps> = ({
           <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
             {cities.map((city) => (
               <div
-                key={city.name}
+                key={city.id}
                 style={{
                   padding: '0.75rem',
                   backgroundColor: theme === 'dark' ? '#0f172a' : '#fff',
@@ -352,16 +446,44 @@ export const CountryDetailPanel: React.FC<CountryDetailPanelProps> = ({
                   fontSize: '0.875rem',
                   display: 'flex',
                   alignItems: 'center',
-                  gap: '0.5rem',
+                  gap: '0.6rem',
                 }}
               >
-                {city.userVisited && (
-                  <span style={{ color: '#16a34a', fontWeight: 600 }}>✓</span>
-                )}
-                {city.userFavorite && (
-                  <span style={{ color: '#d97706', fontWeight: 600 }}>★</span>
-                )}
-                <span>{city.name}</span>
+                <span style={{ flex: 1 }}>{city.name}</span>
+                <button
+                  type="button"
+                  onClick={() => void handleToggleCityVisited(city.id)}
+                  disabled={busyCityActions.has(city.id)}
+                  style={{
+                    border: `1px solid ${city.userVisited ? '#16a34a' : borderColor}`,
+                    color: city.userVisited ? '#16a34a' : textColor,
+                    background: 'transparent',
+                    borderRadius: '0.3rem',
+                    padding: '0.22rem 0.45rem',
+                    fontSize: '0.75rem',
+                    cursor: busyCityActions.has(city.id) ? 'not-allowed' : 'pointer',
+                    opacity: busyCityActions.has(city.id) ? 0.55 : 1,
+                  }}
+                >
+                  {city.userVisited ? 'Visited' : 'Visit'}
+                </button>
+                <button
+                  type="button"
+                  onClick={() => void handleToggleCityFavorite(city.id)}
+                  disabled={busyCityActions.has(city.id)}
+                  style={{
+                    border: `1px solid ${city.userFavorite ? '#d97706' : borderColor}`,
+                    color: city.userFavorite ? '#d97706' : textColor,
+                    background: 'transparent',
+                    borderRadius: '0.3rem',
+                    padding: '0.22rem 0.45rem',
+                    fontSize: '0.75rem',
+                    cursor: busyCityActions.has(city.id) ? 'not-allowed' : 'pointer',
+                    opacity: busyCityActions.has(city.id) ? 0.55 : 1,
+                  }}
+                >
+                  {city.userFavorite ? 'Favorite' : 'Fav'}
+                </button>
               </div>
             ))}
           </div>

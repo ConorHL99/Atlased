@@ -58,6 +58,7 @@ export interface Country {
  * City within a country
  */
 export interface City {
+  id: string;
   name: string;
   lat: number;
   lng: number;

@@ -39,6 +39,7 @@ export const GlobeView: React.FC<GlobeViewProps> = ({
   const globeRef = useRef<GlobeRef>();
   const containerRef = useRef<HTMLDivElement>(null);
   const [globeSize, setGlobeSize] = useState({ width: 960, height: 560 });
+  const [activeList, setActiveList] = useState<'visited' | 'want' | 'favorite' | null>(null);
   const { theme } = useTheme();
   const backgroundColor = 'var(--color-bg)';
   const textColor = 'var(--color-text)';
@@ -46,6 +47,20 @@ export const GlobeView: React.FC<GlobeViewProps> = ({
   const visited = countries.filter((c) => c.userStatus === 'VISITED').length;
   const wantToVisit = countries.filter((c) => c.userStatus === 'WANT_TO_VISIT').length;
   const favorites = countries.filter((c) => c.isFavorite).length;
+
+  const filteredCountries = useMemo(() => {
+    const sorted = [...countries].sort((a, b) => a.name.localeCompare(b.name));
+    if (activeList === 'visited') {
+      return sorted.filter((country) => country.userStatus === 'VISITED');
+    }
+    if (activeList === 'want') {
+      return sorted.filter((country) => country.userStatus === 'WANT_TO_VISIT');
+    }
+    if (activeList === 'favorite') {
+      return sorted.filter((country) => country.isFavorite);
+    }
+    return [];
+  }, [activeList, countries]);
 
   const markerPoints = useMemo<MarkerPoint[]>(() => {
     return countries
@@ -186,18 +201,77 @@ export const GlobeView: React.FC<GlobeViewProps> = ({
               }}
             >
               <div>
-                <div style={{ color: 'var(--color-visited)', fontWeight: 700, fontSize: '1.2rem' }}>{visited}</div>
-                <div style={{ fontSize: '0.76rem', opacity: 0.8 }}>Visited</div>
+                <button
+                  type="button"
+                  onClick={() => setActiveList(activeList === 'visited' ? null : 'visited')}
+                  style={{ background: 'transparent', border: 'none', color: 'inherit', textAlign: 'left' }}
+                >
+                  <div style={{ color: 'var(--color-visited)', fontWeight: 700, fontSize: '1.2rem' }}>{visited}</div>
+                  <div style={{ fontSize: '0.76rem', opacity: 0.8 }}>Visited</div>
+                </button>
               </div>
               <div>
-                <div style={{ color: 'var(--color-want-to-visit)', fontWeight: 700, fontSize: '1.2rem' }}>{wantToVisit}</div>
-                <div style={{ fontSize: '0.76rem', opacity: 0.8 }}>Want</div>
+                <button
+                  type="button"
+                  onClick={() => setActiveList(activeList === 'want' ? null : 'want')}
+                  style={{ background: 'transparent', border: 'none', color: 'inherit', textAlign: 'left' }}
+                >
+                  <div style={{ color: 'var(--color-want-to-visit)', fontWeight: 700, fontSize: '1.2rem' }}>{wantToVisit}</div>
+                  <div style={{ fontSize: '0.76rem', opacity: 0.8 }}>Want</div>
+                </button>
               </div>
               <div>
-                <div style={{ color: 'var(--color-favorite)', fontWeight: 700, fontSize: '1.2rem' }}>{favorites}</div>
-                <div style={{ fontSize: '0.76rem', opacity: 0.8 }}>Favorites</div>
+                <button
+                  type="button"
+                  onClick={() => setActiveList(activeList === 'favorite' ? null : 'favorite')}
+                  style={{ background: 'transparent', border: 'none', color: 'inherit', textAlign: 'left' }}
+                >
+                  <div style={{ color: 'var(--color-favorite)', fontWeight: 700, fontSize: '1.2rem' }}>{favorites}</div>
+                  <div style={{ fontSize: '0.76rem', opacity: 0.8 }}>Favorites</div>
+                </button>
               </div>
             </div>
+
+            {activeList ? (
+              <div
+                style={{
+                  marginTop: '0.75rem',
+                  maxHeight: '220px',
+                  overflowY: 'auto',
+                  borderTop: '1px solid var(--color-border)',
+                  paddingTop: '0.6rem',
+                }}
+              >
+                <div style={{ fontSize: '0.72rem', textTransform: 'uppercase', opacity: 0.7, marginBottom: '0.4rem' }}>
+                  {activeList === 'visited' ? 'Visited Countries' : activeList === 'want' ? 'Want to Visit' : 'Favorites'}
+                </div>
+                {filteredCountries.length === 0 ? (
+                  <div style={{ fontSize: '0.75rem', opacity: 0.7 }}>No countries in this list</div>
+                ) : (
+                  filteredCountries.map((country) => (
+                    <button
+                      key={country.isoCode}
+                      type="button"
+                      onClick={() => onSelectCountry(country)}
+                      style={{
+                        display: 'block',
+                        width: '100%',
+                        textAlign: 'left',
+                        marginBottom: '0.25rem',
+                        border: '1px solid var(--color-border)',
+                        borderRadius: '0.3rem',
+                        padding: '0.35rem 0.5rem',
+                        backgroundColor: 'var(--color-surface-raised)',
+                        color: 'var(--color-text)',
+                        fontSize: '0.78rem',
+                      }}
+                    >
+                      {country.name}
+                    </button>
+                  ))
+                )}
+              </div>
+            ) : null}
           </div>
 
           {selectedCountry ? (

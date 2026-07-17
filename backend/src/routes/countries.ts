@@ -45,13 +45,84 @@ router.get('/', async (req: Request, res: Response) => {
         status: null,
         isFavorite: false,
       };
-      return { ...country, userStatus };
+      return {
+        ...country,
+        userStatus: userStatus.status,
+        isFavorite: userStatus.isFavorite,
+      };
     });
 
     res.json({ countries: response });
   } catch (err) {
     console.error('[countries/list]', err);
     res.status(500).json({ error: 'Failed to fetch countries' });
+  }
+});
+
+/**
+ * GET /api/countries/search?q=term
+ * Global search for country and city names.
+ * Returns country matches and city matches mapped to their parent country.
+ */
+router.get('/search', async (req: Request, res: Response) => {
+  const q = String(req.query.q || '').trim();
+
+  if (!q) {
+    res.json({ countries: [], cities: [] });
+    return;
+  }
+
+  try {
+    const countries = await prisma.country.findMany({
+      where: {
+        OR: [
+          { name: { contains: q, mode: 'insensitive' } },
+          { isoCode: { contains: q.toUpperCase() } },
+        ],
+      },
+      select: {
+        isoCode: true,
+        name: true,
+        lat: true,
+        lng: true,
+      },
+      orderBy: { name: 'asc' },
+      take: 10,
+    });
+
+    const cityMatches = await prisma.city.findMany({
+      where: {
+        name: { contains: q, mode: 'insensitive' },
+      },
+      include: {
+        country: {
+          select: {
+            isoCode: true,
+            name: true,
+            lat: true,
+            lng: true,
+          },
+        },
+      },
+      orderBy: { name: 'asc' },
+      take: 15,
+    });
+
+    res.json({
+      countries,
+      cities: cityMatches.map((city: any) => ({
+        name: city.name,
+        lat: city.lat,
+        lng: city.lng,
+        countryIsoCode: city.country.isoCode,
+        countryName: city.country.name,
+        countryLat: city.country.lat,
+        countryLng: city.country.lng,
+      })),
+    });
+  } catch (err) {
+    console.error('[countries/search]', err);
+    res.status(500).json({ error: 'Failed to search countries and cities' });
   }
 });
 
@@ -89,7 +160,8 @@ router.get('/:isoCode', authenticate, async (req: Request, res: Response) => {
     res.json({
       country: {
         ...country,
-        userStatus: userStatus || { status: null, isFavorite: false },
+        userStatus: userStatus?.status ?? null,
+        isFavorite: userStatus?.isFavorite ?? false,
       },
     });
   } catch (err) {
@@ -137,16 +209,22 @@ router.get('/:isoCode/cities', authenticate, async (req: Request, res: Response)
 
     // Build a map for quick lookup.
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const statusMap = new Map(userCityStatuses.map((s: any) => [s.cityId, s]));
+    const statusMap: Map<string, { isVisited: boolean; isFavorite: boolean }> = new Map(
+      userCityStatuses.map((s: any) => [
+        s.cityId,
+        {
+          isVisited: Boolean(s.isVisited),
+          isFavorite: Boolean(s.isFavorite),
+        },
+      ]),
+    );
 
     // Return cities with user status overlay.
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const response = cities.map((city: any) => ({
       ...city,
-      userStatus: statusMap.get(city.id) || {
-        isVisited: false,
-        isFavorite: false,
-      },
+      userVisited: statusMap.get(city.id)?.isVisited ?? false,
+      userFavorite: statusMap.get(city.id)?.isFavorite ?? false,
     }));
 
     res.json({ cities: response });

@@ -37,8 +37,8 @@ type LoginRequest = z.infer<typeof loginSchema>;
 function setAuthCookie(res: Response, token: string): void {
   res.cookie('authToken', token, {
     httpOnly: true,
-    // In production: Secure: true. In dev (http://localhost:5173), set to false.
-    secure: config.NODE_ENV === 'production',
+    // Configurable for LAN reverse-proxy deployments that run over HTTP.
+    secure: config.COOKIE_SECURE,
     sameSite: 'strict',
     maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
     path: '/',

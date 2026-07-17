@@ -1,9 +1,11 @@
 /**
- * MapView — Scrollable/zoomable world map with country selection
- * Renders all countries by projecting lat/lng onto an equirectangular map plane
+ * MapView — Real-world map using Leaflet with status markers and drilldown lists.
  */
 
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
+import { CircleMarker, GeoJSON, MapContainer, TileLayer, useMap, useMapEvents } from 'react-leaflet';
+import type { Map as LeafletMap, PathOptions } from 'leaflet';
+import worldGeoJsonData from 'geojson-world-map';
 import { Country } from '../types';
 import { useTheme } from '../contexts/ThemeContext';
 
@@ -14,8 +16,62 @@ interface MapViewProps {
   isLoading: boolean;
 }
 
-const MAP_WIDTH = 2160;
-const MAP_HEIGHT = 1080;
+interface RawWorldFeature {
+  type: 'Feature';
+  properties: {
+    name?: string;
+    [key: string]: unknown;
+  };
+  geometry: GeoJSON.Geometry;
+}
+
+interface WorldFeatureCollection {
+  type: 'FeatureCollection';
+  features: RawWorldFeature[];
+}
+
+interface CountryFeature {
+  type: 'Feature';
+  properties: {
+    isoCode: string;
+    name: string;
+  };
+  geometry: GeoJSON.Geometry;
+}
+
+const worldGeoJson = worldGeoJsonData as WorldFeatureCollection;
+
+const normalizeName = (value: string) =>
+  value
+    .toLowerCase()
+    .normalize('NFD')
+    .replace(/[^a-z0-9\s]/g, '')
+    .replace(/\b(republic|democratic|federal|kingdom|state|states|of|the)\b/g, ' ')
+    .replace(/\s+/g, ' ')
+    .trim();
+
+const NAME_ALIASES: Record<string, string[]> = {
+  'united states': ['united states of america'],
+  'czechia': ['czech rep'],
+  'czech republic': ['czech rep'],
+  'ivory coast': ["cote divoire", "cote d ivoire", "cote divoire", "cote d'ivoire"],
+  'bosnia and herzegovina': ['bosnia and herz'],
+  'north macedonia': ['macedonia'],
+  'eswatini': ['swaziland'],
+  'myanmar': ['myanmar burma'],
+  'democratic republic congo': ['dem rep congo'],
+  'dr congo': ['dem rep congo'],
+  'congo republic': ['congo'],
+  'cape verde': ['cabo verde'],
+  'south korea': ['korea', 'korea republic of', 'korea south'],
+  'north korea': ['dem rep korea', 'korea north'],
+  'russia': ['russian federation'],
+  'laos': ['lao peoples democratic republic'],
+  'syria': ['syrian arab republic'],
+  'taiwan': ['taiwan province of china'],
+  'micronesia': ['micronesia federated states of'],
+  'vatican city': ['holy see'],
+};
 
 const getCountryColor = (country: Country): string => {
   if (country.isFavorite) {
@@ -37,64 +93,123 @@ export const MapView: React.FC<MapViewProps> = ({
   isLoading,
 }) => {
   const { theme } = useTheme();
-  const containerRef = useRef<HTMLDivElement>(null);
-  const [zoom, setZoom] = useState(1);
-  const [panX, setPanX] = useState(0);
-  const [panY, setPanY] = useState(0);
-  const [isPanning, setIsPanning] = useState(false);
-  const [panStart, setPanStart] = useState({ x: 0, y: 0, originX: 0, originY: 0 });
+  const [zoom, setZoom] = useState(2);
+  const [mapRef, setMapRef] = useState<LeafletMap | null>(null);
+  const [activeList, setActiveList] = useState<'visited' | 'want' | 'favorite' | null>(null);
+  const [showUnmatchedDebug, setShowUnmatchedDebug] = useState(false);
+  const showDebugTools = import.meta.env.DEV;
 
-  const backgroundColor = 'var(--color-bg)';
   const textColor = 'var(--color-text)';
   const borderColor = 'var(--color-border)';
 
-  const clampZoom = (value: number) => Math.max(1, Math.min(5, value));
-
-  const projectToMap = (lat: number, lng: number) => {
-    const x = ((lng + 180) / 360) * MAP_WIDTH;
-    const y = ((90 - lat) / 180) * MAP_HEIGHT;
-    return { x, y };
-  };
-
-  // Handle mouse wheel zoom
-  useEffect(() => {
-    const container = containerRef.current;
-    if (!container) return;
-
-    const handleWheel = (e: WheelEvent) => {
-      e.preventDefault();
-      const delta = e.deltaY > 0 ? 0.92 : 1.08;
-      setZoom((prev) => clampZoom(prev * delta));
-    };
-
-    container.addEventListener('wheel', handleWheel, { passive: false });
-    return () => container.removeEventListener('wheel', handleWheel);
-  }, []);
-
-  // Handle pan (drag)
-  const handleMouseDown = (e: React.MouseEvent) => {
-    setIsPanning(true);
-    setPanStart({ x: e.clientX, y: e.clientY, originX: panX, originY: panY });
-  };
-
-  const handleMouseMove = (e: React.MouseEvent) => {
-    if (!isPanning) return;
-    setPanX(panStart.originX + (e.clientX - panStart.x));
-    setPanY(panStart.originY + (e.clientY - panStart.y));
-  };
-
-  const handleMouseUp = () => {
-    setIsPanning(false);
-  };
   const handleResetView = () => {
-    setZoom(1);
-    setPanX(0);
-    setPanY(0);
+    if (mapRef) {
+      mapRef.setView([20, 0], 2);
+    }
   };
 
   const validCountries = countries.filter(
     (country) => Number.isFinite(country.lat) && Number.isFinite(country.lng),
   );
+
+  const visitedCount = countries.filter((country) => country.userStatus === 'VISITED').length;
+  const wantCount = countries.filter((country) => country.userStatus === 'WANT_TO_VISIT').length;
+  const favoriteCount = countries.filter((country) => country.isFavorite).length;
+
+  const filteredCountries = useMemo(() => {
+    const sorted = [...countries].sort((a, b) => a.name.localeCompare(b.name));
+    if (activeList === 'visited') {
+      return sorted.filter((country) => country.userStatus === 'VISITED');
+    }
+    if (activeList === 'want') {
+      return sorted.filter((country) => country.userStatus === 'WANT_TO_VISIT');
+    }
+    if (activeList === 'favorite') {
+      return sorted.filter((country) => country.isFavorite);
+    }
+    return [];
+  }, [activeList, countries]);
+
+  const { polygonFeatures, unmatchedCountryNames } = useMemo(() => {
+    const featuresByName = new Map<string, RawWorldFeature>();
+    worldGeoJson.features.forEach((feature) => {
+      const name = feature.properties?.name;
+      if (!name) {
+        return;
+      }
+      featuresByName.set(normalizeName(name), feature);
+    });
+
+    const matched: CountryFeature[] = [];
+    const unmatched: string[] = [];
+    for (const country of countries) {
+      const candidates = [normalizeName(country.name), ...(NAME_ALIASES[normalizeName(country.name)] || [])];
+
+      let feature: RawWorldFeature | undefined;
+      for (const candidate of candidates) {
+        feature = featuresByName.get(normalizeName(candidate));
+        if (feature) {
+          break;
+        }
+      }
+
+      if (!feature) {
+        unmatched.push(country.name);
+        continue;
+      }
+
+      matched.push({
+        type: 'Feature',
+        properties: {
+          isoCode: country.isoCode,
+          name: country.name,
+        },
+        geometry: feature.geometry,
+      });
+    }
+
+    return {
+      polygonFeatures: {
+        type: 'FeatureCollection' as const,
+        features: matched,
+      },
+      unmatchedCountryNames: unmatched.sort((a, b) => a.localeCompare(b)),
+    };
+  }, [countries]);
+
+  const countryByIso = useMemo(() => {
+    const map = new Map<string, Country>();
+    countries.forEach((country) => map.set(country.isoCode, country));
+    return map;
+  }, [countries]);
+
+  useEffect(() => {
+    if (!selectedCountry || !mapRef) {
+      return;
+    }
+
+    mapRef.flyTo([selectedCountry.lat, selectedCountry.lng], Math.max(mapRef.getZoom(), 4), {
+      duration: 0.7,
+    });
+  }, [mapRef, selectedCountry]);
+
+  const ZoomTracker: React.FC = () => {
+    const map = useMapEvents({
+      zoomend: () => setZoom(map.getZoom()),
+    });
+    useEffect(() => {
+      setZoom(map.getZoom());
+    }, [map]);
+    return null;
+  };
+
+  const MapRefSync: React.FC = () => {
+    const map = useMap();
+    useEffect(() => {
+      setMapRef(map);
+    }, [map]);
+    return null;
+  };
 
   return (
     <div
@@ -102,15 +217,8 @@ export const MapView: React.FC<MapViewProps> = ({
         position: 'relative',
         width: '100%',
         height: '100%',
-        backgroundColor,
         overflow: 'hidden',
-        cursor: isPanning ? 'grabbing' : 'grab',
       }}
-      ref={containerRef}
-      onMouseDown={handleMouseDown}
-      onMouseMove={handleMouseMove}
-      onMouseUp={handleMouseUp}
-      onMouseLeave={handleMouseUp}
     >
       {isLoading ? (
         <div
@@ -148,7 +256,7 @@ export const MapView: React.FC<MapViewProps> = ({
             <span>Zoom: {zoom.toFixed(1)}x</span>
             <button
               type="button"
-              onClick={() => setZoom((prev) => clampZoom(prev * 0.9))}
+              onClick={() => mapRef?.zoomOut()}
               style={{
                 border: '1px solid var(--color-border)',
                 borderRadius: '0.25rem',
@@ -162,7 +270,7 @@ export const MapView: React.FC<MapViewProps> = ({
             </button>
             <button
               type="button"
-              onClick={() => setZoom((prev) => clampZoom(prev * 1.1))}
+              onClick={() => mapRef?.zoomIn()}
               style={{
                 border: '1px solid var(--color-border)',
                 borderRadius: '0.25rem',
@@ -190,117 +298,86 @@ export const MapView: React.FC<MapViewProps> = ({
             </button>
           </div>
 
-          {/* Map container with zoom and pan transforms */}
-          <div
-            style={{
-              position: 'absolute',
-              width: '100%',
-              height: '100%',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              transform: `translate(${panX}px, ${panY}px) scale(${zoom})`,
-              transformOrigin: 'center',
-              transition: isPanning ? 'none' : 'transform 0.1s ease-out',
-            }}
+          <MapContainer
+            center={[20, 0]}
+            zoom={2}
+            minZoom={2}
+            style={{ width: '100%', height: '100%' }}
+            worldCopyJump
+            maxBounds={[
+              [-85, -180],
+              [85, 180],
+            ]}
+            maxBoundsViscosity={0.8}
           >
-            <div
-              style={{
-                position: 'relative',
-                width: MAP_WIDTH,
-                height: MAP_HEIGHT,
-                backgroundColor: theme === 'dark' ? '#13233d' : '#d9eefe',
-                border: `2px solid ${borderColor}`,
-                borderRadius: '0.5rem',
-                overflow: 'hidden',
+            <TileLayer
+              attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+              url={theme === 'dark' ? 'https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png' : 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'}
+            />
+
+            <MapRefSync />
+            <ZoomTracker />
+
+            <GeoJSON
+              data={polygonFeatures as GeoJSON.FeatureCollection}
+              style={(feature): PathOptions => {
+                const isoCode = String(feature?.properties?.isoCode || '');
+                const country = countryByIso.get(isoCode);
+                const isSelected = isoCode === selectedCountry?.isoCode;
+                const isFavorite = Boolean(country?.isFavorite);
+                const fillColor = country ? getCountryColor(country) : 'var(--color-unvisited)';
+
+                return {
+                  color: isSelected
+                    ? (theme === 'dark' ? '#f8fafc' : '#0f172a')
+                    : isFavorite
+                      ? '#f59e0b'
+                      : theme === 'dark'
+                        ? '#8fa4c5'
+                        : '#415a77',
+                  weight: isSelected ? 2.4 : isFavorite ? 2 : 1,
+                  fillColor,
+                  fillOpacity: isFavorite ? 0.72 : country?.userStatus ? 0.44 : 0.2,
+                  dashArray: isFavorite ? '5 4' : undefined,
+                };
               }}
-            >
-              {/* Latitude lines */}
-              {Array.from({ length: 13 }).map((_, i) => (
-                <div
-                  key={`lat-${i}`}
-                  style={{
-                    position: 'absolute',
-                    top: (i * MAP_HEIGHT) / 12,
-                    left: 0,
-                    width: MAP_WIDTH,
-                    height: 1,
-                    backgroundColor: theme === 'dark' ? '#93c5fd' : '#1d4ed8',
-                    opacity: 0.15,
+              onEachFeature={(feature, layer) => {
+                const isoCode = String(feature.properties?.isoCode || '');
+                const country = countryByIso.get(isoCode);
+
+                if (country) {
+                  layer.bindTooltip(country.name, { sticky: true });
+                  layer.on('click', () => onSelectCountry(country));
+                }
+              }}
+            />
+
+            {validCountries.map((country) => {
+              const isSelected = selectedCountry?.isoCode === country.isoCode;
+              const color = getCountryColor(country);
+
+              return (
+                <CircleMarker
+                  key={country.isoCode}
+                  center={[country.lat, country.lng]}
+                  radius={isSelected ? 9.5 : country.isFavorite ? 7 : 6}
+                  pathOptions={{
+                    color: isSelected
+                      ? (theme === 'dark' ? '#f8fafc' : '#0f172a')
+                      : country.isFavorite
+                        ? '#f59e0b'
+                        : '#ffffff',
+                    weight: isSelected ? 2 : country.isFavorite ? 2 : 1,
+                    fillColor: color,
+                    fillOpacity: isSelected ? 0.96 : country.isFavorite ? 0.9 : 0.82,
+                  }}
+                  eventHandlers={{
+                    click: () => onSelectCountry(country),
                   }}
                 />
-              ))}
-
-              {/* Longitude lines */}
-              {Array.from({ length: 25 }).map((_, i) => (
-                <div
-                  key={`lng-${i}`}
-                  style={{
-                    position: 'absolute',
-                    left: (i * MAP_WIDTH) / 24,
-                    top: 0,
-                    width: 1,
-                    height: MAP_HEIGHT,
-                    backgroundColor: theme === 'dark' ? '#93c5fd' : '#1d4ed8',
-                    opacity: 0.12,
-                  }}
-                />
-              ))}
-
-              {/* Country markers */}
-              {validCountries.map((country) => {
-                const pos = projectToMap(country.lat, country.lng);
-
-                const isSelected = selectedCountry?.isoCode === country.isoCode;
-                const color = getCountryColor(country);
-
-                return (
-                  <div
-                    key={country.isoCode}
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      if (!isPanning) {
-                        onSelectCountry(country);
-                      }
-                    }}
-                    style={{
-                      position: 'absolute',
-                      left: pos.x,
-                      top: pos.y,
-                      transform: isSelected
-                        ? 'translate(-50%, -50%) scale(1.18)'
-                        : 'translate(-50%, -50%) scale(1)',
-                      minWidth: '28px',
-                      height: '28px',
-                      padding: '0 0.5rem',
-                      backgroundColor: color,
-                      border: isSelected
-                        ? `2px solid ${theme === 'dark' ? '#f8fafc' : '#0f172a'}`
-                        : `1px solid ${borderColor}`,
-                      borderRadius: '999px',
-                      cursor: 'pointer',
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      transition: 'all 0.2s ease-out',
-                      opacity: isSelected ? 1 : 0.85,
-                      boxShadow: isSelected
-                        ? `0 4px 12px rgba(0, 0, 0, 0.3)`
-                        : '0 2px 6px rgba(0, 0, 0, 0.18)',
-                      fontSize: '0.75rem',
-                      fontWeight: 'bold',
-                      color: '#fff',
-                      textAlign: 'center',
-                      whiteSpace: 'nowrap',
-                    }}
-                    title={country.name}
-                  >
-                    {country.isoCode}
-                  </div>
-                );
-              })}
-            </div>
-          </div>
+              );
+            })}
+          </MapContainer>
 
           {/* Legend */}
           <div
@@ -317,6 +394,104 @@ export const MapView: React.FC<MapViewProps> = ({
               color: textColor,
             }}
           >
+            <div
+              style={{
+                display: 'grid',
+                gridTemplateColumns: 'repeat(3, minmax(0, 1fr))',
+                gap: '0.4rem',
+                marginBottom: '0.75rem',
+                borderBottom: `1px solid ${borderColor}`,
+                paddingBottom: '0.7rem',
+              }}
+            >
+              <button
+                type="button"
+                onClick={() => setActiveList(activeList === 'visited' ? null : 'visited')}
+                style={{
+                  border: '1px solid var(--color-border)',
+                  borderRadius: '0.35rem',
+                  background: activeList === 'visited' ? 'var(--color-surface-raised)' : 'transparent',
+                  color: textColor,
+                  padding: '0.35rem 0.4rem',
+                  textAlign: 'left',
+                  cursor: 'pointer',
+                }}
+              >
+                <div style={{ color: 'var(--color-visited)', fontSize: '0.98rem', fontWeight: 700 }}>{visitedCount}</div>
+                <div style={{ fontSize: '0.7rem', opacity: 0.78 }}>Visited</div>
+              </button>
+              <button
+                type="button"
+                onClick={() => setActiveList(activeList === 'want' ? null : 'want')}
+                style={{
+                  border: '1px solid var(--color-border)',
+                  borderRadius: '0.35rem',
+                  background: activeList === 'want' ? 'var(--color-surface-raised)' : 'transparent',
+                  color: textColor,
+                  padding: '0.35rem 0.4rem',
+                  textAlign: 'left',
+                  cursor: 'pointer',
+                }}
+              >
+                <div style={{ color: 'var(--color-want-to-visit)', fontSize: '0.98rem', fontWeight: 700 }}>{wantCount}</div>
+                <div style={{ fontSize: '0.7rem', opacity: 0.78 }}>Want</div>
+              </button>
+              <button
+                type="button"
+                onClick={() => setActiveList(activeList === 'favorite' ? null : 'favorite')}
+                style={{
+                  border: '1px solid var(--color-border)',
+                  borderRadius: '0.35rem',
+                  background: activeList === 'favorite' ? 'var(--color-surface-raised)' : 'transparent',
+                  color: textColor,
+                  padding: '0.35rem 0.4rem',
+                  textAlign: 'left',
+                  cursor: 'pointer',
+                }}
+              >
+                <div style={{ color: 'var(--color-favorite)', fontSize: '0.98rem', fontWeight: 700 }}>{favoriteCount}</div>
+                <div style={{ fontSize: '0.7rem', opacity: 0.78 }}>Favs</div>
+              </button>
+            </div>
+
+            {activeList ? (
+              <div
+                style={{
+                  maxHeight: '160px',
+                  overflowY: 'auto',
+                  marginBottom: '0.7rem',
+                  borderBottom: `1px solid ${borderColor}`,
+                  paddingBottom: '0.7rem',
+                }}
+              >
+                {filteredCountries.length === 0 ? (
+                  <div style={{ fontSize: '0.75rem', opacity: 0.7 }}>No countries in this list</div>
+                ) : (
+                  filteredCountries.map((country) => (
+                    <button
+                      key={country.isoCode}
+                      type="button"
+                      onClick={() => onSelectCountry(country)}
+                      style={{
+                        width: '100%',
+                        border: '1px solid var(--color-border)',
+                        borderRadius: '0.3rem',
+                        background: 'var(--color-surface-raised)',
+                        color: textColor,
+                        padding: '0.3rem 0.45rem',
+                        marginBottom: '0.25rem',
+                        textAlign: 'left',
+                        fontSize: '0.76rem',
+                        cursor: 'pointer',
+                      }}
+                    >
+                      {country.name}
+                    </button>
+                  ))
+                )}
+              </div>
+            ) : null}
+
             <div style={{ marginBottom: '0.5rem', fontWeight: 600 }}>Status</div>
             <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
@@ -377,6 +552,49 @@ export const MapView: React.FC<MapViewProps> = ({
               <div>Drag to pan</div>
               <div>Click marker for details</div>
             </div>
+
+            {showDebugTools && unmatchedCountryNames.length > 0 ? (
+              <div
+                style={{
+                  marginTop: '0.65rem',
+                  paddingTop: '0.65rem',
+                  borderTop: `1px solid ${borderColor}`,
+                }}
+              >
+                <button
+                  type="button"
+                  onClick={() => setShowUnmatchedDebug((prev) => !prev)}
+                  style={{
+                    width: '100%',
+                    border: '1px solid var(--color-border)',
+                    borderRadius: '0.3rem',
+                    background: 'var(--color-surface-raised)',
+                    color: textColor,
+                    fontSize: '0.72rem',
+                    textAlign: 'left',
+                    padding: '0.35rem 0.45rem',
+                    cursor: 'pointer',
+                  }}
+                >
+                  Debug: unmatched names ({unmatchedCountryNames.length})
+                </button>
+                {showUnmatchedDebug ? (
+                  <div
+                    style={{
+                      marginTop: '0.35rem',
+                      maxHeight: '110px',
+                      overflowY: 'auto',
+                      fontSize: '0.7rem',
+                      opacity: 0.85,
+                    }}
+                  >
+                    {unmatchedCountryNames.map((name) => (
+                      <div key={name}>{name}</div>
+                    ))}
+                  </div>
+                ) : null}
+              </div>
+            ) : null}
           </div>
         </>
       )}

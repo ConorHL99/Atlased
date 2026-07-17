@@ -32,6 +32,13 @@ const envSchema = z.object({
 
   // Exact frontend origin for CORS — never allow wildcards.
   CORS_ORIGIN: z.string().url('CORS_ORIGIN must be a valid URL (e.g. http://localhost:5173)'),
+
+  // In some self-hosted LAN setups (HTTP behind local reverse proxy),
+  // secure cookies must be disabled even in production.
+  COOKIE_SECURE: z
+    .enum(['true', 'false'])
+    .optional()
+    .transform((value) => (value ? value === 'true' : undefined)),
 });
 
 const result = envSchema.safeParse(process.env);
@@ -43,3 +50,7 @@ if (!result.success) {
 }
 
 export const config = result.data;
+
+if (typeof config.COOKIE_SECURE === 'undefined') {
+  config.COOKIE_SECURE = config.NODE_ENV === 'production';
+}

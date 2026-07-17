@@ -22,19 +22,103 @@
 
 .headerLeft {
   flex: 1;
+  display: flex;
+  align-items: center;
+}
+
+.logoWrap {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.logoIcon {
+  width: 1.9rem;
+  height: 1.9rem;
+  color: var(--color-primary);
 }
 
 .logo {
-  font-size: 1.5rem;
-  font-weight: 700;
+  font-size: 1.38rem;
+  font-weight: 800;
+  letter-spacing: 0.04em;
   margin: 0;
-  color: var(--color-primary);
+  color: var(--color-text);
 }
 
 .headerRight {
   display: flex;
   align-items: center;
   gap: 1.5rem;
+}
+
+.searchWrap {
+  position: relative;
+  width: min(360px, 36vw);
+  z-index: 30;
+}
+
+.searchInput {
+  width: 100%;
+  height: 2.35rem;
+  border-radius: 0.5rem;
+  border: 1px solid var(--color-border);
+  background: var(--color-bg);
+  color: var(--color-text);
+  padding: 0 0.75rem;
+  font-size: 0.9rem;
+}
+
+.searchDropdown {
+  position: absolute;
+  top: calc(100% + 0.35rem);
+  left: 0;
+  width: 100%;
+  max-height: 340px;
+  overflow: auto;
+  border-radius: 0.65rem;
+  border: 1px solid var(--color-border);
+  background: var(--color-surface);
+  box-shadow: var(--shadow-md);
+  padding: 0.45rem;
+}
+
+.searchSectionTitle {
+  font-size: 0.73rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--color-text-muted);
+  font-weight: 700;
+  padding: 0.35rem 0.4rem;
+}
+
+.searchItem {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-radius: 0.45rem;
+  border: 1px solid transparent;
+  background: transparent;
+  color: var(--color-text);
+  text-align: left;
+  padding: 0.48rem 0.55rem;
+}
+
+.searchItem:hover {
+  border-color: var(--color-border);
+  background: var(--color-surface-raised);
+}
+
+.searchMeta {
+  color: var(--color-text-muted);
+  font-size: 0.78rem;
+}
+
+.searchEmpty {
+  color: var(--color-text-muted);
+  font-size: 0.83rem;
+  padding: 0.45rem 0.5rem;
 }
 
 .themeToggle {
@@ -140,6 +224,10 @@
 
   .headerRight {
     gap: 0.75rem;
+  }
+
+  .searchWrap {
+    width: min(220px, 58vw);
   }
 
   .userEmail {
