@@ -1,7 +1,11 @@
 # ─── Build stage: compile TypeScript ─────────────────────────────────────────
-FROM node:20-alpine AS builder
+FROM node:20-bookworm-slim AS builder
 
 WORKDIR /app
+
+RUN apt-get update \
+	&& apt-get install -y --no-install-recommends openssl ca-certificates \
+	&& rm -rf /var/lib/apt/lists/*
 
 # Install all dependencies (devDeps needed for tsc and prisma generate)
 COPY package*.json ./
@@ -18,9 +22,13 @@ COPY src ./src
 RUN npm run build
 
 # ─── Production stage ─────────────────────────────────────────────────────────
-FROM node:20-alpine AS runner
+FROM node:20-bookworm-slim AS runner
 
 WORKDIR /app
+
+RUN apt-get update \
+	&& apt-get install -y --no-install-recommends openssl ca-certificates \
+	&& rm -rf /var/lib/apt/lists/*
 
 # Install production dependencies and regenerate Prisma client
 # (copying node_modules from builder would include devDeps; this is cleaner)
