@@ -30,6 +30,19 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
+  const parseJsonSafe = async <T,>(res: Response): Promise<T | null> => {
+    const contentType = res.headers.get('content-type') || '';
+    if (!contentType.includes('application/json')) {
+      return null;
+    }
+
+    try {
+      return (await res.json()) as T;
+    } catch {
+      return null;
+    }
+  };
+
   // Load user on mount (check if already authenticated)
   useEffect(() => {
     const loadUser = async () => {
@@ -46,8 +59,8 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         clearTimeout(timeoutId);
 
         if (res.ok) {
-          const data = await res.json();
-          setUser(data);
+          const data = await parseJsonSafe<{ user: User }>(res);
+          setUser(data?.user ?? null);
         } else if (res.status === 401) {
           // Not authenticated — normal state
           setUser(null);
@@ -78,12 +91,16 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       });
 
       if (!res.ok) {
-        const data = (await res.json()) as ApiError;
-        throw new Error(data.error || 'Login failed');
+        const data = await parseJsonSafe<ApiError>(res);
+        throw new Error(data?.error || `Login failed (${res.status})`);
       }
 
-      const userData = (await res.json()) as User;
-      setUser(userData);
+      const data = await parseJsonSafe<{ user: User }>(res);
+      if (!data?.user) {
+        throw new Error('Login failed: invalid server response');
+      }
+
+      setUser(data.user);
     } catch (err) {
       const message = err instanceof Error ? err.message : 'Login failed';
       setError(message);
@@ -102,12 +119,16 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       });
 
       if (!res.ok) {
-        const data = (await res.json()) as ApiError;
-        throw new Error(data.error || 'Signup failed');
+        const data = await parseJsonSafe<ApiError>(res);
+        throw new Error(data?.error || `Signup failed (${res.status})`);
       }
 
-      const userData = (await res.json()) as User;
-      setUser(userData);
+      const data = await parseJsonSafe<{ user: User }>(res);
+      if (!data?.user) {
+        throw new Error('Signup failed: invalid server response');
+      }
+
+      setUser(data.user);
     } catch (err) {
       const message = err instanceof Error ? err.message : 'Signup failed';
       setError(message);
