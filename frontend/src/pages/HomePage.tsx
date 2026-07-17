@@ -395,6 +395,7 @@ export const HomePage: React.FC = () => {
           flex: 1,
           position: 'relative',
           overflow: 'hidden',
+          isolation: 'isolate',
         }}
       >
         {loading ? (
@@ -447,39 +448,41 @@ export const HomePage: React.FC = () => {
               </div>
             ) : null}
 
-            {viewMode === 'globe' ? (
-              <GlobeView
-                countries={countries}
-                selectedCountry={selectedCountry}
-                onSelectCountry={setSelectedCountry}
-                isLoading={loading}
-              />
-            ) : (
-              <Suspense
-                fallback={
-                  <div
-                    style={{
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      width: '100%',
-                      height: '100%',
-                      fontSize: '1rem',
-                      color: 'var(--color-text-muted)',
-                    }}
-                  >
-                    Loading map view...
-                  </div>
-                }
-              >
-                <LazyMapView
+            <div style={{ position: 'absolute', inset: 0, zIndex: 1 }}>
+              {viewMode === 'globe' ? (
+                <GlobeView
                   countries={countries}
                   selectedCountry={selectedCountry}
                   onSelectCountry={setSelectedCountry}
                   isLoading={loading}
                 />
-              </Suspense>
-            )}
+              ) : (
+                <Suspense
+                  fallback={
+                    <div
+                      style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        width: '100%',
+                        height: '100%',
+                        fontSize: '1rem',
+                        color: 'var(--color-text-muted)',
+                      }}
+                    >
+                      Loading map view...
+                    </div>
+                  }
+                >
+                  <LazyMapView
+                    countries={countries}
+                    selectedCountry={selectedCountry}
+                    onSelectCountry={setSelectedCountry}
+                    isLoading={loading}
+                  />
+                </Suspense>
+              )}
+            </div>
             {selectedCountry && (
               <CountryDetailPanel
                 country={selectedCountry}
@@ -487,6 +490,7 @@ export const HomePage: React.FC = () => {
                 onMarkVisited={handleMarkVisited}
                 onMarkWantToVisit={handleMarkWantToVisit}
                 onMarkFavorite={handleMarkFavorite}
+                styleOverride={{ zIndex: 40 }}
               />
             )}
           </>

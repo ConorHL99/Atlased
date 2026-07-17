@@ -4,6 +4,77 @@ import { authenticate } from '../middleware/authenticate';
 
 const router = Router();
 
+const countryPhotoCache = new Map<string, string | null>();
+
+const normalizeName = (value: string) =>
+  value
+    .toLowerCase()
+    .normalize('NFD')
+    .replace(/[^a-z0-9\s]/g, ' ')
+    .replace(/\s+/g, ' ')
+    .trim();
+
+const PHOTO_TITLE_ALIASES: Record<string, string[]> = {
+  'united states': ['United States', 'USA'],
+  'south korea': ['South Korea', 'Korea'],
+  'north korea': ['North Korea', 'Korea'],
+  'czech republic': ['Czech Republic', 'Czechia'],
+  'ivory coast': ["Cote d'Ivoire", 'Ivory Coast'],
+  'bosnia and herzegovina': ['Bosnia and Herzegovina'],
+  'democratic republic of the congo': ['Democratic Republic of the Congo', 'DR Congo'],
+  'congo': ['Republic of the Congo', 'Congo'],
+  'russia': ['Russia', 'Russian Federation'],
+  'laos': ['Laos', 'Lao PDR'],
+  'taiwan': ['Taiwan'],
+  'vatican city': ['Vatican City', 'Holy See'],
+};
+
+const looksLikeMapImage = (url: string): boolean => {
+  const lowered = url.toLowerCase();
+  return (
+    lowered.includes('topographic') ||
+    lowered.includes('location_map') ||
+    lowered.includes('relief') ||
+    lowered.includes('map') ||
+    lowered.endsWith('.svg')
+  );
+};
+
+const getCountryPhotoUrl = async (countryName: string, fallbackUrl: string): Promise<string> => {
+  const cacheKey = normalizeName(countryName);
+  const cached = countryPhotoCache.get(cacheKey);
+  if (typeof cached !== 'undefined') {
+    return cached ?? fallbackUrl;
+  }
+
+  const titleCandidates = [countryName, ...(PHOTO_TITLE_ALIASES[cacheKey] || [])];
+
+  for (const title of titleCandidates) {
+    try {
+      const response = await fetch(
+        `https://en.wikipedia.org/api/rest_v1/page/summary/${encodeURIComponent(title)}`,
+      );
+
+      if (!response.ok) {
+        continue;
+      }
+
+      const data = (await response.json()) as { thumbnail?: { source?: string } };
+      const photoUrl = data.thumbnail?.source;
+      if (photoUrl) {
+        countryPhotoCache.set(cacheKey, photoUrl);
+        return photoUrl;
+      }
+    } catch (err) {
+      console.warn('[countries/photo]', countryName, err);
+    }
+  }
+
+  const finalUrl = looksLikeMapImage(fallbackUrl) ? null : fallbackUrl;
+  countryPhotoCache.set(cacheKey, finalUrl);
+  return finalUrl ?? fallbackUrl;
+};
+
 /**
  * GET /api/countries
  * Fetch all countries with the current user's status overlay.
@@ -38,19 +109,21 @@ router.get('/', async (req: Request, res: Response) => {
       });
     }
 
-    // Build response with status overlay.
+    // Build response with status overlay and a real photo fallback.
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const response = countries.map((country: any) => {
+    const response = await Promise.all(countries.map(async (country: any) => {
       const userStatus = userStatuses.get(country.id) || {
         status: null,
         isFavorite: false,
       };
+      const imageUrl = await getCountryPhotoUrl(country.name, country.imageUrl);
       return {
         ...country,
+        imageUrl,
         userStatus: userStatus.status,
         isFavorite: userStatus.isFavorite,
       };
-    });
+    }));
 
     res.json({ countries: response });
   } catch (err) {
@@ -160,6 +233,7 @@ router.get('/:isoCode', authenticate, async (req: Request, res: Response) => {
     res.json({
       country: {
         ...country,
+        imageUrl: await getCountryPhotoUrl(country.name, country.imageUrl),
         userStatus: userStatus?.status ?? null,
         isFavorite: userStatus?.isFavorite ?? false,
       },

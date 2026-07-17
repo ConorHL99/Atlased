@@ -18,6 +18,7 @@ interface CountryDetailPanelProps {
   onMarkVisited?: (isoCode: string) => void;
   onMarkWantToVisit?: (isoCode: string) => void;
   onMarkFavorite?: (isoCode: string) => void;
+  styleOverride?: React.CSSProperties;
 }
 
 export const CountryDetailPanel: React.FC<CountryDetailPanelProps> = ({
@@ -26,6 +27,7 @@ export const CountryDetailPanel: React.FC<CountryDetailPanelProps> = ({
   onMarkVisited,
   onMarkWantToVisit,
   onMarkFavorite,
+  styleOverride,
 }) => {
   const { theme } = useTheme();
   const [cities, setCities] = useState<City[]>([]);
@@ -159,6 +161,7 @@ export const CountryDetailPanel: React.FC<CountryDetailPanelProps> = ({
         zIndex: 20,
         display: 'flex',
         flexDirection: 'column',
+        ...styleOverride,
       }}
     >
       {/* Header */}

@@ -4,12 +4,70 @@
 
 import GlobeGL from 'react-globe.gl';
 import React, { useEffect, useMemo, useRef, useState } from 'react';
+import worldGeoJsonData from 'geojson-world-map';
 import { Country } from '../types';
 import { useTheme } from '../contexts/ThemeContext';
 
 interface MarkerPoint extends Country {
   markerColor: string;
 }
+
+interface RawWorldFeature {
+  type: 'Feature';
+  properties: {
+    name?: string;
+    [key: string]: unknown;
+  };
+  geometry: GeoJSON.Geometry;
+}
+
+interface WorldFeatureCollection {
+  type: 'FeatureCollection';
+  features: RawWorldFeature[];
+}
+
+interface GlobePolygonCountry {
+  type: 'Feature';
+  properties: {
+    isoCode: string;
+    name: string;
+  };
+  geometry: GeoJSON.Geometry;
+}
+
+const worldGeoJson = worldGeoJsonData as WorldFeatureCollection;
+
+const normalizeName = (value: string) =>
+  value
+    .toLowerCase()
+    .normalize('NFD')
+    .replace(/[^a-z0-9\s]/g, '')
+    .replace(/\b(republic|democratic|federal|kingdom|state|states|of|the)\b/g, ' ')
+    .replace(/\s+/g, ' ')
+    .trim();
+
+const NAME_ALIASES: Record<string, string[]> = {
+  'united states': ['united states of america'],
+  'czechia': ['czech rep'],
+  'czech republic': ['czech rep'],
+  'ivory coast': ["cote divoire", "cote d ivoire", "cote d'ivoire"],
+  'bosnia and herzegovina': ['bosnia and herz'],
+  'north macedonia': ['macedonia'],
+  'eswatini': ['swaziland'],
+  'myanmar': ['myanmar burma'],
+  'democratic republic congo': ['dem rep congo'],
+  'dr congo': ['dem rep congo'],
+  'congo republic': ['congo'],
+  'cape verde': ['cabo verde'],
+  'south korea': ['korea', 'korea republic of', 'korea south'],
+  'north korea': ['dem rep korea', 'korea north'],
+  'russia': ['russian federation'],
+  'laos': ['lao peoples democratic republic'],
+  'syria': ['syrian arab republic'],
+  'taiwan': ['taiwan province of china'],
+  'micronesia': ['micronesia federated states of'],
+  'vatican city': ['holy see'],
+};
 
 type GlobeRef = {
   controls: () => {
@@ -75,6 +133,47 @@ export const GlobeView: React.FC<GlobeViewProps> = ({
               ? 'var(--color-want-to-visit)'
               : 'var(--color-unvisited)',
       }));
+  }, [countries]);
+
+  const polygonCountries = useMemo<GlobePolygonCountry[]>(() => {
+    const featureByName = new Map<string, RawWorldFeature>();
+
+    worldGeoJson.features.forEach((feature) => {
+      const featureName = feature.properties?.name;
+      if (!featureName) {
+        return;
+      }
+      featureByName.set(normalizeName(featureName), feature);
+    });
+
+    const result: GlobePolygonCountry[] = [];
+    for (const country of countries) {
+      const countryKey = normalizeName(country.name);
+      const candidates = [countryKey, ...(NAME_ALIASES[countryKey] || [])];
+
+      let matchedFeature: RawWorldFeature | undefined;
+      for (const candidate of candidates) {
+        matchedFeature = featureByName.get(normalizeName(candidate));
+        if (matchedFeature) {
+          break;
+        }
+      }
+
+      if (!matchedFeature) {
+        continue;
+      }
+
+      result.push({
+        type: 'Feature',
+        properties: {
+          isoCode: country.isoCode,
+          name: country.name,
+        },
+        geometry: matchedFeature.geometry,
+      });
+    }
+
+    return result;
   }, [countries]);
 
   useEffect(() => {
@@ -159,6 +258,68 @@ export const GlobeView: React.FC<GlobeViewProps> = ({
             globeImageUrl="https://cdn.jsdelivr.net/npm/three-globe/example/img/earth-night.jpg"
             bumpImageUrl="https://cdn.jsdelivr.net/npm/three-globe/example/img/earth_bump.jpg"
             backgroundColor="rgba(0,0,0,0)"
+            polygonsData={polygonCountries}
+            polygonGeoJsonGeometry="geometry"
+            polygonLabel={(polygon: object) => {
+              const feature = polygon as GlobePolygonCountry;
+              const country = countries.find((item) => item.isoCode === feature.properties.isoCode);
+              if (!country) {
+                return feature.properties.name;
+              }
+
+              const status = country.isFavorite
+                ? 'Favorite'
+                : country.userStatus === 'VISITED'
+                  ? 'Visited'
+                  : country.userStatus === 'WANT_TO_VISIT'
+                    ? 'Want to Visit'
+                    : 'Not Visited';
+
+              return `${country.name} (${country.isoCode}) - ${status}`;
+            }}
+            onPolygonClick={(polygon: object) => {
+              const feature = polygon as GlobePolygonCountry;
+              const country = countries.find((item) => item.isoCode === feature.properties.isoCode);
+              if (country) {
+                onSelectCountry(country);
+              }
+            }}
+            polygonCapColor={(polygon: object) => {
+              const feature = polygon as GlobePolygonCountry;
+              const country = countries.find((item) => item.isoCode === feature.properties.isoCode);
+              if (!country) {
+                return 'rgba(255,255,255,0.14)';
+              }
+              if (country.isFavorite) {
+                return 'rgba(245, 158, 11, 0.78)';
+              }
+              if (country.userStatus === 'VISITED') {
+                return 'rgba(34, 197, 94, 0.72)';
+              }
+              if (country.userStatus === 'WANT_TO_VISIT') {
+                return 'rgba(14, 165, 233, 0.72)';
+              }
+              return 'rgba(148, 163, 184, 0.42)';
+            }}
+            polygonSideColor={(polygon: object) => {
+              const feature = polygon as GlobePolygonCountry;
+              const country = countries.find((item) => item.isoCode === feature.properties.isoCode);
+              if (country?.isFavorite) {
+                return 'rgba(245, 158, 11, 0.35)';
+              }
+              return 'rgba(15, 23, 42, 0.22)';
+            }}
+            polygonAltitude={(polygon: object) => {
+              const feature = polygon as GlobePolygonCountry;
+              const country = countries.find((item) => item.isoCode === feature.properties.isoCode);
+              if (selectedCountry?.isoCode === feature.properties.isoCode) {
+                return 0.03;
+              }
+              if (country?.isFavorite) {
+                return 0.02;
+              }
+              return 0.008;
+            }}
             pointsData={markerPoints}
             pointLat="lat"
             pointLng="lng"
