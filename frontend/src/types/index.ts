@@ -63,7 +63,9 @@ export interface City {
   name: string;
   lat: number;
   lng: number;
+  population?: number;
   userVisited?: boolean;
+  userWantToVisit?: boolean;
   userFavorite?: boolean;
 }
 

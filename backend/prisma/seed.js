@@ -85,6 +85,7 @@ async function main() {
           data: {
             lat: city.lat,
             lng: city.lng,
+            population: Number(city.population || 0),
           },
         });
       } else {
@@ -94,6 +95,7 @@ async function main() {
             name: city.name,
             lat: city.lat,
             lng: city.lng,
+            population: Number(city.population || 0),
           },
         });
       }

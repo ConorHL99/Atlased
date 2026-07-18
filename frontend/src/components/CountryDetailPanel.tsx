@@ -8,7 +8,7 @@
  * - Close button to return to globe
  */
 
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { Country, City } from '../types';
 import { useTheme } from '../contexts/ThemeContext';
 
@@ -18,11 +18,11 @@ type CityStatusChangePayload = {
   countryIsoCode: string;
   countryName: string;
   isVisited: boolean;
+  isWantToVisit: boolean;
   isFavorite: boolean;
 };
 
-const citiesByCountryCache = new Map<string, City[]>();
-const inflightCityRequests = new Map<string, Promise<City[]>>();
+const CITY_PAGE_SIZE = 120;
 
 interface CountryDetailPanelProps {
   country: Country;
@@ -49,55 +49,92 @@ export const CountryDetailPanel: React.FC<CountryDetailPanelProps> = React.memo(
   const [error, setError] = useState<string | null>(null);
   const [cityActionError, setCityActionError] = useState<string | null>(null);
   const [busyCityActions, setBusyCityActions] = useState<Set<string>>(new Set());
+  const [citySearchTerm, setCitySearchTerm] = useState('');
+  const [photoFailed, setPhotoFailed] = useState(false);
+  const [cityOffset, setCityOffset] = useState(0);
+  const [cityTotal, setCityTotal] = useState(0);
+  const [hasMoreCities, setHasMoreCities] = useState(false);
+  const [loadingMoreCities, setLoadingMoreCities] = useState(false);
+  const [activeCityIndex, setActiveCityIndex] = useState(-1);
 
-  // Fetch cities for selected country
-  useEffect(() => {
-    const cached = citiesByCountryCache.get(country.isoCode);
-    if (cached) {
-      setCities(cached);
-      setLoading(false);
-      setError(null);
-      return;
-    }
+  const loadCities = useCallback(
+    async (query: string, offset: number, append: boolean, controller?: AbortController) => {
+      const params = new URLSearchParams();
+      if (query.trim()) {
+        params.set('q', query.trim());
+      }
+      params.set('limit', String(CITY_PAGE_SIZE));
+      params.set('offset', String(offset));
 
-    const fetchCities = async () => {
-      try {
-        setLoading(true);
-        let request = inflightCityRequests.get(country.isoCode);
-        if (!request) {
-          request = (async () => {
-            const res = await fetch(
-              `/api/countries/${country.isoCode}/cities`,
-              {
-                credentials: 'include',
-              },
-            );
+      const res = await fetch(`/api/countries/${country.isoCode}/cities?${params.toString()}`, {
+        credentials: 'include',
+        signal: controller?.signal,
+      });
 
-            if (!res.ok) {
-              throw new Error(`Failed to fetch cities: ${res.status}`);
-            }
+      if (!res.ok) {
+        throw new Error(`Failed to fetch cities: ${res.status}`);
+      }
 
-            const data = await res.json();
-            return data.cities || [];
-          })();
-          inflightCityRequests.set(country.isoCode, request);
+      const data = await res.json();
+      const nextCities: City[] = data.cities || [];
+      const pagination = data.pagination || {};
+
+      setCities((prev) => {
+        if (!append) {
+          return nextCities;
         }
 
-        const loadedCities = await request;
-        citiesByCountryCache.set(country.isoCode, loadedCities);
-        setCities(loadedCities);
-        setError(null);
+        const seen = new Set(prev.map((city) => city.id));
+        const merged = [...prev];
+        nextCities.forEach((city) => {
+          if (!seen.has(city.id)) {
+            merged.push(city);
+          }
+        });
+        return merged;
+      });
+
+      setCityOffset((pagination.offset ?? offset) + nextCities.length);
+      setCityTotal(Number(pagination.total ?? nextCities.length));
+      setHasMoreCities(Boolean(pagination.hasMore));
+      setError(null);
+    },
+    [country.isoCode],
+  );
+
+  // Reset panel-local state when country changes.
+  useEffect(() => {
+    setCitySearchTerm('');
+    setPhotoFailed(false);
+    setCities([]);
+    setCityOffset(0);
+    setCityTotal(0);
+    setHasMoreCities(false);
+    setActiveCityIndex(-1);
+  }, [country.isoCode]);
+
+  useEffect(() => {
+    const controller = new AbortController();
+    const timer = setTimeout(async () => {
+      try {
+        setLoading(true);
+        await loadCities(citySearchTerm, 0, false, controller);
       } catch (err) {
-        console.error('Error fetching cities:', err);
-        setError(err instanceof Error ? err.message : 'Failed to load cities');
+        if (err instanceof DOMException && err.name === 'AbortError') {
+          return;
+        }
+        console.error('Error searching cities:', err);
+        setError(err instanceof Error ? err.message : 'Failed to search cities');
       } finally {
-        inflightCityRequests.delete(country.isoCode);
         setLoading(false);
       }
-    };
+    }, 260);
 
-    fetchCities();
-  }, [country.isoCode]);
+    return () => {
+      clearTimeout(timer);
+      controller.abort();
+    };
+  }, [citySearchTerm, loadCities]);
 
   const backgroundColor =
     theme === 'dark' ? '#1e293b' : '#f8fafc';
@@ -107,6 +144,22 @@ export const CountryDetailPanel: React.FC<CountryDetailPanelProps> = React.memo(
     theme === 'dark' ? '#334155' : '#e2e8f0';
 
   const citiesVisited = cities.filter((c) => c.userVisited).length;
+  const citiesWanted = cities.filter((c) => c.userWantToVisit).length;
+  const visibleCities = useMemo(() => cities, [cities]);
+
+  useEffect(() => {
+    if (visibleCities.length === 0) {
+      setActiveCityIndex(-1);
+      return;
+    }
+
+    setActiveCityIndex((prev) => {
+      if (prev < 0) {
+        return -1;
+      }
+      return Math.min(prev, visibleCities.length - 1);
+    });
+  }, [visibleCities]);
 
   const setCityBusy = (cityId: string, isBusy: boolean) => {
     setBusyCityActions((prev) => {
@@ -136,9 +189,17 @@ export const CountryDetailPanel: React.FC<CountryDetailPanelProps> = React.memo(
 
       let payload: CityStatusChangePayload | null = null;
       setCities((prev) => {
-        const nextCities = prev.map((city) =>
-          city.id === cityId ? { ...city, userVisited: !city.userVisited } : city,
-        );
+        const nextCities = prev.map((city) => {
+          if (city.id !== cityId) {
+            return city;
+          }
+          const nextVisited = !city.userVisited;
+          return {
+            ...city,
+            userVisited: nextVisited,
+            userWantToVisit: nextVisited ? false : city.userWantToVisit,
+          };
+        });
         const changedCity = nextCities.find((city) => city.id === cityId);
         if (changedCity) {
           payload = {
@@ -147,10 +208,10 @@ export const CountryDetailPanel: React.FC<CountryDetailPanelProps> = React.memo(
             countryIsoCode: country.isoCode,
             countryName: country.name,
             isVisited: Boolean(changedCity.userVisited),
+            isWantToVisit: Boolean(changedCity.userWantToVisit),
             isFavorite: Boolean(changedCity.userFavorite),
           };
         }
-        citiesByCountryCache.set(country.isoCode, nextCities);
         return nextCities;
       });
 
@@ -192,10 +253,10 @@ export const CountryDetailPanel: React.FC<CountryDetailPanelProps> = React.memo(
             countryIsoCode: country.isoCode,
             countryName: country.name,
             isVisited: Boolean(changedCity.userVisited),
+            isWantToVisit: Boolean(changedCity.userWantToVisit),
             isFavorite: Boolean(changedCity.userFavorite),
           };
         }
-        citiesByCountryCache.set(country.isoCode, nextCities);
         return nextCities;
       });
 
@@ -205,6 +266,60 @@ export const CountryDetailPanel: React.FC<CountryDetailPanelProps> = React.memo(
     } catch (err) {
       console.error('Error toggling city favorite status:', err);
       setCityActionError(err instanceof Error ? err.message : 'Failed to update city favorite status');
+    } finally {
+      setCityBusy(cityId, false);
+    }
+  };
+
+  const handleToggleCityWantToVisit = async (cityId: string) => {
+    setCityActionError(null);
+    setCityBusy(cityId, true);
+
+    try {
+      const res = await fetch(`/api/user/cities/${cityId}/want-to-visit`, {
+        method: 'PUT',
+        credentials: 'include',
+      });
+
+      if (!res.ok) {
+        throw new Error(`Failed to update city want-to-visit status (${res.status})`);
+      }
+
+      let payload: CityStatusChangePayload | null = null;
+      setCities((prev) => {
+        const nextCities = prev.map((city) => {
+          if (city.id !== cityId) {
+            return city;
+          }
+
+          const nextWant = !city.userWantToVisit;
+          return {
+            ...city,
+            userWantToVisit: nextWant,
+            userVisited: nextWant ? false : city.userVisited,
+          };
+        });
+        const changedCity = nextCities.find((city) => city.id === cityId);
+        if (changedCity) {
+          payload = {
+            id: changedCity.id,
+            name: changedCity.name,
+            countryIsoCode: country.isoCode,
+            countryName: country.name,
+            isVisited: Boolean(changedCity.userVisited),
+            isWantToVisit: Boolean(changedCity.userWantToVisit),
+            isFavorite: Boolean(changedCity.userFavorite),
+          };
+        }
+        return nextCities;
+      });
+
+      if (payload) {
+        onCityStatusChange?.(payload);
+      }
+    } catch (err) {
+      console.error('Error toggling city want-to-visit status:', err);
+      setCityActionError(err instanceof Error ? err.message : 'Failed to update city want-to-visit status');
     } finally {
       setCityBusy(cityId, false);
     }
@@ -300,15 +415,30 @@ export const CountryDetailPanel: React.FC<CountryDetailPanelProps> = React.memo(
           height: '120px',
           minHeight: '80px',
           flexShrink: 0,
-          backgroundImage: country.imageUrl
-            ? `url('${country.imageUrl}')`
-            : `linear-gradient(135deg, ${theme === 'dark' ? '#1e293b' : '#e2e8f0'}, ${theme === 'dark' ? '#334155' : '#cbd5e1'})`,
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
+          position: 'relative',
+          overflow: 'hidden',
           backgroundColor: theme === 'dark' ? '#1a2436' : '#f0f4f8',
           borderBottom: `1px solid ${borderColor}`,
         }}
-      />
+      >
+        {!photoFailed && country.imageUrl ? (
+          <img
+            src={country.imageUrl}
+            alt={`${country.name} landscape`}
+            loading="lazy"
+            onError={() => setPhotoFailed(true)}
+            style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
+          />
+        ) : (
+          <div
+            style={{
+              width: '100%',
+              height: '100%',
+              background: `linear-gradient(135deg, ${theme === 'dark' ? '#1e293b' : '#e2e8f0'}, ${theme === 'dark' ? '#334155' : '#cbd5e1'})`,
+            }}
+          />
+        )}
+      </div>
 
       {/* Info Grid */}
       <div style={{ padding: '1.25rem', borderBottom: `1px solid ${borderColor}` }}>
@@ -512,7 +642,81 @@ export const CountryDetailPanel: React.FC<CountryDetailPanelProps> = React.memo(
             letterSpacing: '0.5px',
           }}
         >
-          Cities ({citiesVisited}/{cities.length})
+          Cities ({citiesVisited} visited · {citiesWanted} want · {cityTotal || cities.length} total)
+        </div>
+
+        <input
+          type="text"
+          value={citySearchTerm}
+          onChange={(e) => setCitySearchTerm(e.target.value)}
+          onKeyDown={(e) => {
+            if (visibleCities.length === 0) {
+              return;
+            }
+
+            if (e.key === 'ArrowDown') {
+              e.preventDefault();
+              setActiveCityIndex((prev) => Math.min(prev + 1, visibleCities.length - 1));
+              return;
+            }
+
+            if (e.key === 'ArrowUp') {
+              e.preventDefault();
+              setActiveCityIndex((prev) => Math.max(prev - 1, 0));
+              return;
+            }
+
+            if (e.key === 'Enter') {
+              if (activeCityIndex >= 0 && activeCityIndex < visibleCities.length) {
+                e.preventDefault();
+                void handleToggleCityVisited(visibleCities[activeCityIndex].id);
+              }
+              return;
+            }
+
+            if (e.key === 'Escape') {
+              e.preventDefault();
+              setCitySearchTerm('');
+              setActiveCityIndex(-1);
+            }
+          }}
+          placeholder="Search cities in this country"
+          style={{
+            width: '100%',
+            marginBottom: '0.75rem',
+            border: `1px solid ${borderColor}`,
+            borderRadius: '0.375rem',
+            padding: '0.45rem 0.55rem',
+            fontSize: '0.82rem',
+            backgroundColor: theme === 'dark' ? '#0f172a' : '#ffffff',
+            color: textColor,
+          }}
+        />
+
+        <div
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            marginBottom: '0.65rem',
+            gap: '0.5rem',
+          }}
+        >
+          <span
+            style={{
+              fontSize: '0.73rem',
+              padding: '0.2rem 0.45rem',
+              borderRadius: '999px',
+              border: `1px solid ${borderColor}`,
+              backgroundColor: 'var(--color-surface-raised)',
+              opacity: 0.9,
+            }}
+          >
+            {cities.length} shown / {cityTotal || cities.length}
+          </span>
+          <span style={{ fontSize: '0.71rem', opacity: 0.68 }}>
+            ↑↓ move, Enter toggle visited
+          </span>
         </div>
 
         {cityActionError ? (
@@ -533,11 +737,16 @@ export const CountryDetailPanel: React.FC<CountryDetailPanelProps> = React.memo(
           <div style={{ fontSize: '0.875rem', opacity: 0.6 }}>
             No cities available
           </div>
+        ) : visibleCities.length === 0 ? (
+          <div style={{ fontSize: '0.875rem', opacity: 0.6 }}>
+            No matching cities for "{citySearchTerm}"
+          </div>
         ) : (
           <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
-            {cities.map((city) => (
+            {visibleCities.map((city, index) => (
               <div
                 key={city.id}
+                onMouseEnter={() => setActiveCityIndex(index)}
                 style={{
                   padding: '0.75rem',
                   backgroundColor: theme === 'dark' ? '#0f172a' : '#fff',
@@ -547,6 +756,7 @@ export const CountryDetailPanel: React.FC<CountryDetailPanelProps> = React.memo(
                   display: 'flex',
                   alignItems: 'center',
                   gap: '0.6rem',
+                  boxShadow: activeCityIndex === index ? '0 0 0 2px rgba(37, 99, 235, 0.35)' : 'none',
                 }}
               >
                 <span style={{ flex: 1 }}>{city.name}</span>
@@ -569,6 +779,23 @@ export const CountryDetailPanel: React.FC<CountryDetailPanelProps> = React.memo(
                 </button>
                 <button
                   type="button"
+                  onClick={() => void handleToggleCityWantToVisit(city.id)}
+                  disabled={busyCityActions.has(city.id)}
+                  style={{
+                    border: `1px solid ${city.userWantToVisit ? '#2563eb' : borderColor}`,
+                    color: city.userWantToVisit ? '#2563eb' : textColor,
+                    background: 'transparent',
+                    borderRadius: '0.3rem',
+                    padding: '0.22rem 0.45rem',
+                    fontSize: '0.75rem',
+                    cursor: busyCityActions.has(city.id) ? 'not-allowed' : 'pointer',
+                    opacity: busyCityActions.has(city.id) ? 0.55 : 1,
+                  }}
+                >
+                  {city.userWantToVisit ? 'Wanted' : 'Want'}
+                </button>
+                <button
+                  type="button"
                   onClick={() => void handleToggleCityFavorite(city.id)}
                   disabled={busyCityActions.has(city.id)}
                   style={{
@@ -588,6 +815,43 @@ export const CountryDetailPanel: React.FC<CountryDetailPanelProps> = React.memo(
             ))}
           </div>
         )}
+      </div>
+
+      {hasMoreCities ? (
+        <div style={{ padding: '0 1rem 1rem 1rem' }}>
+          <button
+            type="button"
+            onClick={async () => {
+              try {
+                setLoadingMoreCities(true);
+                await loadCities(citySearchTerm, cityOffset, true);
+              } catch (err) {
+                console.error('Error loading more cities:', err);
+                setError(err instanceof Error ? err.message : 'Failed to load more cities');
+              } finally {
+                setLoadingMoreCities(false);
+              }
+            }}
+            disabled={loadingMoreCities}
+            style={{
+              width: '100%',
+              border: `1px solid ${borderColor}`,
+              borderRadius: '0.375rem',
+              backgroundColor: 'var(--color-surface-raised)',
+              color: textColor,
+              padding: '0.55rem 0.65rem',
+              fontSize: '0.82rem',
+              cursor: loadingMoreCities ? 'not-allowed' : 'pointer',
+              opacity: loadingMoreCities ? 0.7 : 1,
+            }}
+          >
+            {loadingMoreCities ? 'Loading more cities...' : `Load more cities (${Math.max(cityTotal - cities.length, 0)} remaining)`}
+          </button>
+        </div>
+      ) : null}
+
+      <div style={{ padding: '0 1rem 1rem 1rem', fontSize: '0.74rem', opacity: 0.68 }}>
+        Showing {cities.length} of {cityTotal || cities.length} cities
       </div>
     </div>
   );

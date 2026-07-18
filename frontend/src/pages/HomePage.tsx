@@ -40,6 +40,7 @@ interface UserCityStatusItem {
   countryIsoCode: string;
   countryName: string;
   isVisited: boolean;
+  isWantToVisit: boolean;
   isFavorite: boolean;
 }
 
@@ -307,7 +308,7 @@ export const HomePage: React.FC = () => {
   const handleCityStatusChange = useCallback((city: UserCityStatusItem) => {
     setUserCities((prev) => {
       const next = prev.filter((item) => item.id !== city.id);
-      if (city.isVisited || city.isFavorite) {
+      if (city.isVisited || city.isWantToVisit || city.isFavorite) {
         next.push(city);
       }
       return next;

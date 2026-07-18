@@ -15,14 +15,14 @@ router.use(authenticate);
 
 /**
  * GET /api/user/cities/status
- * Fetch all cities the user has visited or favourited, with country info.
+ * Fetch all cities the user has visited, want-to-visit or favourited, with country info.
  */
 router.get('/cities/status', dataRateLimiter, async (req: Request, res: Response) => {
   try {
     const statuses = await prisma.userCityStatus.findMany({
       where: {
         userId: req.user!.userId,
-        OR: [{ isVisited: true }, { isFavorite: true }],
+        OR: [{ isVisited: true }, { isWantToVisit: true }, { isFavorite: true }],
       },
       include: {
         city: {
@@ -39,6 +39,7 @@ router.get('/cities/status', dataRateLimiter, async (req: Request, res: Response
       countryIsoCode: s.city.country.isoCode,
       countryName: s.city.country.name,
       isVisited: Boolean(s.isVisited),
+      isWantToVisit: Boolean(s.isWantToVisit),
       isFavorite: Boolean(s.isFavorite),
     }));
 
@@ -227,6 +228,8 @@ router.put('/cities/:cityId/visited', async (req: Request, res: Response) => {
       },
     });
 
+    const toggledVisited = !current?.isVisited;
+
     const updated = await prisma.userCityStatus.upsert({
       where: {
         userId_cityId: {
@@ -235,12 +238,14 @@ router.put('/cities/:cityId/visited', async (req: Request, res: Response) => {
         },
       },
       update: {
-        isVisited: !current?.isVisited,
+        isVisited: toggledVisited,
+        isWantToVisit: toggledVisited ? false : current?.isWantToVisit ?? false,
       },
       create: {
         userId: req.user!.userId,
         cityId,
         isVisited: true,
+        isWantToVisit: false,
       },
     });
 
@@ -297,6 +302,58 @@ router.put('/cities/:cityId/favorite', async (req: Request, res: Response) => {
   } catch (err) {
     console.error('[user/cities/:cityId/favorite]', err);
     res.status(500).json({ error: 'Failed to update city favorite' });
+  }
+});
+
+/**
+ * PUT /api/user/cities/:cityId/want-to-visit
+ * Toggle the user's want-to-visit flag for a city.
+ *
+ * Returns: the updated UserCityStatus
+ */
+router.put('/cities/:cityId/want-to-visit', async (req: Request, res: Response) => {
+  const { cityId } = req.params;
+
+  try {
+    const city = await prisma.city.findUnique({ where: { id: cityId } });
+    if (!city) {
+      res.status(404).json({ error: 'City not found' });
+      return;
+    }
+
+    const current = await prisma.userCityStatus.findUnique({
+      where: {
+        userId_cityId: {
+          userId: req.user!.userId,
+          cityId,
+        },
+      },
+    });
+
+    const toggledWant = !current?.isWantToVisit;
+    const updated = await prisma.userCityStatus.upsert({
+      where: {
+        userId_cityId: {
+          userId: req.user!.userId,
+          cityId,
+        },
+      },
+      update: {
+        isWantToVisit: toggledWant,
+        isVisited: toggledWant ? false : current?.isVisited ?? false,
+      },
+      create: {
+        userId: req.user!.userId,
+        cityId,
+        isWantToVisit: true,
+        isVisited: false,
+      },
+    });
+
+    res.json({ userStatus: updated });
+  } catch (err) {
+    console.error('[user/cities/:cityId/want-to-visit]', err);
+    res.status(500).json({ error: 'Failed to update city want-to-visit status' });
   }
 });
 

@@ -72,10 +72,13 @@ model City {
   name      String
   lat       Float
   lng       Float
+  population Int @default(0)
 
   country      Country          @relation(fields: [countryId], references: [id], onDelete: Cascade)
   userStatuses UserCityStatus[]
 
+  @@index([countryId, name])
+  @@index([countryId, population])
   @@map("cities")
 }
 
@@ -103,6 +106,7 @@ model UserCityStatus {
   userId     String   @map("user_id")
   cityId     String   @map("city_id")
   isVisited  Boolean  @default(false) @map("is_visited")
+  isWantToVisit Boolean @default(false) @map("is_want_to_visit")
   isFavorite Boolean  @default(false) @map("is_favorite")
   updatedAt  DateTime @updatedAt @map("updated_at")
 

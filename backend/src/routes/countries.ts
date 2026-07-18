@@ -70,7 +70,12 @@ const withTimeout = async <T,>(promise: Promise<T>, timeoutMs: number): Promise<
 
 const fetchWikiPhotoForTitle = async (title: string, flagUrl: string): Promise<string | null> => {
   const response = await withTimeout(
-    fetch(`https://en.wikipedia.org/api/rest_v1/page/summary/${encodeURIComponent(title)}`),
+    fetch(`https://en.wikipedia.org/api/rest_v1/page/summary/${encodeURIComponent(title)}`, {
+      headers: {
+        'User-Agent': 'Atlased/1.0 (travel-map)',
+        Accept: 'application/json',
+      },
+    }),
     PHOTO_LOOKUP_TIMEOUT_MS,
   );
 
@@ -131,11 +136,6 @@ const getCountryPhotoUrl = async (
     return cached || '';
   }
 
-  if (existingImageUrl && !looksLikeMapOrFlag(existingImageUrl) && existingImageUrl !== flagUrl) {
-    countryPhotoCache.set(cacheKey, existingImageUrl);
-    return existingImageUrl;
-  }
-
   // 1) Try Wikipedia page summaries in parallel with timeout per request.
   const titleCandidates = [countryName, ...(PHOTO_TITLE_ALIASES[cacheKey] || [])];
   const uniqueCandidates = Array.from(new Set(titleCandidates.map((value) => value.trim()).filter(Boolean)));
@@ -160,10 +160,10 @@ const getCountryPhotoUrl = async (
     // Fall through to fallback URL.
   }
 
-  // 2) Fallback: Unsplash landscape photo for the country name
-  const unsplashUrl = `https://source.unsplash.com/600x300/?${encodeURIComponent(countryName)}+landscape+travel`;
-  countryPhotoCache.set(cacheKey, unsplashUrl);
-  return unsplashUrl;
+  // 2) Fallback: stable seeded placeholder when remote sources fail/are blocked.
+  const fallbackUrl = `https://picsum.photos/seed/${encodeURIComponent(isoCode.toUpperCase())}/800/400`;
+  countryPhotoCache.set(cacheKey, fallbackUrl);
+  return fallbackUrl;
 };
 
 /**
@@ -347,14 +347,19 @@ router.get('/:isoCode', authenticate, async (req: Request, res: Response) => {
 
 /**
  * GET /api/countries/:isoCode/cities
- * Fetch all cities in a country with the user's visited/favorite status for each.
+ * Fetch all cities in a country with the user's visited/want/favorite status for each.
  *
  * Returns: array of cities with each containing:
  *   - id, name, lat, lng
- *   - userStatus: { isVisited: boolean, isFavorite: boolean }
+ *   - userStatus: { isVisited: boolean, isWantToVisit: boolean, isFavorite: boolean }
  */
 router.get('/:isoCode/cities', authenticate, async (req: Request, res: Response) => {
   const { isoCode } = req.params;
+  const query = String(req.query.q || '').trim();
+  const parsedLimit = Number.parseInt(String(req.query.limit || ''), 10);
+  const parsedOffset = Number.parseInt(String(req.query.offset || ''), 10);
+  const limit = Number.isFinite(parsedLimit) ? Math.min(Math.max(parsedLimit, 1), 200) : 100;
+  const offset = Number.isFinite(parsedOffset) ? Math.max(parsedOffset, 0) : 0;
 
   try {
     // Find the country by ISO code.
@@ -367,11 +372,21 @@ router.get('/:isoCode/cities', authenticate, async (req: Request, res: Response)
       return;
     }
 
-    // Fetch all cities in this country.
-    const cities = await prisma.city.findMany({
-      where: { countryId: country.id },
-      orderBy: { name: 'asc' },
-    });
+    const where = {
+      countryId: country.id,
+      ...(query ? { name: { contains: query, mode: 'insensitive' as const } } : {}),
+    };
+
+    // Fetch matching cities with server-side pagination for large datasets.
+    const [total, cities] = await Promise.all([
+      prisma.city.count({ where }),
+      prisma.city.findMany({
+        where,
+        orderBy: [{ population: 'desc' }, { name: 'asc' }],
+        skip: offset,
+        take: limit,
+      }),
+    ]);
 
     // Fetch user's status for all these cities in one query.
     const userCityStatuses = await prisma.userCityStatus.findMany({
@@ -384,11 +399,12 @@ router.get('/:isoCode/cities', authenticate, async (req: Request, res: Response)
 
     // Build a map for quick lookup.
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const statusMap: Map<string, { isVisited: boolean; isFavorite: boolean }> = new Map(
+    const statusMap: Map<string, { isVisited: boolean; isWantToVisit: boolean; isFavorite: boolean }> = new Map(
       userCityStatuses.map((s: any) => [
         s.cityId,
         {
           isVisited: Boolean(s.isVisited),
+          isWantToVisit: Boolean(s.isWantToVisit),
           isFavorite: Boolean(s.isFavorite),
         },
       ]),
@@ -399,10 +415,19 @@ router.get('/:isoCode/cities', authenticate, async (req: Request, res: Response)
     const response = cities.map((city: any) => ({
       ...city,
       userVisited: statusMap.get(city.id)?.isVisited ?? false,
+      userWantToVisit: statusMap.get(city.id)?.isWantToVisit ?? false,
       userFavorite: statusMap.get(city.id)?.isFavorite ?? false,
     }));
 
-    res.json({ cities: response });
+    res.json({
+      cities: response,
+      pagination: {
+        total,
+        limit,
+        offset,
+        hasMore: offset + response.length < total,
+      },
+    });
   } catch (err) {
     console.error('[countries/:isoCode/cities]', err);
     res.status(500).json({ error: 'Failed to fetch cities' });

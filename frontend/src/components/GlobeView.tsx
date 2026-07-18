@@ -29,7 +29,7 @@ interface GlobeViewProps {
   selectedCountry: Country | null;
   onSelectCountry: (country: Country) => void;
   isLoading: boolean;
-  userCities: Array<{ id: string; name: string; countryName: string; isVisited: boolean; isFavorite: boolean }>;
+  userCities: Array<{ id: string; name: string; countryName: string; isVisited: boolean; isWantToVisit: boolean; isFavorite: boolean }>;
 }
 
 export const GlobeView: React.FC<GlobeViewProps> = React.memo(({
@@ -41,9 +41,11 @@ export const GlobeView: React.FC<GlobeViewProps> = React.memo(({
 }) => {
   const globeRef = useRef<GlobeRef>();
   const containerRef = useRef<HTMLDivElement>(null);
+  const countriesPanelRef = useRef<HTMLDivElement>(null);
   const [globeSize, setGlobeSize] = useState({ width: 960, height: 560 });
   const [activeList, setActiveList] = useState<'visited' | 'want' | 'favorite' | null>(null);
-  const [activeCityList, setActiveCityList] = useState<'city-visited' | 'city-favorite' | null>(null);
+  const [activeCityList, setActiveCityList] = useState<'city-visited' | 'city-want' | 'city-favorite' | null>(null);
+  const [countriesPanelHeight, setCountriesPanelHeight] = useState(132);
   const { theme } = useTheme();
   const backgroundColor = 'var(--color-bg)';
   const textColor = 'var(--color-text)';
@@ -125,7 +127,25 @@ export const GlobeView: React.FC<GlobeViewProps> = React.memo(({
     return () => observer.disconnect();
   }, []);
 
+  useEffect(() => {
+    const node = countriesPanelRef.current;
+    if (!node) {
+      return;
+    }
+
+    const updateHeight = () => {
+      setCountriesPanelHeight(node.getBoundingClientRect().height);
+    };
+
+    updateHeight();
+    const observer = new ResizeObserver(() => updateHeight());
+    observer.observe(node);
+
+    return () => observer.disconnect();
+  }, [activeList, filteredCountries.length]);
+
   const visitedCities = userCities.filter((c) => c.isVisited);
+  const wantCities = userCities.filter((c) => c.isWantToVisit);
   const favoriteCities = userCities.filter((c) => c.isFavorite);
 
   useEffect(() => {
@@ -286,6 +306,7 @@ export const GlobeView: React.FC<GlobeViewProps> = React.memo(({
           />
 
           <div
+            ref={countriesPanelRef}
             style={{
               position: 'absolute',
               top: '1rem',
@@ -380,11 +401,11 @@ export const GlobeView: React.FC<GlobeViewProps> = React.memo(({
           </div>
 
           {/* Cities status panel */}
-          {(visitedCities.length > 0 || favoriteCities.length > 0) && (
+          {(visitedCities.length > 0 || wantCities.length > 0 || favoriteCities.length > 0) && (
             <div
               style={{
                 position: 'absolute',
-                top: 'calc(1rem + 200px)',
+                top: `calc(1rem + ${Math.ceil(countriesPanelHeight)}px + 0.5rem)`,
                 left: '1rem',
                 backgroundColor: theme === 'dark' ? '#1e293b' : '#f8fafc',
                 border: '1px solid var(--color-border)',
@@ -392,10 +413,11 @@ export const GlobeView: React.FC<GlobeViewProps> = React.memo(({
                 padding: '0.75rem',
                 zIndex: 15,
                 maxWidth: '260px',
+                transition: 'top 220ms ease',
               }}
             >
               <div style={{ fontSize: '0.78rem', opacity: 0.75, marginBottom: '0.5rem' }}>Cities</div>
-              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '0.5rem' }}>
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '0.4rem' }}>
                 <button
                   type="button"
                   onClick={() => setActiveCityList(activeCityList === 'city-visited' ? null : 'city-visited')}
@@ -403,6 +425,14 @@ export const GlobeView: React.FC<GlobeViewProps> = React.memo(({
                 >
                   <div style={{ color: 'var(--color-visited)', fontWeight: 700, fontSize: '1.1rem' }}>{visitedCities.length}</div>
                   <div style={{ fontSize: '0.72rem', opacity: 0.8 }}>Visited</div>
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setActiveCityList(activeCityList === 'city-want' ? null : 'city-want')}
+                  style={{ background: 'transparent', border: 'none', color: 'inherit', textAlign: 'left' }}
+                >
+                  <div style={{ color: 'var(--color-want-to-visit)', fontWeight: 700, fontSize: '1.1rem' }}>{wantCities.length}</div>
+                  <div style={{ fontSize: '0.72rem', opacity: 0.8 }}>Want</div>
                 </button>
                 <button
                   type="button"
@@ -424,10 +454,18 @@ export const GlobeView: React.FC<GlobeViewProps> = React.memo(({
                     paddingTop: '0.5rem',
                   }}
                 >
-                  {(activeCityList === 'city-visited' ? visitedCities : favoriteCities).length === 0 ? (
+                  {(activeCityList === 'city-visited'
+                    ? visitedCities
+                    : activeCityList === 'city-want'
+                      ? wantCities
+                      : favoriteCities).length === 0 ? (
                     <div style={{ fontSize: '0.75rem', opacity: 0.7 }}>No cities in this list</div>
                   ) : (
-                    (activeCityList === 'city-visited' ? visitedCities : favoriteCities).map((city) => (
+                    (activeCityList === 'city-visited'
+                      ? visitedCities
+                      : activeCityList === 'city-want'
+                        ? wantCities
+                        : favoriteCities).map((city) => (
                       <div
                         key={city.id}
                         style={{

@@ -52,6 +52,28 @@ npm run db:seed
 
 This populates ~250 countries and ~1,000 cities from the static JSON files in `backend/prisma/data/`.
 
+### Importing Full City Coverage (GeoNames)
+
+If you want country lists with very broad city coverage (similar to travel tracker apps that ship large offline place catalogs), import a GeoNames city dump.
+
+1. Download a GeoNames cities file (for example `cities500.txt`) from https://download.geonames.org/export/dump/
+2. Put it somewhere on disk (for example `backend/prisma/data/cities500.txt`)
+3. Run:
+
+```bash
+cd backend
+GEONAMES_FILE=./prisma/data/cities500.txt npm run db:import:geonames
+```
+
+Optional environment variables:
+
+```bash
+GEONAMES_MIN_POP=500        # default 500
+GEONAMES_BATCH_SIZE=2000    # default 2000
+GEONAMES_REPLACE=true       # delete existing cities before import (default true)
+GEONAMES_MAX_ROWS=0         # 0 = no cap; set for test runs
+```
+
 ### Running the Frontend
 
 In a new terminal:
