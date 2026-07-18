@@ -27,7 +27,7 @@ const getCountryColor = (country: Country): string => {
   return 'var(--color-unvisited)';
 };
 
-export const MapView: React.FC<MapViewProps> = ({
+export const MapView: React.FC<MapViewProps> = React.memo(({
   countries,
   selectedCountry,
   onSelectCountry,
@@ -509,4 +509,6 @@ export const MapView: React.FC<MapViewProps> = ({
       )}
     </div>
   );
-};
+});
+
+MapView.displayName = 'MapView';

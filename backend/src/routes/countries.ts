@@ -1,10 +1,13 @@
 import { Router, Request, Response } from 'express';
 import { prisma } from '../lib/prisma';
 import { authenticate } from '../middleware/authenticate';
+import { dataRateLimiter } from '../middleware/rateLimiter';
 
 const router = Router();
 
 const countryPhotoCache = new Map<string, string | null>();
+const PHOTO_LOOKUP_TIMEOUT_MS = 1800;
+const COUNTRY_PHOTO_CONCURRENCY = 12;
 
 const normalizeName = (value: string) =>
   value
@@ -48,42 +51,113 @@ const looksLikeMapOrFlag = (url: string): boolean => {
   );
 };
 
-const getCountryPhotoUrl = async (countryName: string, isoCode: string, flagUrl: string): Promise<string> => {
+const withTimeout = async <T,>(promise: Promise<T>, timeoutMs: number): Promise<T> => {
+  let timeoutHandle: ReturnType<typeof setTimeout> | null = null;
+  const timeoutPromise = new Promise<T>((_, reject) => {
+    timeoutHandle = setTimeout(() => {
+      reject(new Error('timeout'));
+    }, timeoutMs);
+  });
+
+  try {
+    return await Promise.race([promise, timeoutPromise]);
+  } finally {
+    if (timeoutHandle) {
+      clearTimeout(timeoutHandle);
+    }
+  }
+};
+
+const fetchWikiPhotoForTitle = async (title: string, flagUrl: string): Promise<string | null> => {
+  const response = await withTimeout(
+    fetch(`https://en.wikipedia.org/api/rest_v1/page/summary/${encodeURIComponent(title)}`),
+    PHOTO_LOOKUP_TIMEOUT_MS,
+  );
+
+  if (!response.ok) {
+    return null;
+  }
+
+  const data = (await response.json()) as {
+    thumbnail?: { source?: string };
+    originalimage?: { source?: string };
+  };
+  const photoUrl = data.originalimage?.source || data.thumbnail?.source;
+
+  if (!photoUrl || looksLikeMapOrFlag(photoUrl) || photoUrl === flagUrl) {
+    return null;
+  }
+
+  return photoUrl;
+};
+
+const mapWithConcurrency = async <T, R>(
+  items: T[],
+  limit: number,
+  mapper: (item: T, index: number) => Promise<R>,
+): Promise<R[]> => {
+  if (items.length === 0) {
+    return [];
+  }
+
+  const safeLimit = Math.max(1, Math.min(limit, items.length));
+  const results: R[] = new Array(items.length);
+  let nextIndex = 0;
+
+  const worker = async () => {
+    while (true) {
+      const current = nextIndex;
+      if (current >= items.length) {
+        return;
+      }
+      nextIndex += 1;
+      results[current] = await mapper(items[current], current);
+    }
+  };
+
+  await Promise.all(Array.from({ length: safeLimit }, () => worker()));
+  return results;
+};
+
+const getCountryPhotoUrl = async (
+  countryName: string,
+  isoCode: string,
+  flagUrl: string,
+  existingImageUrl?: string,
+): Promise<string> => {
   const cacheKey = normalizeName(countryName);
   const cached = countryPhotoCache.get(cacheKey);
   if (typeof cached !== 'undefined') {
     return cached || '';
   }
 
-  // 1) Try Wikipedia page summary — look for a real photo (not flag, not map)
+  if (existingImageUrl && !looksLikeMapOrFlag(existingImageUrl) && existingImageUrl !== flagUrl) {
+    countryPhotoCache.set(cacheKey, existingImageUrl);
+    return existingImageUrl;
+  }
+
+  // 1) Try Wikipedia page summaries in parallel with timeout per request.
   const titleCandidates = [countryName, ...(PHOTO_TITLE_ALIASES[cacheKey] || [])];
+  const uniqueCandidates = Array.from(new Set(titleCandidates.map((value) => value.trim()).filter(Boolean)));
 
-  for (const title of titleCandidates) {
+  const attempts = uniqueCandidates.map(async (title) => {
     try {
-      const response = await fetch(
-        `https://en.wikipedia.org/api/rest_v1/page/summary/${encodeURIComponent(title)}`,
-      );
-
-      if (!response.ok) {
-        continue;
+      const found = await fetchWikiPhotoForTitle(title, flagUrl);
+      if (!found) {
+        throw new Error('No usable image');
       }
-
-      const data = (await response.json()) as {
-        thumbnail?: { source?: string };
-        originalimage?: { source?: string };
-      };
-      const photoUrl = data.originalimage?.source || data.thumbnail?.source;
-      if (
-        photoUrl &&
-        !looksLikeMapOrFlag(photoUrl) &&
-        photoUrl !== flagUrl // Ensure it's not the same as the flag
-      ) {
-        countryPhotoCache.set(cacheKey, photoUrl);
-        return photoUrl;
-      }
+      return found;
     } catch (err) {
-      console.warn('[countries/photo/wikipedia]', countryName, err);
+      return Promise.reject(err);
     }
+  });
+
+  try {
+    const photoUrl = await Promise.any(attempts);
+    countryPhotoCache.set(cacheKey, photoUrl);
+    return photoUrl;
+  } catch {
+    // Fall through to fallback URL.
   }
 
   // 2) Fallback: Unsplash landscape photo for the country name
@@ -126,21 +200,26 @@ router.get('/', async (req: Request, res: Response) => {
       });
     }
 
-    // Build response with status overlay and a real photo fallback.
+    // Build response with status overlay and photo URLs without unbounded fan-out.
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const response = await Promise.all(countries.map(async (country: any) => {
+    const response = await mapWithConcurrency(countries, COUNTRY_PHOTO_CONCURRENCY, async (country: any) => {
       const userStatus = userStatuses.get(country.id) || {
         status: null,
         isFavorite: false,
       };
-      const imageUrl = await getCountryPhotoUrl(country.name, country.isoCode, country.flagUrl);
+      const imageUrl = await getCountryPhotoUrl(
+        country.name,
+        country.isoCode,
+        country.flagUrl,
+        country.imageUrl,
+      );
       return {
         ...country,
         imageUrl,
         userStatus: userStatus.status,
         isFavorite: userStatus.isFavorite,
       };
-    }));
+    });
 
     res.json({ countries: response });
   } catch (err) {
@@ -154,7 +233,7 @@ router.get('/', async (req: Request, res: Response) => {
  * Global search for country and city names.
  * Returns country matches and city matches mapped to their parent country.
  */
-router.get('/search', async (req: Request, res: Response) => {
+router.get('/search', dataRateLimiter, async (req: Request, res: Response) => {
   const q = String(req.query.q || '').trim();
 
   if (!q) {
@@ -250,7 +329,12 @@ router.get('/:isoCode', authenticate, async (req: Request, res: Response) => {
     res.json({
       country: {
         ...country,
-        imageUrl: await getCountryPhotoUrl(country.name, country.isoCode, country.flagUrl),
+        imageUrl: await getCountryPhotoUrl(
+          country.name,
+          country.isoCode,
+          country.flagUrl,
+          country.imageUrl,
+        ),
         userStatus: userStatus?.status ?? null,
         isFavorite: userStatus?.isFavorite ?? false,
       },

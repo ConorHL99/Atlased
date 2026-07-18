@@ -94,6 +94,7 @@ model UserCountryStatus {
   country Country @relation(fields: [countryId], references: [id], onDelete: Cascade)
 
   @@id([userId, countryId])
+  @@index([userId])
   @@map("user_country_statuses")
 }
 
@@ -109,5 +110,6 @@ model UserCityStatus {
   city City @relation(fields: [cityId], references: [id], onDelete: Cascade)
 
   @@id([userId, cityId])
+  @@index([userId])
   @@map("user_city_statuses")
 }

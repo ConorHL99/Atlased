@@ -3,7 +3,7 @@
  */
 
 import GlobeGL from 'react-globe.gl';
-import React, { useEffect, useMemo, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { Country } from '../types';
 import { useTheme } from '../contexts/ThemeContext';
 import { matchCountriesToGeoJson, MatchedPolygonFeature } from '../lib/countryGeoMatch';
@@ -29,27 +29,50 @@ interface GlobeViewProps {
   selectedCountry: Country | null;
   onSelectCountry: (country: Country) => void;
   isLoading: boolean;
+  userCities: Array<{ id: string; name: string; countryName: string; isVisited: boolean; isFavorite: boolean }>;
 }
 
-export const GlobeView: React.FC<GlobeViewProps> = ({
+export const GlobeView: React.FC<GlobeViewProps> = React.memo(({
   countries,
   selectedCountry,
   onSelectCountry,
   isLoading,
+  userCities,
 }) => {
   const globeRef = useRef<GlobeRef>();
   const containerRef = useRef<HTMLDivElement>(null);
   const [globeSize, setGlobeSize] = useState({ width: 960, height: 560 });
   const [activeList, setActiveList] = useState<'visited' | 'want' | 'favorite' | null>(null);
   const [activeCityList, setActiveCityList] = useState<'city-visited' | 'city-favorite' | null>(null);
-  const [userCities, setUserCities] = useState<Array<{ id: string; name: string; countryName: string; isVisited: boolean; isFavorite: boolean }>>([]);
   const { theme } = useTheme();
   const backgroundColor = 'var(--color-bg)';
   const textColor = 'var(--color-text)';
 
-  const visited = countries.filter((c) => c.userStatus === 'VISITED').length;
-  const wantToVisit = countries.filter((c) => c.userStatus === 'WANT_TO_VISIT').length;
-  const favorites = countries.filter((c) => c.isFavorite).length;
+  const countryByIso = useMemo(() => {
+    const map = new Map<string, Country>();
+    countries.forEach((country) => {
+      map.set(country.isoCode, country);
+    });
+    return map;
+  }, [countries]);
+
+  const { visited, wantToVisit, favorites } = useMemo(() => {
+    let visitedTotal = 0;
+    let wantTotal = 0;
+    let favoritesTotal = 0;
+    countries.forEach((country) => {
+      if (country.userStatus === 'VISITED') {
+        visitedTotal += 1;
+      }
+      if (country.userStatus === 'WANT_TO_VISIT') {
+        wantTotal += 1;
+      }
+      if (country.isFavorite) {
+        favoritesTotal += 1;
+      }
+    });
+    return { visited: visitedTotal, wantToVisit: wantTotal, favorites: favoritesTotal };
+  }, [countries]);
 
   const filteredCountries = useMemo(() => {
     const sorted = [...countries].sort((a, b) => a.name.localeCompare(b.name));
@@ -102,22 +125,6 @@ export const GlobeView: React.FC<GlobeViewProps> = ({
     return () => observer.disconnect();
   }, []);
 
-  // Fetch user city statuses for the cities panel
-  useEffect(() => {
-    const loadCityStatuses = async () => {
-      try {
-        const res = await fetch('/api/user/cities/status', { credentials: 'include' });
-        if (res.ok) {
-          const data = await res.json();
-          setUserCities(data.cities || []);
-        }
-      } catch (err) {
-        console.warn('Failed to load city statuses:', err);
-      }
-    };
-    loadCityStatuses();
-  }, [selectedCountry]); // Refresh when panel closes after toggling
-
   const visitedCities = userCities.filter((c) => c.isVisited);
   const favoriteCities = userCities.filter((c) => c.isFavorite);
 
@@ -147,18 +154,18 @@ export const GlobeView: React.FC<GlobeViewProps> = ({
     );
   }, [selectedCountry]);
 
-  const handlePointClick = (point: object) => {
+  const handlePointClick = useCallback((point: object) => {
     const clicked = point as MarkerPoint;
-    const country = countries.find((item) => item.isoCode === clicked.isoCode);
+    const country = countryByIso.get(clicked.isoCode);
     if (country) {
       onSelectCountry(country);
     }
-  };
+  }, [countryByIso, onSelectCountry]);
 
-  const getPointAltitude = (point: object) => {
+  const getPointAltitude = useCallback((point: object) => {
     const marker = point as MarkerPoint;
     return selectedCountry?.isoCode === marker.isoCode ? 0.06 : 0.01;
-  };
+  }, [selectedCountry]);
 
   return (
     <div
@@ -190,7 +197,7 @@ export const GlobeView: React.FC<GlobeViewProps> = ({
             polygonGeoJsonGeometry="geometry"
             polygonLabel={(polygon: object) => {
               const feature = polygon as MatchedPolygonFeature;
-              const country = countries.find((item) => item.isoCode === feature.properties.isoCode);
+              const country = countryByIso.get(feature.properties.isoCode);
               if (!country) {
                 return feature.properties.name;
               }
@@ -207,14 +214,14 @@ export const GlobeView: React.FC<GlobeViewProps> = ({
             }}
             onPolygonClick={(polygon: object) => {
               const feature = polygon as MatchedPolygonFeature;
-              const country = countries.find((item) => item.isoCode === feature.properties.isoCode);
+              const country = countryByIso.get(feature.properties.isoCode);
               if (country) {
                 onSelectCountry(country);
               }
             }}
             polygonCapColor={(polygon: object) => {
               const feature = polygon as MatchedPolygonFeature;
-              const country = countries.find((item) => item.isoCode === feature.properties.isoCode);
+              const country = countryByIso.get(feature.properties.isoCode);
               if (!country) {
                 return 'rgba(255,255,255,0.14)';
               }
@@ -233,7 +240,7 @@ export const GlobeView: React.FC<GlobeViewProps> = ({
               if (selectedCountry?.isoCode === feature.properties.isoCode) {
                 return 0.035;
               }
-              const country = countries.find((item) => item.isoCode === feature.properties.isoCode);
+              const country = countryByIso.get(feature.properties.isoCode);
               if (country?.isFavorite) {
                 return 0.02;
               }
@@ -244,7 +251,7 @@ export const GlobeView: React.FC<GlobeViewProps> = ({
               if (selectedCountry?.isoCode === feature.properties.isoCode) {
                 return '#ffffff';
               }
-              const country = countries.find((item) => item.isoCode === feature.properties.isoCode);
+              const country = countryByIso.get(feature.properties.isoCode);
               // Red outline for favorite (independent of visited)
               if (country?.isFavorite) {
                 return '#dc2626';
@@ -546,4 +553,6 @@ export const GlobeView: React.FC<GlobeViewProps> = ({
       </div>
     </div>
   );
-};
+});
+
+GlobeView.displayName = 'GlobeView';

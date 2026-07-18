@@ -12,21 +12,35 @@ import React, { useEffect, useState } from 'react';
 import { Country, City } from '../types';
 import { useTheme } from '../contexts/ThemeContext';
 
+type CityStatusChangePayload = {
+  id: string;
+  name: string;
+  countryIsoCode: string;
+  countryName: string;
+  isVisited: boolean;
+  isFavorite: boolean;
+};
+
+const citiesByCountryCache = new Map<string, City[]>();
+const inflightCityRequests = new Map<string, Promise<City[]>>();
+
 interface CountryDetailPanelProps {
   country: Country;
   onClose: () => void;
   onMarkVisited?: (isoCode: string) => void;
   onMarkWantToVisit?: (isoCode: string) => void;
   onMarkFavorite?: (isoCode: string) => void;
+  onCityStatusChange?: (city: CityStatusChangePayload) => void;
   styleOverride?: React.CSSProperties;
 }
 
-export const CountryDetailPanel: React.FC<CountryDetailPanelProps> = ({
+export const CountryDetailPanel: React.FC<CountryDetailPanelProps> = React.memo(({
   country,
   onClose,
   onMarkVisited,
   onMarkWantToVisit,
   onMarkFavorite,
+  onCityStatusChange,
   styleOverride,
 }) => {
   const { theme } = useTheme();
@@ -38,27 +52,46 @@ export const CountryDetailPanel: React.FC<CountryDetailPanelProps> = ({
 
   // Fetch cities for selected country
   useEffect(() => {
+    const cached = citiesByCountryCache.get(country.isoCode);
+    if (cached) {
+      setCities(cached);
+      setLoading(false);
+      setError(null);
+      return;
+    }
+
     const fetchCities = async () => {
       try {
         setLoading(true);
-        const res = await fetch(
-          `/api/countries/${country.isoCode}/cities`,
-          {
-            credentials: 'include',
-          },
-        );
+        let request = inflightCityRequests.get(country.isoCode);
+        if (!request) {
+          request = (async () => {
+            const res = await fetch(
+              `/api/countries/${country.isoCode}/cities`,
+              {
+                credentials: 'include',
+              },
+            );
 
-        if (!res.ok) {
-          throw new Error(`Failed to fetch cities: ${res.status}`);
+            if (!res.ok) {
+              throw new Error(`Failed to fetch cities: ${res.status}`);
+            }
+
+            const data = await res.json();
+            return data.cities || [];
+          })();
+          inflightCityRequests.set(country.isoCode, request);
         }
 
-        const data = await res.json();
-        setCities(data.cities || []);
+        const loadedCities = await request;
+        citiesByCountryCache.set(country.isoCode, loadedCities);
+        setCities(loadedCities);
         setError(null);
       } catch (err) {
         console.error('Error fetching cities:', err);
         setError(err instanceof Error ? err.message : 'Failed to load cities');
       } finally {
+        inflightCityRequests.delete(country.isoCode);
         setLoading(false);
       }
     };
@@ -101,13 +134,29 @@ export const CountryDetailPanel: React.FC<CountryDetailPanelProps> = ({
         throw new Error(`Failed to update city visited status (${res.status})`);
       }
 
-      setCities((prev) =>
-        prev.map((city) =>
-          city.id === cityId
-            ? { ...city, userVisited: !city.userVisited }
-            : city,
-        ),
-      );
+      let payload: CityStatusChangePayload | null = null;
+      setCities((prev) => {
+        const nextCities = prev.map((city) =>
+          city.id === cityId ? { ...city, userVisited: !city.userVisited } : city,
+        );
+        const changedCity = nextCities.find((city) => city.id === cityId);
+        if (changedCity) {
+          payload = {
+            id: changedCity.id,
+            name: changedCity.name,
+            countryIsoCode: country.isoCode,
+            countryName: country.name,
+            isVisited: Boolean(changedCity.userVisited),
+            isFavorite: Boolean(changedCity.userFavorite),
+          };
+        }
+        citiesByCountryCache.set(country.isoCode, nextCities);
+        return nextCities;
+      });
+
+      if (payload) {
+        onCityStatusChange?.(payload);
+      }
     } catch (err) {
       console.error('Error toggling city visited status:', err);
       setCityActionError(err instanceof Error ? err.message : 'Failed to update city visited status');
@@ -130,13 +179,29 @@ export const CountryDetailPanel: React.FC<CountryDetailPanelProps> = ({
         throw new Error(`Failed to update city favorite status (${res.status})`);
       }
 
-      setCities((prev) =>
-        prev.map((city) =>
-          city.id === cityId
-            ? { ...city, userFavorite: !city.userFavorite }
-            : city,
-        ),
-      );
+      let payload: CityStatusChangePayload | null = null;
+      setCities((prev) => {
+        const nextCities = prev.map((city) =>
+          city.id === cityId ? { ...city, userFavorite: !city.userFavorite } : city,
+        );
+        const changedCity = nextCities.find((city) => city.id === cityId);
+        if (changedCity) {
+          payload = {
+            id: changedCity.id,
+            name: changedCity.name,
+            countryIsoCode: country.isoCode,
+            countryName: country.name,
+            isVisited: Boolean(changedCity.userVisited),
+            isFavorite: Boolean(changedCity.userFavorite),
+          };
+        }
+        citiesByCountryCache.set(country.isoCode, nextCities);
+        return nextCities;
+      });
+
+      if (payload) {
+        onCityStatusChange?.(payload);
+      }
     } catch (err) {
       console.error('Error toggling city favorite status:', err);
       setCityActionError(err instanceof Error ? err.message : 'Failed to update city favorite status');
@@ -526,4 +591,6 @@ export const CountryDetailPanel: React.FC<CountryDetailPanelProps> = ({
       </div>
     </div>
   );
-};
+});
+
+CountryDetailPanel.displayName = 'CountryDetailPanel';

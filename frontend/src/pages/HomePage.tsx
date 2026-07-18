@@ -5,7 +5,7 @@
  * Phase 5: Globe implementation with country detail panel.
  */
 
-import React, { Suspense, lazy, useEffect, useState } from 'react';
+import React, { Suspense, lazy, useCallback, useEffect, useState } from 'react';
 import { useAuth } from '../contexts/AuthContext';
 import { useTheme } from '../contexts/ThemeContext';
 import { GlobeView } from '../components/GlobeView';
@@ -34,6 +34,15 @@ interface SearchCityResult {
   countryLng: number;
 }
 
+interface UserCityStatusItem {
+  id: string;
+  name: string;
+  countryIsoCode: string;
+  countryName: string;
+  isVisited: boolean;
+  isFavorite: boolean;
+}
+
 export const HomePage: React.FC = () => {
   const { user, logout } = useAuth();
   const { theme, toggleTheme } = useTheme();
@@ -49,6 +58,7 @@ export const HomePage: React.FC = () => {
   const [searchLoading, setSearchLoading] = useState(false);
   const [searchCountries, setSearchCountries] = useState<SearchCountryResult[]>([]);
   const [searchCities, setSearchCities] = useState<SearchCityResult[]>([]);
+  const [userCities, setUserCities] = useState<UserCityStatusItem[]>([]);
 
   const textColor = theme === 'dark' ? '#f1f5f9' : '#0f172a';
 
@@ -83,6 +93,39 @@ export const HomePage: React.FC = () => {
   }, [user]);
 
   useEffect(() => {
+    if (!user) {
+      setUserCities([]);
+      return;
+    }
+
+    const controller = new AbortController();
+
+    const loadCityStatuses = async () => {
+      try {
+        const res = await fetch('/api/user/cities/status', {
+          credentials: 'include',
+          signal: controller.signal,
+        });
+
+        if (!res.ok) {
+          return;
+        }
+
+        const data = await res.json();
+        setUserCities(data.cities || []);
+      } catch (err) {
+        if (err instanceof DOMException && err.name === 'AbortError') {
+          return;
+        }
+        console.warn('Failed to load city statuses:', err);
+      }
+    };
+
+    void loadCityStatuses();
+    return () => controller.abort();
+  }, [user]);
+
+  useEffect(() => {
     const query = searchTerm.trim();
     if (query.length < 2) {
       setSearchCountries([]);
@@ -90,11 +133,15 @@ export const HomePage: React.FC = () => {
       return;
     }
 
+    let activeController: AbortController | null = null;
     const timer = setTimeout(async () => {
       try {
         setSearchLoading(true);
+        activeController?.abort();
+        activeController = new AbortController();
         const res = await fetch(`/api/countries/search?q=${encodeURIComponent(query)}`, {
           credentials: 'include',
+          signal: activeController.signal,
         });
 
         if (!res.ok) {
@@ -105,6 +152,9 @@ export const HomePage: React.FC = () => {
         setSearchCountries(data.countries || []);
         setSearchCities(data.cities || []);
       } catch (err) {
+        if (err instanceof DOMException && err.name === 'AbortError') {
+          return;
+        }
         console.error('Search error:', err);
         setSearchCountries([]);
         setSearchCities([]);
@@ -113,7 +163,10 @@ export const HomePage: React.FC = () => {
       }
     }, 250);
 
-    return () => clearTimeout(timer);
+    return () => {
+      clearTimeout(timer);
+      activeController?.abort();
+    };
   }, [searchTerm]);
 
   useEffect(() => {
@@ -122,7 +175,7 @@ export const HomePage: React.FC = () => {
     }
   }, [viewMode]);
 
-  const ensureCountryLoaded = async (isoCode: string): Promise<Country | null> => {
+  const ensureCountryLoaded = useCallback(async (isoCode: string): Promise<Country | null> => {
     const existing = countries.find((country) => country.isoCode === isoCode);
     if (existing) {
       return existing;
@@ -145,9 +198,9 @@ export const HomePage: React.FC = () => {
       console.error('Failed loading country from search:', err);
       return null;
     }
-  };
+  }, [countries]);
 
-  const handleSelectSearchCountry = async (isoCode: string) => {
+  const handleSelectSearchCountry = useCallback(async (isoCode: string) => {
     const country = await ensureCountryLoaded(isoCode);
     if (!country) {
       return;
@@ -156,9 +209,9 @@ export const HomePage: React.FC = () => {
     setSelectedCountry(country);
     setSearchOpen(false);
     setSearchTerm('');
-  };
+  }, [ensureCountryLoaded]);
 
-  const handleMarkVisited = async (isoCode: string) => {
+  const handleMarkVisited = useCallback(async (isoCode: string) => {
     setActionError(null);
     try {
       const res = await fetch(`/api/user/countries/${isoCode}/status`, {
@@ -187,9 +240,9 @@ export const HomePage: React.FC = () => {
       console.error('Error marking as visited:', err);
       setActionError(err instanceof Error ? err.message : 'Failed to mark as visited');
     }
-  };
+  }, [selectedCountry]);
 
-  const handleMarkWantToVisit = async (isoCode: string) => {
+  const handleMarkWantToVisit = useCallback(async (isoCode: string) => {
     setActionError(null);
     try {
       const res = await fetch(`/api/user/countries/${isoCode}/status`, {
@@ -217,9 +270,9 @@ export const HomePage: React.FC = () => {
       console.error('Error marking as want to visit:', err);
       setActionError(err instanceof Error ? err.message : 'Failed to mark as want to visit');
     }
-  };
+  }, [selectedCountry]);
 
-  const handleMarkFavorite = async (isoCode: string) => {
+  const handleMarkFavorite = useCallback(async (isoCode: string) => {
     setActionError(null);
     const currentCountry = countries.find((c) => c.isoCode === isoCode);
     const newFavorite = !currentCountry?.isFavorite;
@@ -249,7 +302,17 @@ export const HomePage: React.FC = () => {
       console.error('Error toggling favorite:', err);
       setActionError(err instanceof Error ? err.message : 'Failed to toggle favorite');
     }
-  };
+  }, [countries, selectedCountry]);
+
+  const handleCityStatusChange = useCallback((city: UserCityStatusItem) => {
+    setUserCities((prev) => {
+      const next = prev.filter((item) => item.id !== city.id);
+      if (city.isVisited || city.isFavorite) {
+        next.push(city);
+      }
+      return next;
+    });
+  }, []);
 
   return (
     <div
@@ -457,6 +520,7 @@ export const HomePage: React.FC = () => {
                   selectedCountry={selectedCountry}
                   onSelectCountry={setSelectedCountry}
                   isLoading={loading}
+                  userCities={userCities}
                 />
               ) : (
                 <Suspense
@@ -492,6 +556,7 @@ export const HomePage: React.FC = () => {
                 onMarkVisited={handleMarkVisited}
                 onMarkWantToVisit={handleMarkWantToVisit}
                 onMarkFavorite={handleMarkFavorite}
+                onCityStatusChange={handleCityStatusChange}
                 styleOverride={{ zIndex: 40 }}
               />
             )}

@@ -23,3 +23,16 @@ export const authRateLimiter = rateLimit({
   // Skip rate limiting on local development (127.0.0.1). This helps when testing login flows.
   skip: (req) => req.ip === '127.0.0.1',
 });
+
+/**
+ * Rate limiter for read-heavy data endpoints (search/status).
+ * Kept generous to avoid interrupting normal usage while reducing abuse risk.
+ */
+export const dataRateLimiter = rateLimit({
+  windowMs: 60 * 1000, // 1 minute
+  max: 600, // allow bursty UX interactions
+  message: 'Too many requests, please slow down briefly',
+  standardHeaders: true,
+  legacyHeaders: false,
+  skip: (req) => req.ip === '127.0.0.1',
+});

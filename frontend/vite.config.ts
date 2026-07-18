@@ -23,5 +23,14 @@ export default defineConfig({
     // Chunk size warning threshold (default 500 kB) — globe.gl is large.
     // We'll address code-splitting in Phase 5.
     chunkSizeWarningLimit: 1000,
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          'globe-vendor': ['react-globe.gl', 'three'],
+          'map-vendor': ['leaflet', 'react-leaflet'],
+          'router-vendor': ['react-router-dom'],
+        },
+      },
+    },
   },
 });

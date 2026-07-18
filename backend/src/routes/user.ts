@@ -3,6 +3,7 @@ import { z } from 'zod';
 import { prisma } from '../lib/prisma';
 import { authenticate } from '../middleware/authenticate';
 import { validate } from '../middleware/validate';
+import { dataRateLimiter } from '../middleware/rateLimiter';
 
 const router = Router();
 
@@ -16,10 +17,13 @@ router.use(authenticate);
  * GET /api/user/cities/status
  * Fetch all cities the user has visited or favourited, with country info.
  */
-router.get('/cities/status', async (req: Request, res: Response) => {
+router.get('/cities/status', dataRateLimiter, async (req: Request, res: Response) => {
   try {
     const statuses = await prisma.userCityStatus.findMany({
-      where: { userId: req.user!.userId },
+      where: {
+        userId: req.user!.userId,
+        OR: [{ isVisited: true }, { isFavorite: true }],
+      },
       include: {
         city: {
           include: {

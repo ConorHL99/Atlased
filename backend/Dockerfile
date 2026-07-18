@@ -19,7 +19,7 @@ RUN npx prisma generate
 # Compile TypeScript
 COPY tsconfig.json ./
 COPY src ./src
-RUN npm run build
+RUN npm run build && npm prune --omit=dev
 
 # ─── Production stage ─────────────────────────────────────────────────────────
 FROM node:20-bookworm-slim AS runner
@@ -30,12 +30,10 @@ RUN apt-get update \
 	&& apt-get install -y --no-install-recommends openssl ca-certificates \
 	&& rm -rf /var/lib/apt/lists/*
 
-# Install production dependencies and regenerate Prisma client
-# (copying node_modules from builder would include devDeps; this is cleaner)
-COPY package*.json ./
-COPY prisma ./prisma
-ENV DATABASE_URL="postgresql://build:build@localhost:5432/build"
-RUN npm ci --omit=dev && npx prisma generate
+# Reuse builder artifacts to avoid a second dependency install on slower hosts.
+COPY --from=builder /app/package*.json ./
+COPY --from=builder /app/node_modules ./node_modules
+COPY --from=builder /app/prisma ./prisma
 
 # Copy compiled application from build stage
 COPY --from=builder /app/dist ./dist
