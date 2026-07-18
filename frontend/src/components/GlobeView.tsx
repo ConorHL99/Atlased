@@ -56,10 +56,11 @@ export const GlobeView: React.FC<GlobeViewProps> = React.memo(({
   const { theme } = useTheme();
   const backgroundColor = 'var(--color-bg)';
   const textColor = 'var(--color-text)';
-  const tallyPanelWidth = isMobile ? 'min(56vw, 210px)' : 'min(90vw, 280px)';
-  const tallyPanelPadding = isMobile ? '0.55rem' : '0.9rem';
+  const tallyPanelWidth = isMobile ? 'min(42vw, 170px)' : 'min(90vw, 280px)';
+  const tallyPanelPadding = isMobile ? '0.45rem' : '0.9rem';
   const countriesListMaxHeight = isMobile ? '110px' : '220px';
   const citiesListMaxHeight = isMobile ? '100px' : '180px';
+  const favoriteLabel = isMobile ? 'Favs' : 'Favorites';
 
   const countryByIso = useMemo(() => {
     const map = new Map<string, Country>();
@@ -411,7 +412,7 @@ export const GlobeView: React.FC<GlobeViewProps> = React.memo(({
             <div
               style={{
                 display: 'grid',
-                gridTemplateColumns: 'repeat(3, minmax(80px, 1fr))',
+                  gridTemplateColumns: 'repeat(3, minmax(0, 1fr))',
                 gap: '0.65rem',
               }}
             >
@@ -419,30 +420,30 @@ export const GlobeView: React.FC<GlobeViewProps> = React.memo(({
                 <button
                   type="button"
                   onClick={() => setActiveList(activeList === 'visited' ? null : 'visited')}
-                  style={{ background: 'transparent', border: 'none', color: 'inherit', textAlign: 'left' }}
+                  style={{ background: 'transparent', border: 'none', color: 'inherit', textAlign: 'left', minWidth: 0, padding: 0 }}
                 >
                   <div style={{ color: 'var(--color-visited)', fontWeight: 700, fontSize: '1.2rem' }}>{visited}</div>
-                  <div style={{ fontSize: '0.76rem', opacity: 0.8 }}>Visited</div>
+                  <div style={{ fontSize: isMobile ? '0.64rem' : '0.76rem', opacity: 0.8, lineHeight: 1.05 }}>Visited</div>
                 </button>
               </div>
               <div>
                 <button
                   type="button"
                   onClick={() => setActiveList(activeList === 'want' ? null : 'want')}
-                  style={{ background: 'transparent', border: 'none', color: 'inherit', textAlign: 'left' }}
+                  style={{ background: 'transparent', border: 'none', color: 'inherit', textAlign: 'left', minWidth: 0, padding: 0 }}
                 >
                   <div style={{ color: 'var(--color-want-to-visit)', fontWeight: 700, fontSize: '1.2rem' }}>{wantToVisit}</div>
-                  <div style={{ fontSize: '0.76rem', opacity: 0.8 }}>Want</div>
+                  <div style={{ fontSize: isMobile ? '0.64rem' : '0.76rem', opacity: 0.8, lineHeight: 1.05 }}>Want</div>
                 </button>
               </div>
               <div>
                 <button
                   type="button"
                   onClick={() => setActiveList(activeList === 'favorite' ? null : 'favorite')}
-                  style={{ background: 'transparent', border: 'none', color: 'inherit', textAlign: 'left' }}
+                  style={{ background: 'transparent', border: 'none', color: 'inherit', textAlign: 'left', minWidth: 0, padding: 0 }}
                 >
                   <div style={{ color: 'var(--color-favorite)', fontWeight: 700, fontSize: '1.2rem' }}>{favorites}</div>
-                  <div style={{ fontSize: '0.76rem', opacity: 0.8 }}>Favorites</div>
+                  <div style={{ fontSize: isMobile ? '0.64rem' : '0.76rem', opacity: 0.8, lineHeight: 1.05 }}>{favoriteLabel}</div>
                 </button>
               </div>
             </div>
@@ -505,30 +506,30 @@ export const GlobeView: React.FC<GlobeViewProps> = React.memo(({
             }}
           >
               <div style={{ fontSize: '0.78rem', opacity: 0.75, marginBottom: '0.5rem' }}>Cities</div>
-              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '0.4rem' }}>
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, minmax(0, 1fr))', gap: '0.35rem' }}>
                 <button
                   type="button"
                   onClick={() => setActiveCityList(activeCityList === 'city-visited' ? null : 'city-visited')}
-                  style={{ background: 'transparent', border: 'none', color: 'inherit', textAlign: 'left' }}
+                  style={{ background: 'transparent', border: 'none', color: 'inherit', textAlign: 'left', minWidth: 0, padding: 0 }}
                 >
                   <div style={{ color: 'var(--color-visited)', fontWeight: 700, fontSize: '1.1rem' }}>{visitedCities.length}</div>
-                  <div style={{ fontSize: '0.72rem', opacity: 0.8 }}>Visited</div>
+                  <div style={{ fontSize: isMobile ? '0.62rem' : '0.72rem', opacity: 0.8, lineHeight: 1.05 }}>Visited</div>
                 </button>
                 <button
                   type="button"
                   onClick={() => setActiveCityList(activeCityList === 'city-want' ? null : 'city-want')}
-                  style={{ background: 'transparent', border: 'none', color: 'inherit', textAlign: 'left' }}
+                  style={{ background: 'transparent', border: 'none', color: 'inherit', textAlign: 'left', minWidth: 0, padding: 0 }}
                 >
                   <div style={{ color: 'var(--color-want-to-visit)', fontWeight: 700, fontSize: '1.1rem' }}>{wantCities.length}</div>
-                  <div style={{ fontSize: '0.72rem', opacity: 0.8 }}>Want</div>
+                  <div style={{ fontSize: isMobile ? '0.62rem' : '0.72rem', opacity: 0.8, lineHeight: 1.05 }}>Want</div>
                 </button>
                 <button
                   type="button"
                   onClick={() => setActiveCityList(activeCityList === 'city-favorite' ? null : 'city-favorite')}
-                  style={{ background: 'transparent', border: 'none', color: 'inherit', textAlign: 'left' }}
+                  style={{ background: 'transparent', border: 'none', color: 'inherit', textAlign: 'left', minWidth: 0, padding: 0 }}
                 >
                   <div style={{ color: 'var(--color-favorite)', fontWeight: 700, fontSize: '1.1rem' }}>{favoriteCities.length}</div>
-                  <div style={{ fontSize: '0.72rem', opacity: 0.8 }}>Favourites</div>
+                  <div style={{ fontSize: isMobile ? '0.62rem' : '0.72rem', opacity: 0.8, lineHeight: 1.05 }}>{favoriteLabel}</div>
                 </button>
               </div>
 
