@@ -25,6 +25,8 @@ type GlobeRef = {
   ) => void;
 };
 
+const TALLY_PANEL_WIDTH = 'min(90vw, 280px)';
+
 interface GlobeViewProps {
   countries: Country[];
   selectedCountry: Country | null;
@@ -366,6 +368,7 @@ export const GlobeView: React.FC<GlobeViewProps> = React.memo(({
               borderRadius: '0.5rem',
               padding: '0.9rem',
               zIndex: 15,
+              width: TALLY_PANEL_WIDTH,
             }}
           >
             <div style={{ fontSize: '0.78rem', opacity: 0.75, marginBottom: '0.5rem' }}>Countries</div>
@@ -462,7 +465,7 @@ export const GlobeView: React.FC<GlobeViewProps> = React.memo(({
                 borderRadius: '0.5rem',
                 padding: '0.75rem',
                 zIndex: 15,
-                maxWidth: '260px',
+                width: TALLY_PANEL_WIDTH,
                 transition: 'top 220ms ease',
               }}
             >

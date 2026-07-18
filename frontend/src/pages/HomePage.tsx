@@ -76,9 +76,12 @@ export const HomePage: React.FC = () => {
 
   const textColor = theme === 'dark' ? '#f1f5f9' : '#0f172a';
 
-  const loadCountries = useCallback(async () => {
+  const loadCountries = useCallback(async (options?: { silent?: boolean }) => {
+    const silent = Boolean(options?.silent);
     try {
-      setLoading(true);
+      if (!silent) {
+        setLoading(true);
+      }
       const res = await fetch('/api/countries', {
         credentials: 'include',
       });
@@ -98,7 +101,9 @@ export const HomePage: React.FC = () => {
       );
       setCountries([]);
     } finally {
-      setLoading(false);
+      if (!silent) {
+        setLoading(false);
+      }
     }
   }, []);
 
@@ -255,70 +260,62 @@ export const HomePage: React.FC = () => {
   }, []);
 
   const refreshCountryData = useCallback(async () => {
-    await Promise.all([loadCountries(), loadUserCities()]);
+    await Promise.all([loadCountries({ silent: true }), loadUserCities()]);
   }, [loadCountries, loadUserCities]);
 
   const handleMarkVisited = useCallback(async (isoCode: string) => {
     setActionError(null);
+    const currentCountry = countries.find((c) => c.isoCode === isoCode);
+    const isClearing = currentCountry?.userStatus === 'VISITED';
+
     try {
-      const res = await fetch(`/api/user/countries/${isoCode}/status`, {
-        method: 'PUT',
-        credentials: 'include',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ status: 'VISITED' }),
-      });
+      const res = isClearing
+        ? await fetch(`/api/user/countries/${isoCode}/status`, {
+            method: 'DELETE',
+            credentials: 'include',
+          })
+        : await fetch(`/api/user/countries/${isoCode}/status`, {
+            method: 'PUT',
+            credentials: 'include',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ status: 'VISITED' }),
+          });
 
       if (!res.ok) throw new Error(`Failed to mark as visited (${res.status})`);
 
       await refreshCountryData();
-      setCountries((prev) =>
-        prev.map((c) =>
-          c.isoCode === isoCode
-            ? { ...c, userStatus: 'VISITED' }
-            : c,
-        ),
-      );
-      if (selectedCountry?.isoCode === isoCode) {
-        setSelectedCountry((prev) =>
-          prev ? { ...prev, userStatus: 'VISITED' } : null,
-        );
-      }
     } catch (err) {
       console.error('Error marking as visited:', err);
       setActionError(err instanceof Error ? err.message : 'Failed to mark as visited');
     }
-  }, [selectedCountry]);
+  }, [countries, refreshCountryData]);
 
   const handleMarkWantToVisit = useCallback(async (isoCode: string) => {
     setActionError(null);
+    const currentCountry = countries.find((c) => c.isoCode === isoCode);
+    const isClearing = currentCountry?.userStatus === 'WANT_TO_VISIT';
+
     try {
-      const res = await fetch(`/api/user/countries/${isoCode}/status`, {
-        method: 'PUT',
-        credentials: 'include',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ status: 'WANT_TO_VISIT' }),
-      });
+      const res = isClearing
+        ? await fetch(`/api/user/countries/${isoCode}/status`, {
+            method: 'DELETE',
+            credentials: 'include',
+          })
+        : await fetch(`/api/user/countries/${isoCode}/status`, {
+            method: 'PUT',
+            credentials: 'include',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ status: 'WANT_TO_VISIT' }),
+          });
 
       if (!res.ok) throw new Error(`Failed to mark as want to visit (${res.status})`);
 
       await refreshCountryData();
-      setCountries((prev) =>
-        prev.map((c) =>
-          c.isoCode === isoCode
-            ? { ...c, userStatus: 'WANT_TO_VISIT' }
-            : c,
-        ),
-      );
-      if (selectedCountry?.isoCode === isoCode) {
-        setSelectedCountry((prev) =>
-          prev ? { ...prev, userStatus: 'WANT_TO_VISIT' } : null,
-        );
-      }
     } catch (err) {
       console.error('Error marking as want to visit:', err);
       setActionError(err instanceof Error ? err.message : 'Failed to mark as want to visit');
     }
-  }, [selectedCountry, refreshCountryData]);
+  }, [countries, refreshCountryData]);
 
   const handleMarkFavorite = useCallback(async (isoCode: string) => {
     setActionError(null);
@@ -335,23 +332,11 @@ export const HomePage: React.FC = () => {
       if (!res.ok) throw new Error(`Failed to toggle favorite (${res.status})`);
 
       await refreshCountryData();
-      setCountries((prev) =>
-        prev.map((c) =>
-          c.isoCode === isoCode
-            ? { ...c, isFavorite: newFavorite }
-            : c,
-        ),
-      );
-      if (selectedCountry?.isoCode === isoCode) {
-        setSelectedCountry((prev) =>
-          prev ? { ...prev, isFavorite: newFavorite } : null,
-        );
-      }
     } catch (err) {
       console.error('Error toggling favorite:', err);
       setActionError(err instanceof Error ? err.message : 'Failed to toggle favorite');
     }
-  }, [countries, selectedCountry, refreshCountryData]);
+  }, [countries, refreshCountryData]);
 
   const handleCityStatusChange = useCallback(async (city: UserCityStatusItem) => {
     setUserCities((prev) => {
@@ -361,8 +346,8 @@ export const HomePage: React.FC = () => {
       }
       return next;
     });
-    await loadCountries();
-  }, [loadCountries]);
+    await Promise.all([loadCountries({ silent: true }), loadUserCities()]);
+  }, [loadCountries, loadUserCities]);
 
   return (
     <div
@@ -622,7 +607,6 @@ export const HomePage: React.FC = () => {
                     countryIsoCode: selectedCountry.isoCode,
                     countryName: selectedCountry.name,
                   });
-                  setHighlightCityName(city.name);
                 }}
                 highlightCityName={highlightCityName}
                 styleOverride={{ zIndex: 40 }}

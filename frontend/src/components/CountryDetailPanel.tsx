@@ -143,15 +143,6 @@ export const CountryDetailPanel: React.FC<CountryDetailPanelProps> = React.memo(
     };
   }, [citySearchTerm, loadCities]);
 
-  useEffect(() => {
-    if (!highlightCityName) {
-      return;
-    }
-
-    // Force query to include searched city so it can be highlighted even in large lists.
-    setCitySearchTerm(highlightCityName);
-  }, [highlightCityName, country.isoCode]);
-
   const backgroundColor =
     theme === 'dark' ? '#1e293b' : '#f8fafc';
   const textColor = theme === 'dark' ? '#f1f5f9' : '#0f172a';
@@ -197,6 +188,32 @@ export const CountryDetailPanel: React.FC<CountryDetailPanelProps> = React.memo(
       }
     }
   }, [highlightCityName, visibleCities]);
+
+  useEffect(() => {
+    if (!highlightCityName) {
+      return;
+    }
+
+    const controller = new AbortController();
+
+    const loadHighlightedCity = async () => {
+      try {
+        setLoading(true);
+        await loadCities(highlightCityName, 0, false, controller);
+      } catch (err) {
+        if (err instanceof DOMException && err.name === 'AbortError') {
+          return;
+        }
+        console.error('Error loading highlighted city:', err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    void loadHighlightedCity();
+
+    return () => controller.abort();
+  }, [highlightCityName, loadCities]);
 
   const loadMoreCities = useCallback(async () => {
     if (!hasMoreCities || loadingMoreCities || loading) {

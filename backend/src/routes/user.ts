@@ -131,6 +131,37 @@ router.delete('/countries/:isoCode/status', async (req: Request, res: Response) 
       return;
     }
 
+    const current = await prisma.userCountryStatus.findUnique({
+      where: {
+        userId_countryId: {
+          userId: req.user!.userId,
+          countryId: country.id,
+        },
+      },
+    });
+
+    if (!current) {
+      res.json({ message: 'Status already clear' });
+      return;
+    }
+
+    if (current.isFavorite) {
+      const updated = await prisma.userCountryStatus.update({
+        where: {
+          userId_countryId: {
+            userId: req.user!.userId,
+            countryId: country.id,
+          },
+        },
+        data: {
+          status: null,
+        },
+      });
+
+      res.json({ userStatus: updated, message: 'Status removed, favorite kept' });
+      return;
+    }
+
     await prisma.userCountryStatus.delete({
       where: {
         userId_countryId: {
