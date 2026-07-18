@@ -88,17 +88,7 @@ export const HomePage: React.FC = () => {
       }
 
       const data = await res.json();
-      const loadedCountries = data.countries || [];
-      setCountries(loadedCountries);
-
-      if (selectedCountry) {
-        const refreshedSelected = loadedCountries.find(
-          (country: Country) => country.isoCode === selectedCountry.isoCode,
-        );
-        if (refreshedSelected) {
-          setSelectedCountry(refreshedSelected);
-        }
-      }
+      setCountries(data.countries || []);
 
       setError(null);
     } catch (err) {
@@ -110,7 +100,7 @@ export const HomePage: React.FC = () => {
     } finally {
       setLoading(false);
     }
-  }, [selectedCountry]);
+  }, []);
 
   const loadUserCities = useCallback(async (signal?: AbortSignal) => {
     if (!user) {
@@ -141,6 +131,20 @@ export const HomePage: React.FC = () => {
   useEffect(() => {
     void loadCountries();
   }, [loadCountries]);
+
+  useEffect(() => {
+    if (!selectedCountry) {
+      return;
+    }
+
+    const refreshedSelected = countries.find(
+      (country) => country.isoCode === selectedCountry.isoCode,
+    );
+
+    if (refreshedSelected && refreshedSelected !== selectedCountry) {
+      setSelectedCountry(refreshedSelected);
+    }
+  }, [countries, selectedCountry]);
 
   useEffect(() => {
     const controller = new AbortController();
