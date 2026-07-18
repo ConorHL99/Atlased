@@ -263,10 +263,26 @@ export const HomePage: React.FC = () => {
     await Promise.all([loadCountries({ silent: true }), loadUserCities()]);
   }, [loadCountries, loadUserCities]);
 
+  const applyCountryLocalPatch = useCallback((isoCode: string, patch: Partial<Country>) => {
+    setCountries((prev) => prev.map((country) => (
+      country.isoCode === isoCode ? { ...country, ...patch } : country
+    )));
+
+    setSelectedCountry((prev) => {
+      if (!prev || prev.isoCode !== isoCode) {
+        return prev;
+      }
+      return { ...prev, ...patch };
+    });
+  }, []);
+
   const handleMarkVisited = useCallback(async (isoCode: string) => {
     setActionError(null);
     const currentCountry = countries.find((c) => c.isoCode === isoCode);
     const isClearing = currentCountry?.userStatus === 'VISITED';
+    const nextStatus = isClearing ? null : 'VISITED';
+
+    applyCountryLocalPatch(isoCode, { userStatus: nextStatus });
 
     try {
       const res = isClearing
@@ -283,17 +299,21 @@ export const HomePage: React.FC = () => {
 
       if (!res.ok) throw new Error(`Failed to mark as visited (${res.status})`);
 
-      await refreshCountryData();
+      void refreshCountryData();
     } catch (err) {
       console.error('Error marking as visited:', err);
       setActionError(err instanceof Error ? err.message : 'Failed to mark as visited');
+      void refreshCountryData();
     }
-  }, [countries, refreshCountryData]);
+  }, [countries, refreshCountryData, applyCountryLocalPatch]);
 
   const handleMarkWantToVisit = useCallback(async (isoCode: string) => {
     setActionError(null);
     const currentCountry = countries.find((c) => c.isoCode === isoCode);
     const isClearing = currentCountry?.userStatus === 'WANT_TO_VISIT';
+    const nextStatus = isClearing ? null : 'WANT_TO_VISIT';
+
+    applyCountryLocalPatch(isoCode, { userStatus: nextStatus });
 
     try {
       const res = isClearing
@@ -310,17 +330,21 @@ export const HomePage: React.FC = () => {
 
       if (!res.ok) throw new Error(`Failed to mark as want to visit (${res.status})`);
 
-      await refreshCountryData();
+      void refreshCountryData();
     } catch (err) {
       console.error('Error marking as want to visit:', err);
       setActionError(err instanceof Error ? err.message : 'Failed to mark as want to visit');
+      void refreshCountryData();
     }
-  }, [countries, refreshCountryData]);
+  }, [countries, refreshCountryData, applyCountryLocalPatch]);
 
   const handleMarkFavorite = useCallback(async (isoCode: string) => {
     setActionError(null);
     const currentCountry = countries.find((c) => c.isoCode === isoCode);
     const newFavorite = !currentCountry?.isFavorite;
+
+    applyCountryLocalPatch(isoCode, { isFavorite: newFavorite });
+
     try {
       const res = await fetch(`/api/user/countries/${isoCode}/favorite`, {
         method: 'PUT',
@@ -331,12 +355,13 @@ export const HomePage: React.FC = () => {
 
       if (!res.ok) throw new Error(`Failed to toggle favorite (${res.status})`);
 
-      await refreshCountryData();
+      void refreshCountryData();
     } catch (err) {
       console.error('Error toggling favorite:', err);
       setActionError(err instanceof Error ? err.message : 'Failed to toggle favorite');
+      void refreshCountryData();
     }
-  }, [countries, refreshCountryData]);
+  }, [countries, refreshCountryData, applyCountryLocalPatch]);
 
   const handleCityStatusChange = useCallback(async (city: UserCityStatusItem) => {
     setUserCities((prev) => {
@@ -346,7 +371,11 @@ export const HomePage: React.FC = () => {
       }
       return next;
     });
-    await Promise.all([loadCountries({ silent: true }), loadUserCities()]);
+    if (city.isVisited) {
+      applyCountryLocalPatch(city.countryIsoCode, { userStatus: 'VISITED' });
+    }
+
+    void Promise.all([loadCountries({ silent: true }), loadUserCities()]);
   }, [loadCountries, loadUserCities]);
 
   return (
