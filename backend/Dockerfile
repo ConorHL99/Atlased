@@ -19,6 +19,7 @@ RUN npx prisma generate
 # Compile TypeScript
 COPY tsconfig.json ./
 COPY src ./src
+COPY scripts ./scripts
 RUN npm run build && npm prune --omit=dev
 
 # ─── Production stage ─────────────────────────────────────────────────────────
