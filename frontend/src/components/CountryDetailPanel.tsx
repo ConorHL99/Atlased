@@ -291,9 +291,21 @@ export const CountryDetailPanel: React.FC<CountryDetailPanelProps> = React.memo(
         throw new Error(`Failed to update city visited status (${res.status})`);
       }
 
-      let payload: CityStatusChangePayload | null = null;
+      const existingCity = cities.find((city) => city.id === cityId);
+      const payload: CityStatusChangePayload | null = existingCity
+        ? {
+            id: existingCity.id,
+            name: existingCity.name,
+            countryIsoCode: country.isoCode,
+            countryName: country.name,
+            isVisited: !Boolean(existingCity.userVisited),
+            isWantToVisit: Boolean(existingCity.userVisited) ? Boolean(existingCity.userWantToVisit) : false,
+            isFavorite: Boolean(existingCity.userFavorite),
+          }
+        : null;
+
       setCities((prev) => {
-        const nextCities = prev.map((city) => {
+        return prev.map((city) => {
           if (city.id !== cityId) {
             return city;
           }
@@ -304,19 +316,6 @@ export const CountryDetailPanel: React.FC<CountryDetailPanelProps> = React.memo(
             userWantToVisit: nextVisited ? false : city.userWantToVisit,
           };
         });
-        const changedCity = nextCities.find((city) => city.id === cityId);
-        if (changedCity) {
-          payload = {
-            id: changedCity.id,
-            name: changedCity.name,
-            countryIsoCode: country.isoCode,
-            countryName: country.name,
-            isVisited: Boolean(changedCity.userVisited),
-            isWantToVisit: Boolean(changedCity.userWantToVisit),
-            isFavorite: Boolean(changedCity.userFavorite),
-          };
-        }
-        return nextCities;
       });
 
       if (payload) {
@@ -344,24 +343,23 @@ export const CountryDetailPanel: React.FC<CountryDetailPanelProps> = React.memo(
         throw new Error(`Failed to update city favorite status (${res.status})`);
       }
 
-      let payload: CityStatusChangePayload | null = null;
-      setCities((prev) => {
-        const nextCities = prev.map((city) =>
-          city.id === cityId ? { ...city, userFavorite: !city.userFavorite } : city,
-        );
-        const changedCity = nextCities.find((city) => city.id === cityId);
-        if (changedCity) {
-          payload = {
-            id: changedCity.id,
-            name: changedCity.name,
+      const existingCity = cities.find((city) => city.id === cityId);
+      const payload: CityStatusChangePayload | null = existingCity
+        ? {
+            id: existingCity.id,
+            name: existingCity.name,
             countryIsoCode: country.isoCode,
             countryName: country.name,
-            isVisited: Boolean(changedCity.userVisited),
-            isWantToVisit: Boolean(changedCity.userWantToVisit),
-            isFavorite: Boolean(changedCity.userFavorite),
-          };
-        }
-        return nextCities;
+            isVisited: Boolean(existingCity.userVisited),
+            isWantToVisit: Boolean(existingCity.userWantToVisit),
+            isFavorite: !Boolean(existingCity.userFavorite),
+          }
+        : null;
+
+      setCities((prev) => {
+        return prev.map((city) =>
+          city.id === cityId ? { ...city, userFavorite: !city.userFavorite } : city,
+        );
       });
 
       if (payload) {
@@ -389,9 +387,21 @@ export const CountryDetailPanel: React.FC<CountryDetailPanelProps> = React.memo(
         throw new Error(`Failed to update city want-to-visit status (${res.status})`);
       }
 
-      let payload: CityStatusChangePayload | null = null;
+      const existingCity = cities.find((city) => city.id === cityId);
+      const payload: CityStatusChangePayload | null = existingCity
+        ? {
+            id: existingCity.id,
+            name: existingCity.name,
+            countryIsoCode: country.isoCode,
+            countryName: country.name,
+            isVisited: Boolean(existingCity.userWantToVisit) ? Boolean(existingCity.userVisited) : false,
+            isWantToVisit: !Boolean(existingCity.userWantToVisit),
+            isFavorite: Boolean(existingCity.userFavorite),
+          }
+        : null;
+
       setCities((prev) => {
-        const nextCities = prev.map((city) => {
+        return prev.map((city) => {
           if (city.id !== cityId) {
             return city;
           }
@@ -403,19 +413,6 @@ export const CountryDetailPanel: React.FC<CountryDetailPanelProps> = React.memo(
             userVisited: nextWant ? false : city.userVisited,
           };
         });
-        const changedCity = nextCities.find((city) => city.id === cityId);
-        if (changedCity) {
-          payload = {
-            id: changedCity.id,
-            name: changedCity.name,
-            countryIsoCode: country.isoCode,
-            countryName: country.name,
-            isVisited: Boolean(changedCity.userVisited),
-            isWantToVisit: Boolean(changedCity.userWantToVisit),
-            isFavorite: Boolean(changedCity.userFavorite),
-          };
-        }
-        return nextCities;
       });
 
       if (payload) {
