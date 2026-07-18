@@ -488,21 +488,20 @@ export const GlobeView: React.FC<GlobeViewProps> = React.memo(({
           </div>
 
           {/* Cities status panel */}
-          {(visitedCities.length > 0 || wantCities.length > 0 || favoriteCities.length > 0) && (
-            <div
-              style={{
-                position: 'absolute',
-                top: `calc(1rem + ${Math.ceil(countriesPanelHeight)}px + 0.5rem)`,
-                left: '1rem',
-                backgroundColor: theme === 'dark' ? '#1e293b' : '#f8fafc',
-                border: '1px solid var(--color-border)',
-                borderRadius: '0.5rem',
-                padding: '0.75rem',
-                zIndex: 15,
-                width: TALLY_PANEL_WIDTH,
-                transition: 'top 220ms ease',
-              }}
-            >
+          <div
+            style={{
+              position: 'absolute',
+              top: `calc(1rem + ${Math.ceil(countriesPanelHeight)}px + 0.5rem)`,
+              left: '1rem',
+              backgroundColor: theme === 'dark' ? '#1e293b' : '#f8fafc',
+              border: '1px solid var(--color-border)',
+              borderRadius: '0.5rem',
+              padding: '0.75rem',
+              zIndex: 15,
+              width: TALLY_PANEL_WIDTH,
+              transition: 'top 220ms ease',
+            }}
+          >
               <div style={{ fontSize: '0.78rem', opacity: 0.75, marginBottom: '0.5rem' }}>Cities</div>
               <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '0.4rem' }}>
                 <button
@@ -571,8 +570,7 @@ export const GlobeView: React.FC<GlobeViewProps> = React.memo(({
                   )}
                 </div>
               ) : null}
-            </div>
-          )}
+          </div>
 
           {selectedCountry ? (
             <div

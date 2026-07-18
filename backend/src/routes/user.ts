@@ -402,6 +402,39 @@ router.put('/cities/:cityId/want-to-visit', async (req: Request, res: Response) 
       },
     });
 
+    // If a city is marked want-to-visit, set the parent country to want-to-visit
+    // unless the user already marked that country visited.
+    if (toggledWant) {
+      const currentCountryStatus = await prisma.userCountryStatus.findUnique({
+        where: {
+          userId_countryId: {
+            userId: req.user!.userId,
+            countryId: city.countryId,
+          },
+        },
+      });
+
+      if (currentCountryStatus?.status !== 'VISITED') {
+        await prisma.userCountryStatus.upsert({
+          where: {
+            userId_countryId: {
+              userId: req.user!.userId,
+              countryId: city.countryId,
+            },
+          },
+          update: {
+            status: 'WANT_TO_VISIT',
+          },
+          create: {
+            userId: req.user!.userId,
+            countryId: city.countryId,
+            status: 'WANT_TO_VISIT',
+            isFavorite: false,
+          },
+        });
+      }
+    }
+
     res.json({ userStatus: updated });
   } catch (err) {
     console.error('[user/cities/:cityId/want-to-visit]', err);

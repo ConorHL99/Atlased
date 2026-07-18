@@ -5,7 +5,7 @@
  * Phase 5: Globe implementation with country detail panel.
  */
 
-import React, { Suspense, lazy, useCallback, useEffect, useState } from 'react';
+import React, { Suspense, lazy, useCallback, useEffect, useRef, useState } from 'react';
 import { useAuth } from '../contexts/AuthContext';
 import { useTheme } from '../contexts/ThemeContext';
 import { GlobeView } from '../components/GlobeView';
@@ -73,6 +73,7 @@ export const HomePage: React.FC = () => {
   const [userCities, setUserCities] = useState<UserCityStatusItem[]>([]);
   const [highlightCityName, setHighlightCityName] = useState<string | null>(null);
   const [selectedCity, setSelectedCity] = useState<SelectedCityPin | null>(null);
+  const userCitiesRequestSeqRef = useRef(0);
 
   const textColor = theme === 'dark' ? '#f1f5f9' : '#0f172a';
 
@@ -108,6 +109,8 @@ export const HomePage: React.FC = () => {
   }, []);
 
   const loadUserCities = useCallback(async (signal?: AbortSignal) => {
+    const requestSeq = ++userCitiesRequestSeqRef.current;
+
     if (!user) {
       setUserCities([]);
       return;
@@ -124,6 +127,9 @@ export const HomePage: React.FC = () => {
       }
 
       const data = await res.json();
+      if (requestSeq !== userCitiesRequestSeqRef.current) {
+        return;
+      }
       setUserCities(data.cities || []);
     } catch (err) {
       if (err instanceof DOMException && err.name === 'AbortError') {
@@ -373,10 +379,32 @@ export const HomePage: React.FC = () => {
     });
     if (city.isVisited) {
       applyCountryLocalPatch(city.countryIsoCode, { userStatus: 'VISITED' });
+      void fetch(`/api/user/countries/${city.countryIsoCode}/status`, {
+        method: 'PUT',
+        credentials: 'include',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ status: 'VISITED' }),
+      }).catch(() => {
+        // Backend route /cities/:cityId/visited should already do this; this is a resilience fallback.
+      });
+    } else if (city.isWantToVisit) {
+      const currentCountry = countries.find((country) => country.isoCode === city.countryIsoCode);
+      if (currentCountry?.userStatus !== 'VISITED') {
+        applyCountryLocalPatch(city.countryIsoCode, { userStatus: 'WANT_TO_VISIT' });
+      }
+
+      void fetch(`/api/user/countries/${city.countryIsoCode}/status`, {
+        method: 'PUT',
+        credentials: 'include',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ status: 'WANT_TO_VISIT' }),
+      }).catch(() => {
+        // Backend route /cities/:cityId/want-to-visit should already do this; this is a resilience fallback.
+      });
     }
 
     void Promise.all([loadCountries({ silent: true }), loadUserCities()]);
-  }, [loadCountries, loadUserCities]);
+  }, [loadCountries, loadUserCities, applyCountryLocalPatch, countries]);
 
   return (
     <div
