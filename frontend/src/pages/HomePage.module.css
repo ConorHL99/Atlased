@@ -52,6 +52,12 @@
   gap: 1.5rem;
 }
 
+.controlsGroup {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
 .searchWrap {
   position: relative;
   width: min(360px, 36vw);
@@ -222,14 +228,30 @@
     gap: 0.5rem;
   }
 
+  .headerLeft {
+    flex: 0 0 auto;
+  }
+
   .headerRight {
+    flex: 1;
     gap: 0.5rem;
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
     justify-content: flex-end;
+    min-width: 0;
   }
 
   .searchWrap {
-    width: min(200px, 50vw);
+    order: 1;
+    flex: 1;
+    width: auto;
+    min-width: 0;
+    max-width: none;
+  }
+
+  .controlsGroup {
+    order: 2;
+    flex: 0 0 auto;
+    gap: 0.45rem;
   }
 
   .userEmail {
@@ -265,7 +287,11 @@
   }
 
   .searchWrap {
-    width: min(120px, 36vw);
+    width: auto;
+  }
+
+  .controlsGroup {
+    gap: 0.3rem;
   }
 
   .searchInput {

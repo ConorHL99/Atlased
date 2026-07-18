@@ -48,6 +48,7 @@ export const CountryDetailPanel: React.FC<CountryDetailPanelProps> = React.memo(
   styleOverride,
 }) => {
   const { theme } = useTheme();
+  const [isMobile, setIsMobile] = useState(false);
   const [cities, setCities] = useState<City[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -63,6 +64,15 @@ export const CountryDetailPanel: React.FC<CountryDetailPanelProps> = React.memo(
   const cityRowRefs = useRef<Record<string, HTMLDivElement | null>>({});
   const panelScrollRef = useRef<HTMLDivElement | null>(null);
   const loadMoreSentinelRef = useRef<HTMLDivElement | null>(null);
+
+  useEffect(() => {
+    const media = window.matchMedia('(max-width: 768px)');
+    const apply = () => setIsMobile(media.matches);
+
+    apply();
+    media.addEventListener('change', apply);
+    return () => media.removeEventListener('change', apply);
+  }, []);
 
   const loadCities = useCallback(
     async (query: string, offset: number, append: boolean, controller?: AbortController) => {
@@ -424,14 +434,19 @@ export const CountryDetailPanel: React.FC<CountryDetailPanelProps> = React.memo(
       ref={panelScrollRef}
       style={{
         position: 'absolute',
-        top: 0,
+        top: isMobile ? 'auto' : 0,
         right: 0,
-        width: 'min(100vw, 420px)',
+        left: isMobile ? 0 : 'auto',
+        bottom: isMobile ? 0 : 'auto',
+        width: isMobile ? '100vw' : 'min(100vw, 420px)',
         maxWidth: '100vw',
-        height: '100%',
+        maxHeight: isMobile ? '72vh' : '100%',
+        height: isMobile ? '72vh' : '100%',
         backgroundColor,
         color: textColor,
-        boxShadow: '-4px 0 12px rgba(0, 0, 0, 0.2)',
+        boxShadow: isMobile ? '0 -8px 24px rgba(0, 0, 0, 0.28)' : '-4px 0 12px rgba(0, 0, 0, 0.2)',
+        borderTopLeftRadius: isMobile ? '0.9rem' : 0,
+        borderTopRightRadius: isMobile ? '0.9rem' : 0,
         overflowY: 'auto',
         overflowX: 'hidden',
         zIndex: 20,
@@ -451,6 +466,20 @@ export const CountryDetailPanel: React.FC<CountryDetailPanelProps> = React.memo(
           gap: '0.75rem',
         }}
       >
+        {isMobile ? (
+          <div
+            style={{
+              position: 'absolute',
+              top: '0.45rem',
+              left: '50%',
+              transform: 'translateX(-50%)',
+              width: '44px',
+              height: '5px',
+              borderRadius: '999px',
+              backgroundColor: theme === 'dark' ? '#475569' : '#cbd5e1',
+            }}
+          />
+        ) : null}
         <div style={{ flex: 1, minWidth: 0 }}>
           <h2 style={{ margin: '0 0 0.25rem 0', fontSize: '1.35rem', lineHeight: 1.2 }}>
             {country.name}

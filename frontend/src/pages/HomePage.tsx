@@ -437,6 +437,8 @@ export const HomePage: React.FC = () => {
             )}
           </div>
 
+          <div className={styles.controlsGroup}>
+
           <button
             onClick={() => setSettingsOpen(true)}
             style={{
@@ -486,6 +488,7 @@ export const HomePage: React.FC = () => {
               </button>
             </div>
           )}
+          </div>
         </div>
       </header>
 
@@ -607,6 +610,10 @@ export const HomePage: React.FC = () => {
                     countryIsoCode: selectedCountry.isoCode,
                     countryName: selectedCountry.name,
                   });
+                  if (window.innerWidth <= 768) {
+                    setSelectedCountry(null);
+                    setHighlightCityName(null);
+                  }
                 }}
                 highlightCityName={highlightCityName}
                 styleOverride={{ zIndex: 40 }}

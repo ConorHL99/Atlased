@@ -40,6 +40,8 @@ export const MapView: React.FC<MapViewProps> = React.memo(({
   const [mapRef, setMapRef] = useState<LeafletMap | null>(null);
   const lastFocusKeyRef = useRef<string | null>(null);
   const [activeList, setActiveList] = useState<'visited' | 'want' | 'favorite' | null>(null);
+  const [isMobile, setIsMobile] = useState(false);
+  const [statusLegendMinimized, setStatusLegendMinimized] = useState(false);
   const [showUnmatchedDebug, setShowUnmatchedDebug] = useState(false);
   const showDebugTools = import.meta.env.DEV;
 
@@ -90,6 +92,19 @@ export const MapView: React.FC<MapViewProps> = React.memo(({
     countries.forEach((country) => map.set(country.isoCode, country));
     return map;
   }, [countries]);
+
+  useEffect(() => {
+    const media = window.matchMedia('(max-width: 768px)');
+    const apply = () => {
+      const mobile = media.matches;
+      setIsMobile(mobile);
+      setStatusLegendMinimized(mobile);
+    };
+
+    apply();
+    media.addEventListener('change', apply);
+    return () => media.removeEventListener('change', apply);
+  }, []);
 
   useEffect(() => {
     if (!mapRef) {
@@ -318,20 +333,61 @@ export const MapView: React.FC<MapViewProps> = React.memo(({
           </MapContainer>
 
           {/* Legend */}
-          <div
-            style={{
-              position: 'absolute',
-              bottom: '1rem',
-              right: '1rem',
-              zIndex: 20,
-              backgroundColor: 'var(--color-surface)',
-              border: `1px solid ${borderColor}`,
-              borderRadius: '0.5rem',
-              padding: '1rem',
-              fontSize: '0.875rem',
-              color: textColor,
-            }}
-          >
+          {statusLegendMinimized ? (
+            <button
+              type="button"
+              aria-label="Show status legend"
+              onClick={() => setStatusLegendMinimized(false)}
+              style={{
+                position: 'absolute',
+                bottom: isMobile ? '0.8rem' : '1rem',
+                right: isMobile ? '0.8rem' : '1rem',
+                width: '16px',
+                height: '16px',
+                borderRadius: '999px',
+                border: `2px solid ${theme === 'dark' ? '#e2e8f0' : '#1e293b'}`,
+                backgroundColor: 'var(--color-primary)',
+                zIndex: 22,
+                cursor: 'pointer',
+                boxShadow: '0 2px 8px rgba(0,0,0,0.25)',
+                padding: 0,
+              }}
+            />
+          ) : (
+            <div
+              style={{
+                position: 'absolute',
+                bottom: isMobile ? '0.7rem' : '1rem',
+                right: isMobile ? '0.7rem' : '1rem',
+                zIndex: 20,
+                backgroundColor: 'var(--color-surface)',
+                border: `1px solid ${borderColor}`,
+                borderRadius: '0.5rem',
+                padding: isMobile ? '0.7rem' : '1rem',
+                fontSize: '0.875rem',
+                color: textColor,
+                maxWidth: isMobile ? '220px' : 'unset',
+              }}
+            >
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '0.5rem', marginBottom: '0.6rem' }}>
+              <div style={{ marginBottom: 0, fontWeight: 600 }}>Status</div>
+              <button
+                type="button"
+                onClick={() => setStatusLegendMinimized(true)}
+                aria-label="Minimize status legend"
+                style={{
+                  border: `1px solid ${theme === 'dark' ? '#475569' : '#cbd5e1'}`,
+                  borderRadius: '0.35rem',
+                  background: 'transparent',
+                  color: textColor,
+                  lineHeight: 1,
+                  padding: '0.1rem 0.35rem',
+                  cursor: 'pointer',
+                }}
+              >
+                -
+              </button>
+            </div>
             <div
               style={{
                 display: 'grid',
@@ -430,7 +486,6 @@ export const MapView: React.FC<MapViewProps> = React.memo(({
               </div>
             ) : null}
 
-            <div style={{ marginBottom: '0.5rem', fontWeight: 600 }}>Status</div>
             <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
                 <div
@@ -533,7 +588,8 @@ export const MapView: React.FC<MapViewProps> = React.memo(({
                 ) : null}
               </div>
             ) : null}
-          </div>
+            </div>
+          )}
         </>
       )}
     </div>

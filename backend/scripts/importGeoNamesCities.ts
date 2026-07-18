@@ -77,12 +77,12 @@ const main = async () => {
   console.log(`[geonames] Batch size: ${batchSize}`);
   console.log(`[geonames] Replace existing cities: ${replaceExisting}`);
 
-  const countries = await prisma.country.findMany({
+  const countries: Array<{ id: string; isoCode: string }> = await prisma.country.findMany({
     select: { id: true, isoCode: true },
   });
 
   const countryByIso = new Map<string, string>();
-  countries.forEach((country) => {
+  countries.forEach((country: { id: string; isoCode: string }) => {
     countryByIso.set(country.isoCode.toUpperCase(), country.id);
   });
 
@@ -92,7 +92,7 @@ const main = async () => {
   }
 
   const buffers: BufferMap = new Map();
-  countryByIso.forEach((countryId) => buffers.set(countryId, []));
+  countryByIso.forEach((countryId: string) => buffers.set(countryId, []));
 
   const input = fs.createReadStream(geonamesFile, { encoding: 'utf-8' });
   const rl = readline.createInterface({ input, crlfDelay: Infinity });

@@ -53,6 +53,8 @@ export const GlobeView: React.FC<GlobeViewProps> = React.memo(({
   const [activeList, setActiveList] = useState<'visited' | 'want' | 'favorite' | null>(null);
   const [activeCityList, setActiveCityList] = useState<'city-visited' | 'city-want' | 'city-favorite' | null>(null);
   const [countriesPanelHeight, setCountriesPanelHeight] = useState(132);
+  const [isMobile, setIsMobile] = useState(false);
+  const [statusLegendMinimized, setStatusLegendMinimized] = useState(false);
   const { theme } = useTheme();
   const backgroundColor = 'var(--color-bg)';
   const textColor = 'var(--color-text)';
@@ -140,6 +142,19 @@ export const GlobeView: React.FC<GlobeViewProps> = React.memo(({
     const { features } = matchCountriesToGeoJson(countries);
     return features;
   }, [countries]);
+
+  useEffect(() => {
+    const media = window.matchMedia('(max-width: 768px)');
+    const apply = () => {
+      const mobile = media.matches;
+      setIsMobile(mobile);
+      setStatusLegendMinimized(mobile);
+    };
+
+    apply();
+    media.addEventListener('change', apply);
+    return () => media.removeEventListener('change', apply);
+  }, []);
 
   useEffect(() => {
     const node = containerRef.current;
@@ -599,68 +614,109 @@ export const GlobeView: React.FC<GlobeViewProps> = React.memo(({
       )}
 
       {/* Legend */}
-      <div
-        style={{
-          position: 'absolute',
-          bottom: '2rem',
-          right: '2rem',
-          backgroundColor: theme === 'dark' ? '#1e293b' : '#f8fafc',
-          border: `1px solid ${theme === 'dark' ? '#334155' : '#e2e8f0'}`,
-          borderRadius: '0.5rem',
-          padding: '1rem',
-          zIndex: 10,
-          fontSize: '0.875rem',
-          color: textColor,
-        }}
-      >
-        <div style={{ marginBottom: '0.5rem', fontWeight: 600 }}>Status</div>
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-            <div
+      {statusLegendMinimized ? (
+        <button
+          type="button"
+          aria-label="Show status legend"
+          onClick={() => setStatusLegendMinimized(false)}
+          style={{
+            position: 'absolute',
+            bottom: isMobile ? '0.8rem' : '1.2rem',
+            right: isMobile ? '0.8rem' : '1.2rem',
+            width: '16px',
+            height: '16px',
+            borderRadius: '999px',
+            border: `2px solid ${theme === 'dark' ? '#e2e8f0' : '#1e293b'}`,
+            backgroundColor: 'var(--color-primary)',
+            zIndex: 16,
+            cursor: 'pointer',
+            boxShadow: '0 2px 8px rgba(0,0,0,0.25)',
+            padding: 0,
+          }}
+        />
+      ) : (
+        <div
+          style={{
+            position: 'absolute',
+            bottom: isMobile ? '0.7rem' : '2rem',
+            right: isMobile ? '0.7rem' : '2rem',
+            backgroundColor: theme === 'dark' ? '#1e293b' : '#f8fafc',
+            border: `1px solid ${theme === 'dark' ? '#334155' : '#e2e8f0'}`,
+            borderRadius: '0.5rem',
+            padding: isMobile ? '0.7rem' : '1rem',
+            zIndex: 10,
+            fontSize: '0.875rem',
+            color: textColor,
+            maxWidth: isMobile ? '220px' : 'unset',
+          }}
+        >
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '0.5rem', marginBottom: '0.5rem' }}>
+            <div style={{ fontWeight: 600 }}>Status</div>
+            <button
+              type="button"
+              onClick={() => setStatusLegendMinimized(true)}
+              aria-label="Minimize status legend"
               style={{
-                width: '12px',
-                height: '12px',
-                borderRadius: '50%',
-                backgroundColor: 'var(--color-favorite)',
+                border: `1px solid ${theme === 'dark' ? '#475569' : '#cbd5e1'}`,
+                borderRadius: '0.35rem',
+                background: 'transparent',
+                color: textColor,
+                lineHeight: 1,
+                padding: '0.1rem 0.35rem',
+                cursor: 'pointer',
               }}
-            />
-            Favorite
+            >
+              -
+            </button>
           </div>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-            <div
-              style={{
-                width: '12px',
-                height: '12px',
-                borderRadius: '50%',
-                backgroundColor: 'var(--color-visited)',
-              }}
-            />
-            Visited
-          </div>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-            <div
-              style={{
-                width: '12px',
-                height: '12px',
-                borderRadius: '50%',
-                backgroundColor: 'var(--color-want-to-visit)',
-              }}
-            />
-            Want to Visit
-          </div>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-            <div
-              style={{
-                width: '12px',
-                height: '12px',
-                borderRadius: '50%',
-                backgroundColor: 'var(--color-unvisited)',
-              }}
-            />
-            Not Visited
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+              <div
+                style={{
+                  width: '12px',
+                  height: '12px',
+                  borderRadius: '50%',
+                  backgroundColor: 'var(--color-favorite)',
+                }}
+              />
+              Favorite
+            </div>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+              <div
+                style={{
+                  width: '12px',
+                  height: '12px',
+                  borderRadius: '50%',
+                  backgroundColor: 'var(--color-visited)',
+                }}
+              />
+              Visited
+            </div>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+              <div
+                style={{
+                  width: '12px',
+                  height: '12px',
+                  borderRadius: '50%',
+                  backgroundColor: 'var(--color-want-to-visit)',
+                }}
+              />
+              Want to Visit
+            </div>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+              <div
+                style={{
+                  width: '12px',
+                  height: '12px',
+                  borderRadius: '50%',
+                  backgroundColor: 'var(--color-unvisited)',
+                }}
+              />
+              Not Visited
+            </div>
           </div>
         </div>
-      </div>
+      )}
     </div>
   );
 });
