@@ -29,6 +29,7 @@
     "express-rate-limit": "^7.3.1",
     "helmet": "^7.1.0",
     "jsonwebtoken": "^9.0.2",
+    "tsx": "^4.15.7",
     "zod": "^3.23.8"
   },
   "devDependencies": {
@@ -44,7 +45,6 @@
     "eslint-config-prettier": "^9.1.0",
     "prettier": "^3.3.2",
     "prisma": "^5.14.0",
-    "tsx": "^4.15.7",
     "typescript": "^5.4.5"
   },
   "prisma": {

@@ -171,6 +171,34 @@ docker compose --env-file .env.production up -d
 docker compose --env-file .env.production run --rm backend npm run db:import:geonames
 ```
 
+### Copy/Paste Pi Command List
+
+Use this exact sequence on the Pi when you are deploying with `.env.production`:
+
+```bash
+cd ~/atlased
+git pull
+
+mkdir -p backend/prisma/data
+cd backend/prisma/data
+wget -N https://download.geonames.org/export/dump/cities500.zip
+unzip -o cities500.zip
+cd ../../..
+
+docker compose --env-file .env.production build backend
+docker compose --env-file .env.production build frontend
+docker compose --env-file .env.production up -d
+
+docker compose --env-file .env.production run --rm backend npx prisma migrate deploy
+docker compose --env-file .env.production run --rm backend npm run db:import:geonames
+
+docker compose --env-file .env.production ps
+docker compose --env-file .env.production logs --tail=200 backend
+docker compose --env-file .env.production logs --tail=100 frontend
+```
+
+If you change any GeoNames values in `.env.production`, rerun the `build` and `run --rm backend npm run db:import:geonames` steps so the container sees the updated settings.
+
 ---
 
 ## Environment Variable Reference
