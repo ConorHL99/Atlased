@@ -491,7 +491,7 @@ export const GlobeView: React.FC<GlobeViewProps> = React.memo(({
           <div
             style={{
               position: 'absolute',
-              top: `calc(1rem + ${Math.ceil(countriesPanelHeight)}px + 0.5rem)`,
+              top: `min(calc(1rem + ${Math.ceil(countriesPanelHeight)}px + 0.5rem), calc(100% - 170px))`,
               left: '1rem',
               backgroundColor: theme === 'dark' ? '#1e293b' : '#f8fafc',
               border: '1px solid var(--color-border)',
