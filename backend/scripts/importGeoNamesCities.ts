@@ -1,6 +1,41 @@
 import fs from 'fs';
+import path from 'path';
 import readline from 'readline';
-import { prisma } from '../src/lib/prisma';
+
+type PrismaClientLike = {
+  city: {
+    createMany: (args: { data: Array<{ countryId: string; name: string; lat: number; lng: number; population: number }>; skipDuplicates: boolean }) => Promise<{ count: number }>;
+    deleteMany: () => Promise<{ count: number }>;
+  };
+  country: {
+    findMany: (args: { select: { id: true; isoCode: true } }) => Promise<Array<{ id: string; isoCode: string }>>;
+  };
+  $disconnect: () => Promise<void>;
+};
+
+const loadPrisma = (): PrismaClientLike => {
+  const candidates = [
+    path.resolve(__dirname, '../dist/lib/prisma.js'),
+    path.resolve(__dirname, '../src/lib/prisma.js'),
+    path.resolve(__dirname, '../src/lib/prisma.ts'),
+  ];
+
+  for (const candidate of candidates) {
+    if (!fs.existsSync(candidate)) {
+      continue;
+    }
+
+    // eslint-disable-next-line @typescript-eslint/no-var-requires
+    const loaded = require(candidate) as { prisma?: PrismaClientLike };
+    if (loaded.prisma) {
+      return loaded.prisma;
+    }
+  }
+
+  throw new Error(`Unable to load Prisma client from any known path: ${candidates.join(', ')}`);
+};
+
+const prisma = loadPrisma();
 
 type BufferMap = Map<string, Array<{ countryId: string; name: string; lat: number; lng: number; population: number }>>;
 
