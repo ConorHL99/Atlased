@@ -366,7 +366,8 @@ export const MapView: React.FC<MapViewProps> = React.memo(({
                 padding: isMobile ? '0.7rem' : '1rem',
                 fontSize: '0.875rem',
                 color: textColor,
-                maxWidth: isMobile ? '220px' : 'unset',
+                width: isMobile ? '220px' : '250px',
+                maxWidth: '90vw',
                 maxHeight: isMobile ? '62vh' : '72vh',
                 overflowY: 'auto',
               }}
