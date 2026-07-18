@@ -2,7 +2,7 @@
  * MapView — Real-world map using Leaflet with status markers and drilldown lists.
  */
 
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { CircleMarker, GeoJSON, MapContainer, TileLayer, useMap, useMapEvents } from 'react-leaflet';
 import type { Map as LeafletMap, PathOptions } from 'leaflet';
 import { Country } from '../types';
@@ -38,6 +38,7 @@ export const MapView: React.FC<MapViewProps> = React.memo(({
   const { theme } = useTheme();
   const [zoom, setZoom] = useState(2);
   const [mapRef, setMapRef] = useState<LeafletMap | null>(null);
+  const lastFocusKeyRef = useRef<string | null>(null);
   const [activeList, setActiveList] = useState<'visited' | 'want' | 'favorite' | null>(null);
   const [showUnmatchedDebug, setShowUnmatchedDebug] = useState(false);
   const showDebugTools = import.meta.env.DEV;
@@ -97,13 +98,21 @@ export const MapView: React.FC<MapViewProps> = React.memo(({
 
     const focus = selectedCity || selectedCountry;
     if (!focus) {
+      lastFocusKeyRef.current = null;
       return;
     }
+
+    const focusKey = selectedCity ? `city:${selectedCity.id}` : `country:${selectedCountry?.isoCode || ''}`;
+    if (lastFocusKeyRef.current === focusKey) {
+      return;
+    }
+
+    lastFocusKeyRef.current = focusKey;
 
     mapRef.flyTo([focus.lat, focus.lng], Math.max(mapRef.getZoom(), selectedCity ? 6 : 4), {
       duration: 0.7,
     });
-  }, [mapRef, selectedCountry, selectedCity]);
+  }, [mapRef, selectedCountry?.isoCode, selectedCountry?.lat, selectedCountry?.lng, selectedCity?.id, selectedCity?.lat, selectedCity?.lng]);
 
   const ZoomTracker: React.FC = () => {
     const map = useMapEvents({

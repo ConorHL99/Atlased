@@ -47,6 +47,8 @@ export const GlobeView: React.FC<GlobeViewProps> = React.memo(({
   const globeRef = useRef<GlobeRef>();
   const containerRef = useRef<HTMLDivElement>(null);
   const countriesPanelRef = useRef<HTMLDivElement>(null);
+  const lastCountryFocusIsoRef = useRef<string | null>(null);
+  const lastCityFocusIdRef = useRef<string | null>(null);
   const [globeSize, setGlobeSize] = useState({ width: 960, height: 560 });
   const [activeList, setActiveList] = useState<'visited' | 'want' | 'favorite' | null>(null);
   const [activeCityList, setActiveCityList] = useState<'city-visited' | 'city-want' | 'city-favorite' | null>(null);
@@ -193,6 +195,12 @@ export const GlobeView: React.FC<GlobeViewProps> = React.memo(({
       return;
     }
 
+    if (lastCountryFocusIsoRef.current === selectedCountry.isoCode) {
+      return;
+    }
+
+    lastCountryFocusIsoRef.current = selectedCountry.isoCode;
+
     globeRef.current.pointOfView(
       {
         lat: selectedCountry.lat,
@@ -201,12 +209,23 @@ export const GlobeView: React.FC<GlobeViewProps> = React.memo(({
       },
       1200,
     );
-  }, [selectedCountry]);
+  }, [selectedCountry?.isoCode, selectedCountry?.lat, selectedCountry?.lng]);
 
   useEffect(() => {
-    if (!globeRef.current || !selectedCity) {
+    if (!selectedCity) {
+      lastCityFocusIdRef.current = null;
       return;
     }
+
+    if (!globeRef.current) {
+      return;
+    }
+
+    if (lastCityFocusIdRef.current === selectedCity.id) {
+      return;
+    }
+
+    lastCityFocusIdRef.current = selectedCity.id;
 
     globeRef.current.pointOfView(
       {
@@ -216,7 +235,7 @@ export const GlobeView: React.FC<GlobeViewProps> = React.memo(({
       },
       1400,
     );
-  }, [selectedCity]);
+  }, [selectedCity?.id, selectedCity?.lat, selectedCity?.lng]);
 
   const handlePointClick = useCallback((point: object) => {
     const clicked = point as MarkerPoint;
