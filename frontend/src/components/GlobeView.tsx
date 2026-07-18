@@ -25,8 +25,6 @@ type GlobeRef = {
   ) => void;
 };
 
-const TALLY_PANEL_WIDTH = 'min(90vw, 280px)';
-
 interface GlobeViewProps {
   countries: Country[];
   selectedCountry: Country | null;
@@ -58,6 +56,10 @@ export const GlobeView: React.FC<GlobeViewProps> = React.memo(({
   const { theme } = useTheme();
   const backgroundColor = 'var(--color-bg)';
   const textColor = 'var(--color-text)';
+  const tallyPanelWidth = isMobile ? 'min(56vw, 210px)' : 'min(90vw, 280px)';
+  const tallyPanelPadding = isMobile ? '0.55rem' : '0.9rem';
+  const countriesListMaxHeight = isMobile ? '110px' : '220px';
+  const citiesListMaxHeight = isMobile ? '100px' : '180px';
 
   const countryByIso = useMemo(() => {
     const map = new Map<string, Country>();
@@ -400,9 +402,9 @@ export const GlobeView: React.FC<GlobeViewProps> = React.memo(({
               backgroundColor: theme === 'dark' ? '#1e293b' : '#f8fafc',
               border: '1px solid var(--color-border)',
               borderRadius: '0.5rem',
-              padding: '0.9rem',
+              padding: tallyPanelPadding,
               zIndex: 15,
-              width: TALLY_PANEL_WIDTH,
+              width: tallyPanelWidth,
             }}
           >
             <div style={{ fontSize: '0.78rem', opacity: 0.75, marginBottom: '0.5rem' }}>Countries</div>
@@ -449,7 +451,7 @@ export const GlobeView: React.FC<GlobeViewProps> = React.memo(({
               <div
                 style={{
                   marginTop: '0.75rem',
-                  maxHeight: '220px',
+                  maxHeight: countriesListMaxHeight,
                   overflowY: 'auto',
                   borderTop: '1px solid var(--color-border)',
                   paddingTop: '0.6rem',
@@ -496,9 +498,9 @@ export const GlobeView: React.FC<GlobeViewProps> = React.memo(({
               backgroundColor: theme === 'dark' ? '#1e293b' : '#f8fafc',
               border: '1px solid var(--color-border)',
               borderRadius: '0.5rem',
-              padding: '0.75rem',
+              padding: isMobile ? '0.55rem' : '0.75rem',
               zIndex: 15,
-              width: TALLY_PANEL_WIDTH,
+              width: tallyPanelWidth,
               transition: 'top 220ms ease',
             }}
           >
@@ -534,7 +536,7 @@ export const GlobeView: React.FC<GlobeViewProps> = React.memo(({
                 <div
                   style={{
                     marginTop: '0.6rem',
-                    maxHeight: '180px',
+                    maxHeight: citiesListMaxHeight,
                     overflowY: 'auto',
                     borderTop: '1px solid var(--color-border)',
                     paddingTop: '0.5rem',

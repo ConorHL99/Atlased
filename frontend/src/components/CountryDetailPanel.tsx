@@ -440,8 +440,8 @@ export const CountryDetailPanel: React.FC<CountryDetailPanelProps> = React.memo(
         bottom: isMobile ? 0 : 'auto',
         width: isMobile ? '100vw' : 'min(100vw, 420px)',
         maxWidth: '100vw',
-        maxHeight: isMobile ? '72vh' : '100%',
-        height: isMobile ? '72vh' : '100%',
+        maxHeight: isMobile ? '34vh' : '100%',
+        height: isMobile ? '34vh' : '100%',
         backgroundColor,
         color: textColor,
         boxShadow: isMobile ? '0 -8px 24px rgba(0, 0, 0, 0.28)' : '-4px 0 12px rgba(0, 0, 0, 0.2)',
@@ -822,23 +822,11 @@ export const CountryDetailPanel: React.FC<CountryDetailPanelProps> = React.memo(
           style={{
             display: 'flex',
             alignItems: 'center',
-            justifyContent: 'space-between',
+            justifyContent: 'flex-end',
             marginBottom: '0.65rem',
             gap: '0.5rem',
           }}
         >
-          <span
-            style={{
-              fontSize: '0.73rem',
-              padding: '0.2rem 0.45rem',
-              borderRadius: '999px',
-              border: `1px solid ${borderColor}`,
-              backgroundColor: 'var(--color-surface-raised)',
-              opacity: 0.9,
-            }}
-          >
-            {cities.length} shown / {cityTotal || cities.length}
-          </span>
           <span style={{ fontSize: '0.71rem', opacity: 0.68 }}>
             ↑↓ move, Enter toggle visited
           </span>
@@ -955,10 +943,6 @@ export const CountryDetailPanel: React.FC<CountryDetailPanelProps> = React.memo(
           </div>
         )}
         <div ref={loadMoreSentinelRef} style={{ height: '1px' }} />
-      </div>
-
-      <div style={{ padding: '0 1rem 1rem 1rem', fontSize: '0.74rem', opacity: 0.68 }}>
-        Showing {cities.length} of {cityTotal || cities.length} cities
       </div>
     </div>
   );

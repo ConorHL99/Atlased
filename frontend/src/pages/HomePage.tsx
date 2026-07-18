@@ -11,6 +11,7 @@ import { useTheme } from '../contexts/ThemeContext';
 import { GlobeView } from '../components/GlobeView';
 import { CountryDetailPanel } from '../components/CountryDetailPanel';
 import { SettingsMenu } from '../components/SettingsMenu';
+import { StatsModal } from '../components/StatsModal';
 import { Country } from '../types';
 import styles from './HomePage.module.css';
 
@@ -58,6 +59,7 @@ interface UserCityStatusItem {
 export const HomePage: React.FC = () => {
   const { user, logout } = useAuth();
   const { theme, toggleTheme } = useTheme();
+  const [isMobile, setIsMobile] = useState(false);
   const [countries, setCountries] = useState<Country[]>([]);
   const [selectedCountry, setSelectedCountry] = useState<Country | null>(null);
   const [loading, setLoading] = useState(true);
@@ -65,6 +67,7 @@ export const HomePage: React.FC = () => {
   const [actionError, setActionError] = useState<string | null>(null);
   const [viewMode, setViewMode] = useState<'globe' | 'map'>('globe');
   const [settingsOpen, setSettingsOpen] = useState(false);
+  const [statsOpen, setStatsOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
   const [searchOpen, setSearchOpen] = useState(false);
   const [searchLoading, setSearchLoading] = useState(false);
@@ -76,6 +79,15 @@ export const HomePage: React.FC = () => {
   const userCitiesRequestSeqRef = useRef(0);
 
   const textColor = theme === 'dark' ? '#f1f5f9' : '#0f172a';
+
+  useEffect(() => {
+    const media = window.matchMedia('(max-width: 768px)');
+    const apply = () => setIsMobile(media.matches);
+
+    apply();
+    media.addEventListener('change', apply);
+    return () => media.removeEventListener('change', apply);
+  }, []);
 
   const loadCountries = useCallback(async (options?: { silent?: boolean }) => {
     const silent = Boolean(options?.silent);
@@ -495,39 +507,42 @@ export const HomePage: React.FC = () => {
           </div>
 
           <div className={styles.controlsGroup}>
-
           <button
-            onClick={() => setSettingsOpen(true)}
+            onClick={() => setStatsOpen(true)}
+            className={styles.headerActionBtn}
             style={{
-              padding: '0.5rem 1rem',
               backgroundColor: 'var(--color-surface-raised)',
               color: 'var(--color-text)',
               border: '1px solid var(--color-border)',
-              borderRadius: '0.375rem',
-              cursor: 'pointer',
-              fontSize: '0.875rem',
-              fontWeight: '500',
             }}
           >
-            Settings
+            Stats
+          </button>
+
+          <button
+            onClick={() => setSettingsOpen(true)}
+            className={styles.headerActionBtn}
+            style={{
+              backgroundColor: 'var(--color-surface-raised)',
+              color: 'var(--color-text)',
+              border: '1px solid var(--color-border)',
+            }}
+          >
+            {isMobile ? 'Menu' : 'Settings'}
           </button>
 
           {/* View mode toggle */}
           <button
             onClick={() => setViewMode(viewMode === 'globe' ? 'map' : 'globe')}
+            className={styles.headerActionBtn}
             style={{
-              padding: '0.5rem 1rem',
               backgroundColor: 'var(--color-surface-raised)',
               color: textColor,
               border: '1px solid var(--color-border)',
-              borderRadius: '0.375rem',
-              cursor: 'pointer',
-              fontSize: '0.875rem',
-              fontWeight: '500',
               transition: 'background-color 0.2s',
             }}
           >
-            {viewMode === 'globe' ? '🗺️ Map' : '🌍 Globe'}
+            {viewMode === 'globe' ? (isMobile ? 'Map' : '🗺️ Map') : (isMobile ? 'Globe' : '🌍 Globe')}
           </button>
           <button
             className={styles.themeToggle}
@@ -667,10 +682,8 @@ export const HomePage: React.FC = () => {
                     countryIsoCode: selectedCountry.isoCode,
                     countryName: selectedCountry.name,
                   });
-                  if (window.innerWidth <= 768) {
-                    setSelectedCountry(null);
-                    setHighlightCityName(null);
-                  }
+                  setSelectedCountry(null);
+                  setHighlightCityName(null);
                 }}
                 highlightCityName={highlightCityName}
                 styleOverride={{ zIndex: 40 }}
@@ -680,6 +693,12 @@ export const HomePage: React.FC = () => {
         )}
       </main>
 
+      <StatsModal
+        isOpen={statsOpen}
+        onClose={() => setStatsOpen(false)}
+        countries={countries}
+        userCities={userCities}
+      />
       <SettingsMenu isOpen={settingsOpen} onClose={() => setSettingsOpen(false)} />
       {searchOpen && (
         <button
