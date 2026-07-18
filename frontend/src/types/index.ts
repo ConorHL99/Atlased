@@ -48,6 +48,7 @@ export interface Country {
   population: number;
   languages: string[];
   gdpUsd: number;
+  currency?: string;
   lat: number;
   lng: number;
   userStatus?: CountryStatus | null; // null = not visited, not favorited

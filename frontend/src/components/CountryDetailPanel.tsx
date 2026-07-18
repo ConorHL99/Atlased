@@ -162,140 +162,166 @@ export const CountryDetailPanel: React.FC<CountryDetailPanelProps> = ({
         display: 'flex',
         flexDirection: 'column',
         ...styleOverride,
-      }}
+      } as React.CSSProperties}
     >
-      {/* Header */}
+      {/* Header: name + capital left, flag + close right */}
       <div
         style={{
-          padding: '1.5rem',
+          padding: '1rem 1.25rem',
           borderBottom: `1px solid ${borderColor}`,
           display: 'flex',
           justifyContent: 'space-between',
-          alignItems: 'flex-start',
+          alignItems: 'center',
+          gap: '0.75rem',
         }}
       >
-        <div>
-          <h2 style={{ margin: '0 0 0.5rem 0', fontSize: '1.5rem' }}>
+        <div style={{ flex: 1, minWidth: 0 }}>
+          <h2 style={{ margin: '0 0 0.25rem 0', fontSize: '1.35rem', lineHeight: 1.2 }}>
             {country.name}
           </h2>
-          <p style={{ margin: 0, fontSize: '0.875rem', opacity: 0.7 }}>
-            Capital: {country.capital}
+          <p style={{ margin: 0, fontSize: '0.82rem', opacity: 0.7 }}>
+            {country.capital}
           </p>
         </div>
-        <button
-          onClick={onClose}
-          style={{
-            background: 'none',
-            border: 'none',
-            fontSize: '1.5rem',
-            cursor: 'pointer',
-            color: textColor,
-            padding: '0',
-            width: '32px',
-            height: '32px',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            borderRadius: '4px',
-            transition: 'background-color 200ms',
-          }}
-          onMouseEnter={(e) => {
-            (e.currentTarget as HTMLButtonElement).style.backgroundColor =
-              buttonBgHover;
-          }}
-          onMouseLeave={(e) => {
-            (e.currentTarget as HTMLButtonElement).style.backgroundColor =
-              'transparent';
-          }}
-        >
-          ✕
-        </button>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem', flexShrink: 0 }}>
+          {country.flagUrl && (
+            <img
+              src={country.flagUrl}
+              alt={`${country.name} flag`}
+              style={{
+                width: '48px',
+                height: '32px',
+                objectFit: 'cover',
+                borderRadius: '3px',
+                border: `1px solid ${borderColor}`,
+              }}
+            />
+          )}
+          <button
+            onClick={onClose}
+            style={{
+              background: 'none',
+              border: 'none',
+              fontSize: '1.3rem',
+              cursor: 'pointer',
+              color: textColor,
+              padding: '0',
+              width: '28px',
+              height: '28px',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              borderRadius: '4px',
+              transition: 'background-color 200ms',
+            }}
+            onMouseEnter={(e) => {
+              (e.currentTarget as HTMLButtonElement).style.backgroundColor =
+                buttonBgHover;
+            }}
+            onMouseLeave={(e) => {
+              (e.currentTarget as HTMLButtonElement).style.backgroundColor =
+                'transparent';
+            }}
+          >
+            ✕
+          </button>
+        </div>
       </div>
 
       {/* Country photo */}
-      {country.imageUrl && (
-        <div
-          style={{
-            width: '100%',
-            height: '152px',
-            backgroundImage: `url('${country.imageUrl}')`,
-            backgroundSize: 'cover',
-            backgroundPosition: 'center',
-            borderBottom: `1px solid ${borderColor}`,
-          }}
-        />
-      )}
-
-      {/* Flag */}
-      {country.flagUrl && (
-        <div
-          style={{
-            width: '100%',
-            height: '100px',
-            backgroundImage: `url('${country.flagUrl}')`,
-            backgroundSize: 'contain',
-            backgroundRepeat: 'no-repeat',
-            backgroundPosition: 'center',
-            backgroundColor: theme === 'dark' ? '#0b1220' : '#f8fafc',
-            borderBottom: `1px solid ${borderColor}`,
-          }}
-        />
-      )}
+      <div
+        style={{
+          width: '100%',
+          height: '160px',
+          backgroundImage: country.imageUrl
+            ? `url('${country.imageUrl}')`
+            : `linear-gradient(135deg, ${theme === 'dark' ? '#1e293b' : '#e2e8f0'}, ${theme === 'dark' ? '#334155' : '#cbd5e1'})`,
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          backgroundColor: theme === 'dark' ? '#1a2436' : '#f0f4f8',
+          borderBottom: `1px solid ${borderColor}`,
+        }}
+      />
 
       {/* Info Grid */}
-      <div style={{ padding: '1.5rem', borderBottom: `1px solid ${borderColor}` }}>
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
+      <div style={{ padding: '1.25rem', borderBottom: `1px solid ${borderColor}` }}>
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0.85rem' }}>
           <div>
             <div
               style={{
-                fontSize: '0.75rem',
+                fontSize: '0.7rem',
                 fontWeight: 600,
                 opacity: 0.7,
-                marginBottom: '0.25rem',
+                marginBottom: '0.2rem',
                 textTransform: 'uppercase',
                 letterSpacing: '0.5px',
               }}
             >
               Population
             </div>
-            <div style={{ fontSize: '1rem', fontWeight: 500 }}>
-              {(country.population / 1_000_000).toFixed(1)}M
+            <div style={{ fontSize: '0.95rem', fontWeight: 500 }}>
+              {country.population > 0
+                ? country.population >= 1_000_000
+                  ? `${(country.population / 1_000_000).toFixed(1)}M`
+                  : country.population.toLocaleString()
+                : '—'}
             </div>
           </div>
           <div>
             <div
               style={{
-                fontSize: '0.75rem',
+                fontSize: '0.7rem',
                 fontWeight: 600,
                 opacity: 0.7,
-                marginBottom: '0.25rem',
+                marginBottom: '0.2rem',
                 textTransform: 'uppercase',
                 letterSpacing: '0.5px',
               }}
             >
               GDP
             </div>
-            <div style={{ fontSize: '1rem', fontWeight: 500 }}>
-              ${(country.gdpUsd / 1_000_000_000).toFixed(1)}B
+            <div style={{ fontSize: '0.95rem', fontWeight: 500 }}>
+              {country.gdpUsd && country.gdpUsd > 0
+                ? `$${(country.gdpUsd / 1_000_000_000).toFixed(1)}B`
+                : '—'}
             </div>
           </div>
+          {country.currency && (
+            <div>
+              <div
+                style={{
+                  fontSize: '0.7rem',
+                  fontWeight: 600,
+                  opacity: 0.7,
+                  marginBottom: '0.2rem',
+                  textTransform: 'uppercase',
+                  letterSpacing: '0.5px',
+                }}
+              >
+                Currency
+              </div>
+              <div style={{ fontSize: '0.85rem', fontWeight: 500 }}>
+                {country.currency}
+              </div>
+            </div>
+          )}
         </div>
 
         {country.languages && country.languages.length > 0 && (
-          <div style={{ marginTop: '1rem' }}>
+          <div style={{ marginTop: '0.85rem' }}>
             <div
               style={{
-                fontSize: '0.75rem',
+                fontSize: '0.7rem',
                 fontWeight: 600,
                 opacity: 0.7,
-                marginBottom: '0.25rem',
+                marginBottom: '0.2rem',
                 textTransform: 'uppercase',
                 letterSpacing: '0.5px',
               }}
             >
               Languages
             </div>
-            <div style={{ fontSize: '0.875rem' }}>
+            <div style={{ fontSize: '0.85rem' }}>
               {country.languages.join(', ')}
             </div>
           </div>

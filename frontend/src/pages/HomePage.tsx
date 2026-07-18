@@ -221,31 +221,33 @@ export const HomePage: React.FC = () => {
 
   const handleMarkFavorite = async (isoCode: string) => {
     setActionError(null);
+    const currentCountry = countries.find((c) => c.isoCode === isoCode);
+    const newFavorite = !currentCountry?.isFavorite;
     try {
       const res = await fetch(`/api/user/countries/${isoCode}/favorite`, {
         method: 'PUT',
         credentials: 'include',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ isFavorite: true }),
+        body: JSON.stringify({ isFavorite: newFavorite }),
       });
 
-      if (!res.ok) throw new Error(`Failed to mark as favorite (${res.status})`);
+      if (!res.ok) throw new Error(`Failed to toggle favorite (${res.status})`);
 
       setCountries((prev) =>
         prev.map((c) =>
           c.isoCode === isoCode
-            ? { ...c, isFavorite: true }
+            ? { ...c, isFavorite: newFavorite }
             : c,
         ),
       );
       if (selectedCountry?.isoCode === isoCode) {
         setSelectedCountry((prev) =>
-          prev ? { ...prev, isFavorite: true } : null,
+          prev ? { ...prev, isFavorite: newFavorite } : null,
         );
       }
     } catch (err) {
-      console.error('Error marking as favorite:', err);
-      setActionError(err instanceof Error ? err.message : 'Failed to mark as favorite');
+      console.error('Error toggling favorite:', err);
+      setActionError(err instanceof Error ? err.message : 'Failed to toggle favorite');
     }
   };
 
@@ -448,7 +450,7 @@ export const HomePage: React.FC = () => {
               </div>
             ) : null}
 
-            <div style={{ position: 'absolute', inset: 0, zIndex: 1 }}>
+            <div style={{ position: 'absolute', inset: 0, zIndex: 1, isolation: 'isolate' }}>
               {viewMode === 'globe' ? (
                 <GlobeView
                   countries={countries}

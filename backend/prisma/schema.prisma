@@ -55,6 +55,8 @@ model Country {
   gdpUsd     Float?   @map("gdp_usd")
   lat        Float
   lng        Float
+  /// Currency codes and names, e.g. "USD (United States dollar)"
+  currency   String   @default("")
   createdAt  DateTime @default(now()) @map("created_at")
 
   cities       City[]

@@ -44,9 +44,10 @@ const getCountryPhotoUrl = async (countryName: string, fallbackUrl: string): Pro
   const cacheKey = normalizeName(countryName);
   const cached = countryPhotoCache.get(cacheKey);
   if (typeof cached !== 'undefined') {
-    return cached ?? fallbackUrl;
+    return cached || fallbackUrl;
   }
 
+  // 1) Try Wikipedia page summary thumbnail
   const titleCandidates = [countryName, ...(PHOTO_TITLE_ALIASES[cacheKey] || [])];
 
   for (const title of titleCandidates) {
@@ -59,20 +60,26 @@ const getCountryPhotoUrl = async (countryName: string, fallbackUrl: string): Pro
         continue;
       }
 
-      const data = (await response.json()) as { thumbnail?: { source?: string } };
-      const photoUrl = data.thumbnail?.source;
-      if (photoUrl) {
+      const data = (await response.json()) as {
+        thumbnail?: { source?: string };
+        originalimage?: { source?: string };
+      };
+      const photoUrl = data.originalimage?.source || data.thumbnail?.source;
+      if (photoUrl && !looksLikeMapImage(photoUrl)) {
         countryPhotoCache.set(cacheKey, photoUrl);
         return photoUrl;
       }
     } catch (err) {
-      console.warn('[countries/photo]', countryName, err);
+      console.warn('[countries/photo/wikipedia]', countryName, err);
     }
   }
 
-  const finalUrl = looksLikeMapImage(fallbackUrl) ? null : fallbackUrl;
-  countryPhotoCache.set(cacheKey, finalUrl);
-  return finalUrl ?? fallbackUrl;
+  // 2) Fallback: flagcdn landscape image (reliable, always available)
+  const isoLower = cacheKey; // not usable as ISO — derive from DB later
+  // Use a generic landscape search image from Unsplash Source (no API key)
+  const unsplashUrl = `https://source.unsplash.com/600x300/?${encodeURIComponent(countryName)}+landscape`;
+  countryPhotoCache.set(cacheKey, unsplashUrl);
+  return unsplashUrl;
 };
 
 /**

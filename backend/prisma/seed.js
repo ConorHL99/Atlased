@@ -40,6 +40,7 @@ async function main() {
         gdpUsd: country.gdpUsd,
         lat: country.lat,
         lng: country.lng,
+        currency: country.currency || '',
       },
       create: {
         isoCode: country.isoCode,
@@ -52,6 +53,7 @@ async function main() {
         gdpUsd: country.gdpUsd,
         lat: country.lat,
         lng: country.lng,
+        currency: country.currency || '',
       },
     });
   }

@@ -126,12 +126,12 @@ export const GlobeView: React.FC<GlobeViewProps> = ({
       .map((country) => ({
         ...country,
         markerColor: country.isFavorite
-          ? 'var(--color-favorite)'
+          ? '#dc2626'
           : country.userStatus === 'VISITED'
-            ? 'var(--color-visited)'
+            ? '#059669'
             : country.userStatus === 'WANT_TO_VISIT'
-              ? 'var(--color-want-to-visit)'
-              : 'var(--color-unvisited)',
+              ? '#2563eb'
+              : '#94a3b8',
       }));
   }, [countries]);
 
@@ -229,7 +229,7 @@ export const GlobeView: React.FC<GlobeViewProps> = ({
 
   const getPointAltitude = (point: object) => {
     const marker = point as MarkerPoint;
-    return selectedCountry?.isoCode === marker.isoCode ? 0.2 : 0.08;
+    return selectedCountry?.isoCode === marker.isoCode ? 0.06 : 0.01;
   };
 
   return (
@@ -291,13 +291,13 @@ export const GlobeView: React.FC<GlobeViewProps> = ({
                 return 'rgba(255,255,255,0.14)';
               }
               if (country.isFavorite) {
-                return 'rgba(245, 158, 11, 0.78)';
+                return 'rgba(220, 38, 38, 0.72)';
               }
               if (country.userStatus === 'VISITED') {
-                return 'rgba(34, 197, 94, 0.72)';
+                return 'rgba(5, 150, 105, 0.72)';
               }
               if (country.userStatus === 'WANT_TO_VISIT') {
-                return 'rgba(14, 165, 233, 0.72)';
+                return 'rgba(37, 99, 235, 0.72)';
               }
               return 'rgba(148, 163, 184, 0.42)';
             }}
@@ -305,27 +305,44 @@ export const GlobeView: React.FC<GlobeViewProps> = ({
               const feature = polygon as GlobePolygonCountry;
               const country = countries.find((item) => item.isoCode === feature.properties.isoCode);
               if (country?.isFavorite) {
-                return 'rgba(245, 158, 11, 0.35)';
+                return 'rgba(220, 38, 38, 0.35)';
               }
               return 'rgba(15, 23, 42, 0.22)';
             }}
             polygonAltitude={(polygon: object) => {
               const feature = polygon as GlobePolygonCountry;
-              const country = countries.find((item) => item.isoCode === feature.properties.isoCode);
               if (selectedCountry?.isoCode === feature.properties.isoCode) {
-                return 0.03;
+                return 0.035;
               }
+              const country = countries.find((item) => item.isoCode === feature.properties.isoCode);
               if (country?.isFavorite) {
                 return 0.02;
               }
-              return 0.008;
+              return 0.006;
+            }}
+            polygonStrokeColor={(polygon: object) => {
+              const feature = polygon as GlobePolygonCountry;
+              if (selectedCountry?.isoCode === feature.properties.isoCode) {
+                return '#ffffff';
+              }
+              const country = countries.find((item) => item.isoCode === feature.properties.isoCode);
+              if (country?.isFavorite) {
+                return '#dc2626';
+              }
+              if (country?.userStatus === 'VISITED') {
+                return '#059669';
+              }
+              if (country?.userStatus === 'WANT_TO_VISIT') {
+                return '#2563eb';
+              }
+              return 'rgba(203, 213, 225, 0.5)';
             }}
             pointsData={markerPoints}
             pointLat="lat"
             pointLng="lng"
             pointColor="markerColor"
             pointAltitude={getPointAltitude}
-            pointRadius={0.38}
+            pointRadius={0.22}
             pointResolution={14}
             pointLabel={(point: object) => {
               const marker = point as MarkerPoint;

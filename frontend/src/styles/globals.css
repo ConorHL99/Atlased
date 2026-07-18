@@ -31,11 +31,10 @@
   --color-primary-hover: #4338ca;
   --color-primary-text: #ffffff;    /* text on primary bg */
 
-  /* Globe country status colors — kept consistent across themes for map
-     readability. Adjusted for visibility on light/dark globe backgrounds. */
-  --color-visited: #16a34a;         /* green-600 */
-  --color-want-to-visit: #2563eb;   /* blue-600 */
-  --color-favorite: #d97706;        /* amber-600 */
+  /* Globe country status colors — vibrant and distinct across themes */
+  --color-visited: #059669;         /* emerald-600 — rich green */
+  --color-want-to-visit: #2563eb;   /* blue-600 — clear blue */
+  --color-favorite: #dc2626;        /* red-600 — strong red for favorites */
   --color-unvisited: #cbd5e1;       /* slate-300 (neutral, light mode) */
 
   /* Semantic */
@@ -230,6 +229,14 @@ button {
 }
 
 /* ─── Custom scrollbar ───────────────────────────────────────────────────── */
+
+/* ─── Leaflet z-index containment ─────────────────────────────────────── */
+/* Prevent Leaflet pane z-indices (200-700) from escaping the map wrapper */
+.leaflet-container {
+  z-index: 0 !important;
+  isolation: isolate;
+}
+
 ::-webkit-scrollbar {
   width: 6px;
   height: 6px;
