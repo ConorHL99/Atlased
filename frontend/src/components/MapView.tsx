@@ -5,9 +5,9 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { CircleMarker, GeoJSON, MapContainer, TileLayer, useMap, useMapEvents } from 'react-leaflet';
 import type { Map as LeafletMap, PathOptions } from 'leaflet';
-import worldGeoJsonData from 'geojson-world-map';
 import { Country } from '../types';
 import { useTheme } from '../contexts/ThemeContext';
+import { matchCountriesToGeoJson } from '../lib/countryGeoMatch';
 
 interface MapViewProps {
   countries: Country[];
@@ -16,67 +16,8 @@ interface MapViewProps {
   isLoading: boolean;
 }
 
-interface RawWorldFeature {
-  type: 'Feature';
-  properties: {
-    name?: string;
-    [key: string]: unknown;
-  };
-  geometry: GeoJSON.Geometry;
-}
-
-interface WorldFeatureCollection {
-  type: 'FeatureCollection';
-  features: RawWorldFeature[];
-}
-
-interface CountryFeature {
-  type: 'Feature';
-  properties: {
-    isoCode: string;
-    name: string;
-  };
-  geometry: GeoJSON.Geometry;
-}
-
-const worldGeoJson = worldGeoJsonData as WorldFeatureCollection;
-
-const normalizeName = (value: string) =>
-  value
-    .toLowerCase()
-    .normalize('NFD')
-    .replace(/[^a-z0-9\s]/g, '')
-    .replace(/\b(republic|democratic|federal|kingdom|state|states|of|the)\b/g, ' ')
-    .replace(/\s+/g, ' ')
-    .trim();
-
-const NAME_ALIASES: Record<string, string[]> = {
-  'united states': ['united states of america'],
-  'czechia': ['czech rep'],
-  'czech republic': ['czech rep'],
-  'ivory coast': ["cote divoire", "cote d ivoire", "cote divoire", "cote d'ivoire"],
-  'bosnia and herzegovina': ['bosnia and herz'],
-  'north macedonia': ['macedonia'],
-  'eswatini': ['swaziland'],
-  'myanmar': ['myanmar burma'],
-  'democratic republic congo': ['dem rep congo'],
-  'dr congo': ['dem rep congo'],
-  'congo republic': ['congo'],
-  'cape verde': ['cabo verde'],
-  'south korea': ['korea', 'korea republic of', 'korea south'],
-  'north korea': ['dem rep korea', 'korea north'],
-  'russia': ['russian federation'],
-  'laos': ['lao peoples democratic republic'],
-  'syria': ['syrian arab republic'],
-  'taiwan': ['taiwan province of china'],
-  'micronesia': ['micronesia federated states of'],
-  'vatican city': ['holy see'],
-};
-
 const getCountryColor = (country: Country): string => {
-  if (country.isFavorite) {
-    return 'var(--color-favorite)';
-  }
+  // Fill color based on visited/want status (NOT favorite — that's the outline)
   if (country.userStatus === 'VISITED') {
     return 'var(--color-visited)';
   }
@@ -131,49 +72,13 @@ export const MapView: React.FC<MapViewProps> = ({
   }, [activeList, countries]);
 
   const { polygonFeatures, unmatchedCountryNames } = useMemo(() => {
-    const featuresByName = new Map<string, RawWorldFeature>();
-    worldGeoJson.features.forEach((feature) => {
-      const name = feature.properties?.name;
-      if (!name) {
-        return;
-      }
-      featuresByName.set(normalizeName(name), feature);
-    });
-
-    const matched: CountryFeature[] = [];
-    const unmatched: string[] = [];
-    for (const country of countries) {
-      const candidates = [normalizeName(country.name), ...(NAME_ALIASES[normalizeName(country.name)] || [])];
-
-      let feature: RawWorldFeature | undefined;
-      for (const candidate of candidates) {
-        feature = featuresByName.get(normalizeName(candidate));
-        if (feature) {
-          break;
-        }
-      }
-
-      if (!feature) {
-        unmatched.push(country.name);
-        continue;
-      }
-
-      matched.push({
-        type: 'Feature',
-        properties: {
-          isoCode: country.isoCode,
-          name: country.name,
-        },
-        geometry: feature.geometry,
-      });
-    }
-
+    const result = matchCountriesToGeoJson(countries);
     return {
       polygonFeatures: {
         type: 'FeatureCollection' as const,
-        features: matched,
+        features: result.features,
       },
-      unmatchedCountryNames: unmatched.sort((a, b) => a.localeCompare(b)),
+      unmatchedCountryNames: result.unmatchedNames,
     };
   }, [countries]);
 
@@ -325,20 +230,24 @@ export const MapView: React.FC<MapViewProps> = ({
                 const country = countryByIso.get(isoCode);
                 const isSelected = isoCode === selectedCountry?.isoCode;
                 const isFavorite = Boolean(country?.isFavorite);
+                const isVisited = country?.userStatus === 'VISITED';
                 const fillColor = country ? getCountryColor(country) : 'var(--color-unvisited)';
 
                 return {
+                  // Red outline for favorite, green for visited, default for others
                   color: isSelected
                     ? (theme === 'dark' ? '#f8fafc' : '#0f172a')
                     : isFavorite
-                      ? '#f59e0b'
-                      : theme === 'dark'
-                        ? '#8fa4c5'
-                        : '#415a77',
-                  weight: isSelected ? 2.4 : isFavorite ? 2 : 1,
+                      ? '#dc2626'
+                      : isVisited
+                        ? '#059669'
+                        : theme === 'dark'
+                          ? '#8fa4c5'
+                          : '#415a77',
+                  weight: isSelected ? 2.4 : isFavorite ? 2.5 : 1,
                   fillColor,
-                  fillOpacity: isFavorite ? 0.72 : country?.userStatus ? 0.44 : 0.2,
-                  dashArray: isFavorite ? '5 4' : undefined,
+                  fillOpacity: isVisited ? 0.5 : country?.userStatus ? 0.4 : 0.2,
+                  dashArray: isFavorite && !isSelected ? '5 4' : undefined,
                 };
               }}
               onEachFeature={(feature, layer) => {
@@ -360,16 +269,16 @@ export const MapView: React.FC<MapViewProps> = ({
                 <CircleMarker
                   key={country.isoCode}
                   center={[country.lat, country.lng]}
-                  radius={isSelected ? 9.5 : country.isFavorite ? 7 : 6}
+                  radius={isSelected ? 9.5 : 6}
                   pathOptions={{
                     color: isSelected
                       ? (theme === 'dark' ? '#f8fafc' : '#0f172a')
                       : country.isFavorite
-                        ? '#f59e0b'
+                        ? '#dc2626'
                         : '#ffffff',
                     weight: isSelected ? 2 : country.isFavorite ? 2 : 1,
                     fillColor: color,
-                    fillOpacity: isSelected ? 0.96 : country.isFavorite ? 0.9 : 0.82,
+                    fillOpacity: isSelected ? 0.96 : 0.82,
                   }}
                   eventHandlers={{
                     click: () => onSelectCountry(country),

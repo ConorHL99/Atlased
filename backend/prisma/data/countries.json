@@ -5,13 +5,13 @@
     "flagUrl": "https://flagcdn.com/w320/af.png",
     "imageUrl": "",
     "capital": "Kabul",
-    "population": 0,
+    "population": 37172386,
     "languages": [
       "Dari",
       "Pashto",
       "Turkmen"
     ],
-    "gdpUsd": 0,
+    "gdpUsd": 14600000000,
     "lat": 33,
     "lng": 65,
     "currency": "AFN (Afghan afghani)"
@@ -22,11 +22,11 @@
     "flagUrl": "https://flagcdn.com/w320/al.png",
     "imageUrl": "",
     "capital": "Tirana",
-    "population": 0,
+    "population": 2866376,
     "languages": [
       "Albanian"
     ],
-    "gdpUsd": 0,
+    "gdpUsd": 18300000000,
     "lat": 41,
     "lng": 20,
     "currency": "ALL (Albanian lek)"
@@ -37,11 +37,11 @@
     "flagUrl": "https://flagcdn.com/w320/dz.png",
     "imageUrl": "",
     "capital": "Algiers",
-    "population": 0,
+    "population": 42228429,
     "languages": [
       "Arabic"
     ],
-    "gdpUsd": 0,
+    "gdpUsd": 187000000000,
     "lat": 28,
     "lng": 3,
     "currency": "DZD (Algerian dinar)"
@@ -52,11 +52,11 @@
     "flagUrl": "https://flagcdn.com/w320/ad.png",
     "imageUrl": "",
     "capital": "Andorra la Vella",
-    "population": 0,
+    "population": 77006,
     "languages": [
       "Catalan"
     ],
-    "gdpUsd": 0,
+    "gdpUsd": 3400000000,
     "lat": 42.5,
     "lng": 1.5,
     "currency": "EUR (Euro)"
@@ -67,11 +67,11 @@
     "flagUrl": "https://flagcdn.com/w320/ao.png",
     "imageUrl": "",
     "capital": "Luanda",
-    "population": 0,
+    "population": 30809762,
     "languages": [
       "Portuguese"
     ],
-    "gdpUsd": 0,
+    "gdpUsd": 106000000000,
     "lat": -12.5,
     "lng": 18.5,
     "currency": "AOA (Angolan kwanza)"
@@ -82,11 +82,11 @@
     "flagUrl": "https://flagcdn.com/w320/ag.png",
     "imageUrl": "",
     "capital": "Saint John's",
-    "population": 0,
+    "population": 96286,
     "languages": [
       "English"
     ],
-    "gdpUsd": 0,
+    "gdpUsd": 1800000000,
     "lat": 17.05,
     "lng": -61.8,
     "currency": "XCD (Eastern Caribbean dollar)"
@@ -97,12 +97,12 @@
     "flagUrl": "https://flagcdn.com/w320/ar.png",
     "imageUrl": "",
     "capital": "Buenos Aires",
-    "population": 0,
+    "population": 44494502,
     "languages": [
       "Guaraní",
       "Spanish"
     ],
-    "gdpUsd": 0,
+    "gdpUsd": 633000000000,
     "lat": -34,
     "lng": -64,
     "currency": "ARS (Argentine peso)"
@@ -113,11 +113,11 @@
     "flagUrl": "https://flagcdn.com/w320/am.png",
     "imageUrl": "",
     "capital": "Yerevan",
-    "population": 0,
+    "population": 2951776,
     "languages": [
       "Armenian"
     ],
-    "gdpUsd": 0,
+    "gdpUsd": 19500000000,
     "lat": 40,
     "lng": 45,
     "currency": "AMD (Armenian dram)"
@@ -128,11 +128,11 @@
     "flagUrl": "https://flagcdn.com/w320/au.png",
     "imageUrl": "",
     "capital": "Canberra",
-    "population": 0,
+    "population": 24982688,
     "languages": [
       "English"
     ],
-    "gdpUsd": 0,
+    "gdpUsd": 1675000000000,
     "lat": -27,
     "lng": 133,
     "currency": "AUD (Australian dollar)"
@@ -143,11 +143,11 @@
     "flagUrl": "https://flagcdn.com/w320/at.png",
     "imageUrl": "",
     "capital": "Vienna",
-    "population": 0,
+    "population": 8840521,
     "languages": [
       "Austro-Bavarian German"
     ],
-    "gdpUsd": 0,
+    "gdpUsd": 471000000000,
     "lat": 47.33333333,
     "lng": 13.33333333,
     "currency": "EUR (Euro)"
@@ -158,12 +158,12 @@
     "flagUrl": "https://flagcdn.com/w320/az.png",
     "imageUrl": "",
     "capital": "Baku",
-    "population": 0,
+    "population": 9939800,
     "languages": [
       "Azerbaijani",
       "Russian"
     ],
-    "gdpUsd": 0,
+    "gdpUsd": 78700000000,
     "lat": 40.5,
     "lng": 47.5,
     "currency": "AZN (Azerbaijani manat)"
@@ -174,11 +174,11 @@
     "flagUrl": "https://flagcdn.com/w320/bs.png",
     "imageUrl": "",
     "capital": "Nassau",
-    "population": 0,
+    "population": 385640,
     "languages": [
       "English"
     ],
-    "gdpUsd": 0,
+    "gdpUsd": 14300000000,
     "lat": 24.25,
     "lng": -76,
     "currency": "BSD (Bahamian dollar), USD (United States dollar)"
@@ -189,11 +189,11 @@
     "flagUrl": "https://flagcdn.com/w320/bh.png",
     "imageUrl": "",
     "capital": "Manama",
-    "population": 0,
+    "population": 1569439,
     "languages": [
       "Arabic"
     ],
-    "gdpUsd": 0,
+    "gdpUsd": 44400000000,
     "lat": 26,
     "lng": 50.55,
     "currency": "BHD (Bahraini dinar)"
@@ -204,11 +204,11 @@
     "flagUrl": "https://flagcdn.com/w320/bd.png",
     "imageUrl": "",
     "capital": "Dhaka",
-    "population": 0,
+    "population": 161356039,
     "languages": [
       "Bengali"
     ],
-    "gdpUsd": 0,
+    "gdpUsd": 460000000000,
     "lat": 24,
     "lng": 90,
     "currency": "BDT (Bangladeshi taka)"
@@ -219,11 +219,11 @@
     "flagUrl": "https://flagcdn.com/w320/bb.png",
     "imageUrl": "",
     "capital": "Bridgetown",
-    "population": 0,
+    "population": 286641,
     "languages": [
       "English"
     ],
-    "gdpUsd": 0,
+    "gdpUsd": 5600000000,
     "lat": 13.16666666,
     "lng": -59.53333333,
     "currency": "BBD (Barbadian dollar)"
@@ -234,12 +234,12 @@
     "flagUrl": "https://flagcdn.com/w320/by.png",
     "imageUrl": "",
     "capital": "Minsk",
-    "population": 0,
+    "population": 9483499,
     "languages": [
       "Belarusian",
       "Russian"
     ],
-    "gdpUsd": 0,
+    "gdpUsd": 73000000000,
     "lat": 53,
     "lng": 28,
     "currency": "BYN (Belarusian ruble)"
@@ -250,13 +250,13 @@
     "flagUrl": "https://flagcdn.com/w320/be.png",
     "imageUrl": "",
     "capital": "Brussels",
-    "population": 0,
+    "population": 11433256,
     "languages": [
       "German",
       "French",
       "Dutch"
     ],
-    "gdpUsd": 0,
+    "gdpUsd": 578000000000,
     "lat": 50.83333333,
     "lng": 4,
     "currency": "EUR (Euro)"
@@ -267,13 +267,13 @@
     "flagUrl": "https://flagcdn.com/w320/bz.png",
     "imageUrl": "",
     "capital": "Belmopan",
-    "population": 0,
+    "population": 383071,
     "languages": [
       "Belizean Creole",
       "English",
       "Spanish"
     ],
-    "gdpUsd": 0,
+    "gdpUsd": 3300000000,
     "lat": 17.25,
     "lng": -88.75,
     "currency": "BZD (Belize dollar)"
@@ -284,11 +284,11 @@
     "flagUrl": "https://flagcdn.com/w320/bj.png",
     "imageUrl": "",
     "capital": "Porto-Novo",
-    "population": 0,
+    "population": 11485048,
     "languages": [
       "French"
     ],
-    "gdpUsd": 0,
+    "gdpUsd": 17400000000,
     "lat": 9.5,
     "lng": 2.25,
     "currency": "XOF (West African CFA franc)"
@@ -299,11 +299,11 @@
     "flagUrl": "https://flagcdn.com/w320/bt.png",
     "imageUrl": "",
     "capital": "Thimphu",
-    "population": 0,
+    "population": 754394,
     "languages": [
       "Dzongkha"
     ],
-    "gdpUsd": 0,
+    "gdpUsd": 2900000000,
     "lat": 27.5,
     "lng": 90.5,
     "currency": "BTN (Bhutanese ngultrum), INR (Indian rupee)"
@@ -314,14 +314,14 @@
     "flagUrl": "https://flagcdn.com/w320/bo.png",
     "imageUrl": "",
     "capital": "Sucre",
-    "population": 0,
+    "population": 11353142,
     "languages": [
       "Aymara",
       "Guaraní",
       "Quechua",
       "Spanish"
     ],
-    "gdpUsd": 0,
+    "gdpUsd": 44000000000,
     "lat": -17,
     "lng": -65,
     "currency": "BOB (Bolivian boliviano)"
@@ -332,13 +332,13 @@
     "flagUrl": "https://flagcdn.com/w320/ba.png",
     "imageUrl": "",
     "capital": "Sarajevo",
-    "population": 0,
+    "population": 3323929,
     "languages": [
       "Bosnian",
       "Croatian",
       "Serbian"
     ],
-    "gdpUsd": 0,
+    "gdpUsd": 24000000000,
     "lat": 44,
     "lng": 18,
     "currency": "BAM (Bosnia and Herzegovina convertible mark)"
@@ -349,12 +349,12 @@
     "flagUrl": "https://flagcdn.com/w320/bw.png",
     "imageUrl": "",
     "capital": "Gaborone",
-    "population": 0,
+    "population": 2254126,
     "languages": [
       "English",
       "Tswana"
     ],
-    "gdpUsd": 0,
+    "gdpUsd": 19400000000,
     "lat": -22,
     "lng": 24,
     "currency": "BWP (Botswana pula)"
@@ -365,11 +365,11 @@
     "flagUrl": "https://flagcdn.com/w320/br.png",
     "imageUrl": "",
     "capital": "Brasília",
-    "population": 0,
+    "population": 209469333,
     "languages": [
       "Portuguese"
     ],
-    "gdpUsd": 0,
+    "gdpUsd": 1920000000000,
     "lat": -10,
     "lng": -55,
     "currency": "BRL (Brazilian real)"
@@ -380,11 +380,11 @@
     "flagUrl": "https://flagcdn.com/w320/bn.png",
     "imageUrl": "",
     "capital": "Bandar Seri Begawan",
-    "population": 0,
+    "population": 428962,
     "languages": [
       "Malay"
     ],
-    "gdpUsd": 0,
+    "gdpUsd": 16700000000,
     "lat": 4.5,
     "lng": 114.66666666,
     "currency": "BND (Brunei dollar), SGD (Singapore dollar)"
@@ -395,11 +395,11 @@
     "flagUrl": "https://flagcdn.com/w320/bg.png",
     "imageUrl": "",
     "capital": "Sofia",
-    "population": 0,
+    "population": 7025037,
     "languages": [
       "Bulgarian"
     ],
-    "gdpUsd": 0,
+    "gdpUsd": 100600000000,
     "lat": 43,
     "lng": 25,
     "currency": "EUR (Euro)"
@@ -410,11 +410,11 @@
     "flagUrl": "https://flagcdn.com/w320/bf.png",
     "imageUrl": "",
     "capital": "Ouagadougou",
-    "population": 0,
+    "population": 19751535,
     "languages": [
       "French"
     ],
-    "gdpUsd": 0,
+    "gdpUsd": 19700000000,
     "lat": 13,
     "lng": -2,
     "currency": "XOF (West African CFA franc)"
@@ -425,12 +425,12 @@
     "flagUrl": "https://flagcdn.com/w320/bi.png",
     "imageUrl": "",
     "capital": "Gitega",
-    "population": 0,
+    "population": 11175378,
     "languages": [
       "French",
       "Kirundi"
     ],
-    "gdpUsd": 0,
+    "gdpUsd": 3100000000,
     "lat": -3.5,
     "lng": 30,
     "currency": "BIF (Burundian franc)"
@@ -441,11 +441,11 @@
     "flagUrl": "https://flagcdn.com/w320/kh.png",
     "imageUrl": "",
     "capital": "Phnom Penh",
-    "population": 0,
+    "population": 16249798,
     "languages": [
       "Khmer"
     ],
-    "gdpUsd": 0,
+    "gdpUsd": 29600000000,
     "lat": 13,
     "lng": 105,
     "currency": "KHR (Cambodian riel), USD (United States dollar)"
@@ -456,12 +456,12 @@
     "flagUrl": "https://flagcdn.com/w320/cm.png",
     "imageUrl": "",
     "capital": "Yaoundé",
-    "population": 0,
+    "population": 25216237,
     "languages": [
       "English",
       "French"
     ],
-    "gdpUsd": 0,
+    "gdpUsd": 44300000000,
     "lat": 6,
     "lng": 12,
     "currency": "XAF (Central African CFA franc)"
@@ -472,12 +472,12 @@
     "flagUrl": "https://flagcdn.com/w320/ca.png",
     "imageUrl": "",
     "capital": "Ottawa",
-    "population": 0,
+    "population": 37057765,
     "languages": [
       "English",
       "French"
     ],
-    "gdpUsd": 0,
+    "gdpUsd": 2139000000000,
     "lat": 60,
     "lng": -95,
     "currency": "CAD (Canadian dollar)"
@@ -488,11 +488,11 @@
     "flagUrl": "https://flagcdn.com/w320/cv.png",
     "imageUrl": "",
     "capital": "Praia",
-    "population": 0,
+    "population": 555987,
     "languages": [
       "Portuguese"
     ],
-    "gdpUsd": 0,
+    "gdpUsd": 2200000000,
     "lat": 16,
     "lng": -24,
     "currency": "CVE (Cape Verdean escudo)"
@@ -503,12 +503,12 @@
     "flagUrl": "https://flagcdn.com/w320/cf.png",
     "imageUrl": "",
     "capital": "Bangui",
-    "population": 0,
+    "population": 4666377,
     "languages": [
       "French",
       "Sango"
     ],
-    "gdpUsd": 0,
+    "gdpUsd": 2500000000,
     "lat": 7,
     "lng": 21,
     "currency": "XAF (Central African CFA franc)"
@@ -519,12 +519,12 @@
     "flagUrl": "https://flagcdn.com/w320/td.png",
     "imageUrl": "",
     "capital": "N'Djamena",
-    "population": 0,
+    "population": 15477751,
     "languages": [
       "Arabic",
       "French"
     ],
-    "gdpUsd": 0,
+    "gdpUsd": 11800000000,
     "lat": 15,
     "lng": 19,
     "currency": "XAF (Central African CFA franc)"
@@ -535,11 +535,11 @@
     "flagUrl": "https://flagcdn.com/w320/cl.png",
     "imageUrl": "",
     "capital": "Santiago",
-    "population": 0,
+    "population": 18729160,
     "languages": [
       "Spanish"
     ],
-    "gdpUsd": 0,
+    "gdpUsd": 301000000000,
     "lat": -30,
     "lng": -71,
     "currency": "CLP (Chilean peso)"
@@ -550,11 +550,11 @@
     "flagUrl": "https://flagcdn.com/w320/cn.png",
     "imageUrl": "",
     "capital": "Beijing",
-    "population": 0,
+    "population": 1392730000,
     "languages": [
       "Chinese"
     ],
-    "gdpUsd": 0,
+    "gdpUsd": 17963000000000,
     "lat": 35,
     "lng": 105,
     "currency": "CNY (Chinese yuan)"
@@ -565,11 +565,11 @@
     "flagUrl": "https://flagcdn.com/w320/co.png",
     "imageUrl": "",
     "capital": "Bogotá",
-    "population": 0,
+    "population": 49648685,
     "languages": [
       "Spanish"
     ],
-    "gdpUsd": 0,
+    "gdpUsd": 343000000000,
     "lat": 4,
     "lng": -72,
     "currency": "COP (Colombian peso)"
@@ -580,13 +580,13 @@
     "flagUrl": "https://flagcdn.com/w320/km.png",
     "imageUrl": "",
     "capital": "Moroni",
-    "population": 0,
+    "population": 832322,
     "languages": [
       "Arabic",
       "French",
       "Comorian"
     ],
-    "gdpUsd": 0,
+    "gdpUsd": 1300000000,
     "lat": -12.16666666,
     "lng": 44.25,
     "currency": "KMF (Comorian franc)"
@@ -597,13 +597,13 @@
     "flagUrl": "https://flagcdn.com/w320/cg.png",
     "imageUrl": "",
     "capital": "Brazzaville",
-    "population": 0,
+    "population": 5244363,
     "languages": [
       "French",
       "Kikongo",
       "Lingala"
     ],
-    "gdpUsd": 0,
+    "gdpUsd": 13300000000,
     "lat": -1,
     "lng": 15,
     "currency": "XAF (Central African CFA franc)"
@@ -614,11 +614,11 @@
     "flagUrl": "https://flagcdn.com/w320/cr.png",
     "imageUrl": "",
     "capital": "San José",
-    "population": 0,
+    "population": 4999441,
     "languages": [
       "Spanish"
     ],
-    "gdpUsd": 0,
+    "gdpUsd": 68400000000.00001,
     "lat": 10,
     "lng": -84,
     "currency": "CRC (Costa Rican colón)"
@@ -629,11 +629,11 @@
     "flagUrl": "https://flagcdn.com/w320/hr.png",
     "imageUrl": "",
     "capital": "Zagreb",
-    "population": 0,
+    "population": 4087843,
     "languages": [
       "Croatian"
     ],
-    "gdpUsd": 0,
+    "gdpUsd": 78900000000,
     "lat": 45.16666666,
     "lng": 15.5,
     "currency": "EUR (Euro)"
@@ -644,11 +644,11 @@
     "flagUrl": "https://flagcdn.com/w320/cu.png",
     "imageUrl": "",
     "capital": "Havana",
-    "population": 0,
+    "population": 11338138,
     "languages": [
       "Spanish"
     ],
-    "gdpUsd": 0,
+    "gdpUsd": 107000000000,
     "lat": 21.5,
     "lng": -80,
     "currency": "CUC (Cuban convertible peso), CUP (Cuban peso)"
@@ -659,12 +659,12 @@
     "flagUrl": "https://flagcdn.com/w320/cy.png",
     "imageUrl": "",
     "capital": "Nicosia",
-    "population": 0,
+    "population": 1189265,
     "languages": [
       "Greek",
       "Turkish"
     ],
-    "gdpUsd": 0,
+    "gdpUsd": 28400000000,
     "lat": 35,
     "lng": 33,
     "currency": "EUR (Euro)"
@@ -675,12 +675,12 @@
     "flagUrl": "https://flagcdn.com/w320/cz.png",
     "imageUrl": "",
     "capital": "Prague",
-    "population": 0,
+    "population": 10649800,
     "languages": [
       "Czech",
       "Slovak"
     ],
-    "gdpUsd": 0,
+    "gdpUsd": 291000000000,
     "lat": 49.75,
     "lng": 15.5,
     "currency": "CZK (Czech koruna)"
@@ -691,11 +691,11 @@
     "flagUrl": "https://flagcdn.com/w320/dk.png",
     "imageUrl": "",
     "capital": "Copenhagen",
-    "population": 0,
+    "population": 5793636,
     "languages": [
       "Danish"
     ],
-    "gdpUsd": 0,
+    "gdpUsd": 395000000000,
     "lat": 56,
     "lng": 10,
     "currency": "DKK (Danish krone)"
@@ -706,12 +706,12 @@
     "flagUrl": "https://flagcdn.com/w320/dj.png",
     "imageUrl": "",
     "capital": "Djibouti",
-    "population": 0,
+    "population": 958920,
     "languages": [
       "Arabic",
       "French"
     ],
-    "gdpUsd": 0,
+    "gdpUsd": 3700000000,
     "lat": 11.5,
     "lng": 43,
     "currency": "DJF (Djiboutian franc)"
@@ -722,11 +722,11 @@
     "flagUrl": "https://flagcdn.com/w320/dm.png",
     "imageUrl": "",
     "capital": "Roseau",
-    "population": 0,
+    "population": 71625,
     "languages": [
       "English"
     ],
-    "gdpUsd": 0,
+    "gdpUsd": 600000000,
     "lat": 15.41666666,
     "lng": -61.33333333,
     "currency": "XCD (Eastern Caribbean dollar)"
@@ -737,11 +737,11 @@
     "flagUrl": "https://flagcdn.com/w320/do.png",
     "imageUrl": "",
     "capital": "Santo Domingo",
-    "population": 0,
+    "population": 10627165,
     "languages": [
       "Spanish"
     ],
-    "gdpUsd": 0,
+    "gdpUsd": 113600000000,
     "lat": 19,
     "lng": -70.66666666,
     "currency": "DOP (Dominican peso)"
@@ -752,7 +752,7 @@
     "flagUrl": "https://flagcdn.com/w320/cd.png",
     "imageUrl": "",
     "capital": "Kinshasa",
-    "population": 0,
+    "population": 5244363,
     "languages": [
       "French",
       "Kikongo",
@@ -760,7 +760,7 @@
       "Tshiluba",
       "Swahili"
     ],
-    "gdpUsd": 0,
+    "gdpUsd": 65200000000,
     "lat": 0,
     "lng": 25,
     "currency": "CDF (Congolese franc)"
@@ -771,11 +771,11 @@
     "flagUrl": "https://flagcdn.com/w320/ec.png",
     "imageUrl": "",
     "capital": "Quito",
-    "population": 0,
+    "population": 17084357,
     "languages": [
       "Spanish"
     ],
-    "gdpUsd": 0,
+    "gdpUsd": 115000000000,
     "lat": -2,
     "lng": -77.5,
     "currency": "USD (United States dollar)"
@@ -786,11 +786,11 @@
     "flagUrl": "https://flagcdn.com/w320/eg.png",
     "imageUrl": "",
     "capital": "Cairo",
-    "population": 0,
+    "population": 98423595,
     "languages": [
       "Arabic"
     ],
-    "gdpUsd": 0,
+    "gdpUsd": 476000000000,
     "lat": 27,
     "lng": 30,
     "currency": "EGP (Egyptian pound)"
@@ -801,11 +801,11 @@
     "flagUrl": "https://flagcdn.com/w320/sv.png",
     "imageUrl": "",
     "capital": "San Salvador",
-    "population": 0,
+    "population": 6420744,
     "languages": [
       "Spanish"
     ],
-    "gdpUsd": 0,
+    "gdpUsd": 32500000000,
     "lat": 13.83333333,
     "lng": -88.91666666,
     "currency": "USD (United States dollar)"
@@ -816,13 +816,13 @@
     "flagUrl": "https://flagcdn.com/w320/gq.png",
     "imageUrl": "",
     "capital": "Malabo",
-    "population": 0,
+    "population": 1308974,
     "languages": [
       "French",
       "Portuguese",
       "Spanish"
     ],
-    "gdpUsd": 0,
+    "gdpUsd": 12300000000,
     "lat": 2,
     "lng": 10,
     "currency": "XAF (Central African CFA franc)"
@@ -833,13 +833,13 @@
     "flagUrl": "https://flagcdn.com/w320/er.png",
     "imageUrl": "",
     "capital": "Asmara",
-    "population": 0,
+    "population": 6213972,
     "languages": [
       "Arabic",
       "English",
       "Tigrinya"
     ],
-    "gdpUsd": 0,
+    "gdpUsd": 2100000000,
     "lat": 15,
     "lng": 39,
     "currency": "ERN (Eritrean nakfa)"
@@ -850,11 +850,11 @@
     "flagUrl": "https://flagcdn.com/w320/ee.png",
     "imageUrl": "",
     "capital": "Tallinn",
-    "population": 0,
+    "population": 1321977,
     "languages": [
       "Estonian"
     ],
-    "gdpUsd": 0,
+    "gdpUsd": 38100000000,
     "lat": 59,
     "lng": 26,
     "currency": "EUR (Euro)"
@@ -865,12 +865,12 @@
     "flagUrl": "https://flagcdn.com/w320/sz.png",
     "imageUrl": "",
     "capital": "Lobamba",
-    "population": 0,
+    "population": 1136191,
     "languages": [
       "English",
       "Swazi"
     ],
-    "gdpUsd": 0,
+    "gdpUsd": 4700000000,
     "lat": -26.5,
     "lng": 31.5,
     "currency": "SZL (Swazi lilangeni), ZAR (South African rand)"
@@ -881,11 +881,11 @@
     "flagUrl": "https://flagcdn.com/w320/et.png",
     "imageUrl": "",
     "capital": "Addis Ababa",
-    "population": 0,
+    "population": 109224559,
     "languages": [
       "Amharic"
     ],
-    "gdpUsd": 0,
+    "gdpUsd": 126000000000,
     "lat": 8,
     "lng": 38,
     "currency": "ETB (Ethiopian birr)"
@@ -896,13 +896,13 @@
     "flagUrl": "https://flagcdn.com/w320/fj.png",
     "imageUrl": "",
     "capital": "Suva",
-    "population": 0,
+    "population": 883483,
     "languages": [
       "English",
       "Fijian",
       "Fiji Hindi"
     ],
-    "gdpUsd": 0,
+    "gdpUsd": 5100000000,
     "lat": -18,
     "lng": 175,
     "currency": "FJD (Fijian dollar)"
@@ -913,12 +913,12 @@
     "flagUrl": "https://flagcdn.com/w320/fi.png",
     "imageUrl": "",
     "capital": "Helsinki",
-    "population": 0,
+    "population": 5515525,
     "languages": [
       "Finnish",
       "Swedish"
     ],
-    "gdpUsd": 0,
+    "gdpUsd": 282000000000,
     "lat": 64,
     "lng": 26,
     "currency": "EUR (Euro)"
@@ -929,11 +929,11 @@
     "flagUrl": "https://flagcdn.com/w320/fr.png",
     "imageUrl": "",
     "capital": "Paris",
-    "population": 0,
+    "population": 66977107,
     "languages": [
       "French"
     ],
-    "gdpUsd": 0,
+    "gdpUsd": 2783000000000,
     "lat": 46,
     "lng": 2,
     "currency": "EUR (Euro)"
@@ -944,11 +944,11 @@
     "flagUrl": "https://flagcdn.com/w320/ga.png",
     "imageUrl": "",
     "capital": "Libreville",
-    "population": 0,
+    "population": 2119275,
     "languages": [
       "French"
     ],
-    "gdpUsd": 0,
+    "gdpUsd": 20200000000,
     "lat": -1,
     "lng": 11.75,
     "currency": "XAF (Central African CFA franc)"
@@ -959,11 +959,11 @@
     "flagUrl": "https://flagcdn.com/w320/gm.png",
     "imageUrl": "",
     "capital": "Banjul",
-    "population": 0,
+    "population": 2280102,
     "languages": [
       "English"
     ],
-    "gdpUsd": 0,
+    "gdpUsd": 2100000000,
     "lat": 13.46666666,
     "lng": -16.56666666,
     "currency": "GMD (dalasi)"
@@ -974,11 +974,11 @@
     "flagUrl": "https://flagcdn.com/w320/ge.png",
     "imageUrl": "",
     "capital": "Tbilisi",
-    "population": 0,
+    "population": 3726549,
     "languages": [
       "Georgian"
     ],
-    "gdpUsd": 0,
+    "gdpUsd": 24600000000,
     "lat": 42,
     "lng": 43.5,
     "currency": "GEL (lari)"
@@ -989,11 +989,11 @@
     "flagUrl": "https://flagcdn.com/w320/de.png",
     "imageUrl": "",
     "capital": "Berlin",
-    "population": 0,
+    "population": 82905782,
     "languages": [
       "German"
     ],
-    "gdpUsd": 0,
+    "gdpUsd": 4072000000000,
     "lat": 51,
     "lng": 9,
     "currency": "EUR (Euro)"
@@ -1004,11 +1004,11 @@
     "flagUrl": "https://flagcdn.com/w320/gh.png",
     "imageUrl": "",
     "capital": "Accra",
-    "population": 0,
+    "population": 29767108,
     "languages": [
       "English"
     ],
-    "gdpUsd": 0,
+    "gdpUsd": 76400000000,
     "lat": 8,
     "lng": -2,
     "currency": "GHS (Ghanaian cedi)"
@@ -1019,11 +1019,11 @@
     "flagUrl": "https://flagcdn.com/w320/gr.png",
     "imageUrl": "",
     "capital": "Athens",
-    "population": 0,
+    "population": 10731726,
     "languages": [
       "Greek"
     ],
-    "gdpUsd": 0,
+    "gdpUsd": 219000000000,
     "lat": 39,
     "lng": 22,
     "currency": "EUR (Euro)"
@@ -1034,11 +1034,11 @@
     "flagUrl": "https://flagcdn.com/w320/gd.png",
     "imageUrl": "",
     "capital": "St. George's",
-    "population": 0,
+    "population": 111454,
     "languages": [
       "English"
     ],
-    "gdpUsd": 0,
+    "gdpUsd": 1300000000,
     "lat": 12.11666666,
     "lng": -61.66666666,
     "currency": "XCD (Eastern Caribbean dollar)"
@@ -1049,11 +1049,11 @@
     "flagUrl": "https://flagcdn.com/w320/gt.png",
     "imageUrl": "",
     "capital": "Guatemala City",
-    "population": 0,
+    "population": 17247807,
     "languages": [
       "Spanish"
     ],
-    "gdpUsd": 0,
+    "gdpUsd": 95000000000,
     "lat": 15.5,
     "lng": -90.25,
     "currency": "GTQ (Guatemalan quetzal)"
@@ -1064,11 +1064,11 @@
     "flagUrl": "https://flagcdn.com/w320/gn.png",
     "imageUrl": "",
     "capital": "Conakry",
-    "population": 0,
+    "population": 12414318,
     "languages": [
       "French"
     ],
-    "gdpUsd": 0,
+    "gdpUsd": 20100000000,
     "lat": 11,
     "lng": -10,
     "currency": "GNF (Guinean franc)"
@@ -1079,12 +1079,12 @@
     "flagUrl": "https://flagcdn.com/w320/gw.png",
     "imageUrl": "",
     "capital": "Bissau",
-    "population": 0,
+    "population": 1874309,
     "languages": [
       "Portuguese",
       "Upper Guinea Creole"
     ],
-    "gdpUsd": 0,
+    "gdpUsd": 1600000000,
     "lat": 12,
     "lng": -15,
     "currency": "XOF (West African CFA franc)"
@@ -1095,11 +1095,11 @@
     "flagUrl": "https://flagcdn.com/w320/gy.png",
     "imageUrl": "",
     "capital": "Georgetown",
-    "population": 0,
+    "population": 779004,
     "languages": [
       "English"
     ],
-    "gdpUsd": 0,
+    "gdpUsd": 14700000000,
     "lat": 5,
     "lng": -59,
     "currency": "GYD (Guyanese dollar)"
@@ -1110,12 +1110,12 @@
     "flagUrl": "https://flagcdn.com/w320/ht.png",
     "imageUrl": "",
     "capital": "Port-au-Prince",
-    "population": 0,
+    "population": 11123176,
     "languages": [
       "French",
       "Haitian Creole"
     ],
-    "gdpUsd": 0,
+    "gdpUsd": 20300000000,
     "lat": 19,
     "lng": -72.41666666,
     "currency": "HTG (Haitian gourde)"
@@ -1126,11 +1126,11 @@
     "flagUrl": "https://flagcdn.com/w320/hn.png",
     "imageUrl": "",
     "capital": "Tegucigalpa",
-    "population": 0,
+    "population": 9587522,
     "languages": [
       "Spanish"
     ],
-    "gdpUsd": 0,
+    "gdpUsd": 31700000000,
     "lat": 15,
     "lng": -86.5,
     "currency": "HNL (Honduran lempira)"
@@ -1141,11 +1141,11 @@
     "flagUrl": "https://flagcdn.com/w320/hu.png",
     "imageUrl": "",
     "capital": "Budapest",
-    "population": 0,
+    "population": 9775564,
     "languages": [
       "Hungarian"
     ],
-    "gdpUsd": 0,
+    "gdpUsd": 179000000000,
     "lat": 47,
     "lng": 20,
     "currency": "HUF (Hungarian forint)"
@@ -1156,11 +1156,11 @@
     "flagUrl": "https://flagcdn.com/w320/is.png",
     "imageUrl": "",
     "capital": "Reykjavik",
-    "population": 0,
+    "population": 352721,
     "languages": [
       "Icelandic"
     ],
-    "gdpUsd": 0,
+    "gdpUsd": 28000000000,
     "lat": 65,
     "lng": -18,
     "currency": "ISK (Icelandic króna)"
@@ -1171,13 +1171,13 @@
     "flagUrl": "https://flagcdn.com/w320/in.png",
     "imageUrl": "",
     "capital": "New Delhi",
-    "population": 0,
+    "population": 1352617328,
     "languages": [
       "English",
       "Hindi",
       "Tamil"
     ],
-    "gdpUsd": 0,
+    "gdpUsd": 3385000000000,
     "lat": 20,
     "lng": 77,
     "currency": "INR (Indian rupee)"
@@ -1188,11 +1188,11 @@
     "flagUrl": "https://flagcdn.com/w320/id.png",
     "imageUrl": "",
     "capital": "Jakarta",
-    "population": 0,
+    "population": 267663435,
     "languages": [
       "Indonesian"
     ],
-    "gdpUsd": 0,
+    "gdpUsd": 1319000000000,
     "lat": -5,
     "lng": 120,
     "currency": "IDR (Indonesian rupiah)"
@@ -1203,11 +1203,11 @@
     "flagUrl": "https://flagcdn.com/w320/ir.png",
     "imageUrl": "",
     "capital": "Tehran",
-    "population": 0,
+    "population": 81800269,
     "languages": [
       "Persian (Farsi)"
     ],
-    "gdpUsd": 0,
+    "gdpUsd": 388000000000,
     "lat": 32,
     "lng": 53,
     "currency": "IRR (Iranian rial)"
@@ -1218,13 +1218,13 @@
     "flagUrl": "https://flagcdn.com/w320/iq.png",
     "imageUrl": "",
     "capital": "Baghdad",
-    "population": 0,
+    "population": 38433600,
     "languages": [
       "Arabic",
       "Aramaic",
       "Sorani"
     ],
-    "gdpUsd": 0,
+    "gdpUsd": 264000000000,
     "lat": 33,
     "lng": 44,
     "currency": "IQD (Iraqi dinar)"
@@ -1235,12 +1235,12 @@
     "flagUrl": "https://flagcdn.com/w320/ie.png",
     "imageUrl": "",
     "capital": "Dublin",
-    "population": 0,
+    "population": 4867309,
     "languages": [
       "English",
       "Irish"
     ],
-    "gdpUsd": 0,
+    "gdpUsd": 529000000000,
     "lat": 53,
     "lng": -8,
     "currency": "EUR (Euro)"
@@ -1251,12 +1251,12 @@
     "flagUrl": "https://flagcdn.com/w320/il.png",
     "imageUrl": "",
     "capital": "Jerusalem",
-    "population": 0,
+    "population": 8882800,
     "languages": [
       "Arabic",
       "Hebrew"
     ],
-    "gdpUsd": 0,
+    "gdpUsd": 525000000000,
     "lat": 31.47,
     "lng": 35.13,
     "currency": "ILS (Israeli new shekel)"
@@ -1267,11 +1267,11 @@
     "flagUrl": "https://flagcdn.com/w320/it.png",
     "imageUrl": "",
     "capital": "Rome",
-    "population": 0,
+    "population": 60421760,
     "languages": [
       "Italian"
     ],
-    "gdpUsd": 0,
+    "gdpUsd": 2010000000000,
     "lat": 42.83333333,
     "lng": 12.83333333,
     "currency": "EUR (Euro)"
@@ -1282,11 +1282,11 @@
     "flagUrl": "https://flagcdn.com/w320/ci.png",
     "imageUrl": "",
     "capital": "Yamoussoukro",
-    "population": 0,
+    "population": 25069229,
     "languages": [
       "French"
     ],
-    "gdpUsd": 0,
+    "gdpUsd": 70000000000,
     "lat": 8,
     "lng": -5,
     "currency": "XOF (West African CFA franc)"
@@ -1297,12 +1297,12 @@
     "flagUrl": "https://flagcdn.com/w320/jm.png",
     "imageUrl": "",
     "capital": "Kingston",
-    "population": 0,
+    "population": 2934855,
     "languages": [
       "English",
       "Jamaican Patois"
     ],
-    "gdpUsd": 0,
+    "gdpUsd": 17100000000.000002,
     "lat": 18.25,
     "lng": -77.5,
     "currency": "JMD (Jamaican dollar)"
@@ -1313,11 +1313,11 @@
     "flagUrl": "https://flagcdn.com/w320/jp.png",
     "imageUrl": "",
     "capital": "Tokyo",
-    "population": 0,
+    "population": 126529100,
     "languages": [
       "Japanese"
     ],
-    "gdpUsd": 0,
+    "gdpUsd": 4231000000000,
     "lat": 36,
     "lng": 138,
     "currency": "JPY (Japanese yen)"
@@ -1328,11 +1328,11 @@
     "flagUrl": "https://flagcdn.com/w320/jo.png",
     "imageUrl": "",
     "capital": "Amman",
-    "population": 0,
+    "population": 9956011,
     "languages": [
       "Arabic"
     ],
-    "gdpUsd": 0,
+    "gdpUsd": 47500000000,
     "lat": 31,
     "lng": 36,
     "currency": "JOD (Jordanian dinar)"
@@ -1343,12 +1343,12 @@
     "flagUrl": "https://flagcdn.com/w320/kz.png",
     "imageUrl": "",
     "capital": "Astana",
-    "population": 0,
+    "population": 18272430,
     "languages": [
       "Kazakh",
       "Russian"
     ],
-    "gdpUsd": 0,
+    "gdpUsd": 220000000000,
     "lat": 48,
     "lng": 68,
     "currency": "KZT (Kazakhstani tenge)"
@@ -1359,12 +1359,12 @@
     "flagUrl": "https://flagcdn.com/w320/ke.png",
     "imageUrl": "",
     "capital": "Nairobi",
-    "population": 0,
+    "population": 51393010,
     "languages": [
       "English",
       "Swahili"
     ],
-    "gdpUsd": 0,
+    "gdpUsd": 111000000000,
     "lat": 1,
     "lng": 38,
     "currency": "KES (Kenyan shilling)"
@@ -1375,12 +1375,12 @@
     "flagUrl": "https://flagcdn.com/w320/ki.png",
     "imageUrl": "",
     "capital": "South Tarawa",
-    "population": 0,
+    "population": 115847,
     "languages": [
       "English",
       "Gilbertese"
     ],
-    "gdpUsd": 0,
+    "gdpUsd": 200000000,
     "lat": 1.41666666,
     "lng": 173,
     "currency": "AUD (Australian dollar), KID (Kiribati dollar)"
@@ -1391,12 +1391,12 @@
     "flagUrl": "https://flagcdn.com/w320/xk.png",
     "imageUrl": "",
     "capital": "Pristina",
-    "population": 0,
+    "population": 1810366,
     "languages": [
       "Albanian",
       "Serbian"
     ],
-    "gdpUsd": 0,
+    "gdpUsd": 9400000000,
     "lat": 42.666667,
     "lng": 21.166667,
     "currency": "EUR (Euro)"
@@ -1407,11 +1407,11 @@
     "flagUrl": "https://flagcdn.com/w320/kw.png",
     "imageUrl": "",
     "capital": "Kuwait City",
-    "population": 0,
+    "population": 4137309,
     "languages": [
       "Arabic"
     ],
-    "gdpUsd": 0,
+    "gdpUsd": 184000000000,
     "lat": 29.5,
     "lng": 45.75,
     "currency": "KWD (Kuwaiti dinar)"
@@ -1422,12 +1422,12 @@
     "flagUrl": "https://flagcdn.com/w320/kg.png",
     "imageUrl": "",
     "capital": "Bishkek",
-    "population": 0,
+    "population": 6322800,
     "languages": [
       "Kyrgyz",
       "Russian"
     ],
-    "gdpUsd": 0,
+    "gdpUsd": 10900000000,
     "lat": 41,
     "lng": 75,
     "currency": "KGS (Kyrgyzstani som)"
@@ -1438,11 +1438,11 @@
     "flagUrl": "https://flagcdn.com/w320/la.png",
     "imageUrl": "",
     "capital": "Vientiane",
-    "population": 0,
+    "population": 7061507,
     "languages": [
       "Lao"
     ],
-    "gdpUsd": 0,
+    "gdpUsd": 18800000000,
     "lat": 18,
     "lng": 105,
     "currency": "LAK (Lao kip)"
@@ -1453,11 +1453,11 @@
     "flagUrl": "https://flagcdn.com/w320/lv.png",
     "imageUrl": "",
     "capital": "Riga",
-    "population": 0,
+    "population": 1927174,
     "languages": [
       "Latvian"
     ],
-    "gdpUsd": 0,
+    "gdpUsd": 41100000000,
     "lat": 57,
     "lng": 25,
     "currency": "EUR (Euro)"
@@ -1468,12 +1468,12 @@
     "flagUrl": "https://flagcdn.com/w320/lb.png",
     "imageUrl": "",
     "capital": "Beirut",
-    "population": 0,
+    "population": 6848925,
     "languages": [
       "Arabic",
       "French"
     ],
-    "gdpUsd": 0,
+    "gdpUsd": 18100000000,
     "lat": 33.83333333,
     "lng": 35.83333333,
     "currency": "LBP (Lebanese pound)"
@@ -1484,12 +1484,12 @@
     "flagUrl": "https://flagcdn.com/w320/ls.png",
     "imageUrl": "",
     "capital": "Maseru",
-    "population": 0,
+    "population": 2108132,
     "languages": [
       "English",
       "Sotho"
     ],
-    "gdpUsd": 0,
+    "gdpUsd": 2500000000,
     "lat": -29.5,
     "lng": 28.5,
     "currency": "LSL (Lesotho loti), ZAR (South African rand)"
@@ -1500,11 +1500,11 @@
     "flagUrl": "https://flagcdn.com/w320/lr.png",
     "imageUrl": "",
     "capital": "Monrovia",
-    "population": 0,
+    "population": 4818977,
     "languages": [
       "English"
     ],
-    "gdpUsd": 0,
+    "gdpUsd": 4000000000,
     "lat": 6.5,
     "lng": -9.5,
     "currency": "LRD (Liberian dollar)"
@@ -1515,11 +1515,11 @@
     "flagUrl": "https://flagcdn.com/w320/ly.png",
     "imageUrl": "",
     "capital": "Tripoli",
-    "population": 0,
+    "population": 6678567,
     "languages": [
       "Arabic"
     ],
-    "gdpUsd": 0,
+    "gdpUsd": 45700000000,
     "lat": 25,
     "lng": 17,
     "currency": "LYD (Libyan dinar)"
@@ -1530,11 +1530,11 @@
     "flagUrl": "https://flagcdn.com/w320/li.png",
     "imageUrl": "",
     "capital": "Vaduz",
-    "population": 0,
+    "population": 37910,
     "languages": [
       "German"
     ],
-    "gdpUsd": 0,
+    "gdpUsd": 7400000000,
     "lat": 47.26666666,
     "lng": 9.53333333,
     "currency": "CHF (Swiss franc)"
@@ -1545,11 +1545,11 @@
     "flagUrl": "https://flagcdn.com/w320/lt.png",
     "imageUrl": "",
     "capital": "Vilnius",
-    "population": 0,
+    "population": 2801543,
     "languages": [
       "Lithuanian"
     ],
-    "gdpUsd": 0,
+    "gdpUsd": 67400000000.00001,
     "lat": 56,
     "lng": 24,
     "currency": "EUR (Euro)"
@@ -1560,13 +1560,13 @@
     "flagUrl": "https://flagcdn.com/w320/lu.png",
     "imageUrl": "",
     "capital": "Luxembourg",
-    "population": 0,
+    "population": 607950,
     "languages": [
       "German",
       "French",
       "Luxembourgish"
     ],
-    "gdpUsd": 0,
+    "gdpUsd": 86900000000,
     "lat": 49.75,
     "lng": 6.16666666,
     "currency": "EUR (Euro)"
@@ -1577,12 +1577,12 @@
     "flagUrl": "https://flagcdn.com/w320/mg.png",
     "imageUrl": "",
     "capital": "Antananarivo",
-    "population": 0,
+    "population": 26262368,
     "languages": [
       "French",
       "Malagasy"
     ],
-    "gdpUsd": 0,
+    "gdpUsd": 14600000000,
     "lat": -20,
     "lng": 47,
     "currency": "MGA (Malagasy ariary)"
@@ -1593,12 +1593,12 @@
     "flagUrl": "https://flagcdn.com/w320/mw.png",
     "imageUrl": "",
     "capital": "Lilongwe",
-    "population": 0,
+    "population": 18143315,
     "languages": [
       "English",
       "Chewa"
     ],
-    "gdpUsd": 0,
+    "gdpUsd": 12600000000,
     "lat": -13.5,
     "lng": 34,
     "currency": "MWK (Malawian kwacha)"
@@ -1609,12 +1609,12 @@
     "flagUrl": "https://flagcdn.com/w320/my.png",
     "imageUrl": "",
     "capital": "Kuala Lumpur",
-    "population": 0,
+    "population": 31528585,
     "languages": [
       "English",
       "Malay"
     ],
-    "gdpUsd": 0,
+    "gdpUsd": 407000000000,
     "lat": 2.5,
     "lng": 112.5,
     "currency": "MYR (Malaysian ringgit)"
@@ -1625,11 +1625,11 @@
     "flagUrl": "https://flagcdn.com/w320/mv.png",
     "imageUrl": "",
     "capital": "Malé",
-    "population": 0,
+    "population": 515696,
     "languages": [
       "Maldivian"
     ],
-    "gdpUsd": 0,
+    "gdpUsd": 6200000000,
     "lat": 3.25,
     "lng": 73,
     "currency": "MVR (Maldivian rufiyaa)"
@@ -1640,11 +1640,11 @@
     "flagUrl": "https://flagcdn.com/w320/ml.png",
     "imageUrl": "",
     "capital": "Bamako",
-    "population": 0,
+    "population": 19077690,
     "languages": [
       "French"
     ],
-    "gdpUsd": 0,
+    "gdpUsd": 19300000000,
     "lat": 17,
     "lng": -4,
     "currency": "XOF (West African CFA franc)"
@@ -1655,12 +1655,12 @@
     "flagUrl": "https://flagcdn.com/w320/mt.png",
     "imageUrl": "",
     "capital": "Valletta",
-    "population": 0,
+    "population": 484630,
     "languages": [
       "English",
       "Maltese"
     ],
-    "gdpUsd": 0,
+    "gdpUsd": 18800000000,
     "lat": 35.83333333,
     "lng": 14.58333333,
     "currency": "EUR (Euro)"
@@ -1671,12 +1671,12 @@
     "flagUrl": "https://flagcdn.com/w320/mh.png",
     "imageUrl": "",
     "capital": "Majuro",
-    "population": 0,
+    "population": 58413,
     "languages": [
       "English",
       "Marshallese"
     ],
-    "gdpUsd": 0,
+    "gdpUsd": 300000000,
     "lat": 9,
     "lng": 168,
     "currency": "USD (United States dollar)"
@@ -1687,11 +1687,11 @@
     "flagUrl": "https://flagcdn.com/w320/mr.png",
     "imageUrl": "",
     "capital": "Nouakchott",
-    "population": 0,
+    "population": 4403319,
     "languages": [
       "Arabic"
     ],
-    "gdpUsd": 0,
+    "gdpUsd": 10400000000,
     "lat": 20,
     "lng": -12,
     "currency": "MRU (Mauritanian ouguiya)"
@@ -1702,13 +1702,13 @@
     "flagUrl": "https://flagcdn.com/w320/mu.png",
     "imageUrl": "",
     "capital": "Port Louis",
-    "population": 0,
+    "population": 1265303,
     "languages": [
       "English",
       "French",
       "Mauritian Creole"
     ],
-    "gdpUsd": 0,
+    "gdpUsd": 14000000000,
     "lat": -20.28333333,
     "lng": 57.55,
     "currency": "MUR (Mauritian rupee)"
@@ -1719,11 +1719,11 @@
     "flagUrl": "https://flagcdn.com/w320/mx.png",
     "imageUrl": "",
     "capital": "Mexico City",
-    "population": 0,
+    "population": 126190788,
     "languages": [
       "Spanish"
     ],
-    "gdpUsd": 0,
+    "gdpUsd": 1414000000000,
     "lat": 23,
     "lng": -102,
     "currency": "MXN (Mexican peso)"
@@ -1734,14 +1734,14 @@
     "flagUrl": "https://flagcdn.com/w320/fm.png",
     "imageUrl": "",
     "capital": "Palikir",
-    "population": 0,
+    "population": 112640,
     "languages": [
       "English"
     ],
-    "gdpUsd": 0,
+    "gdpUsd": 400000000,
     "lat": 6.91666666,
     "lng": 158.25,
-    "currency": ""
+    "currency": "USD (United States dollar)"
   },
   {
     "isoCode": "MD",
@@ -1749,11 +1749,11 @@
     "flagUrl": "https://flagcdn.com/w320/md.png",
     "imageUrl": "",
     "capital": "Chișinău",
-    "population": 0,
+    "population": 2706049,
     "languages": [
       "Moldavian"
     ],
-    "gdpUsd": 0,
+    "gdpUsd": 14400000000,
     "lat": 47,
     "lng": 29,
     "currency": "MDL (Moldovan leu)"
@@ -1764,11 +1764,11 @@
     "flagUrl": "https://flagcdn.com/w320/mc.png",
     "imageUrl": "",
     "capital": "Monaco",
-    "population": 0,
+    "population": 38682,
     "languages": [
       "French"
     ],
-    "gdpUsd": 0,
+    "gdpUsd": 8600000000,
     "lat": 43.73333333,
     "lng": 7.4,
     "currency": "EUR (Euro)"
@@ -1779,11 +1779,11 @@
     "flagUrl": "https://flagcdn.com/w320/mn.png",
     "imageUrl": "",
     "capital": "Ulan Bator",
-    "population": 0,
+    "population": 3170208,
     "languages": [
       "Mongolian"
     ],
-    "gdpUsd": 0,
+    "gdpUsd": 17100000000.000002,
     "lat": 46,
     "lng": 105,
     "currency": "MNT (Mongolian tögrög)"
@@ -1794,11 +1794,11 @@
     "flagUrl": "https://flagcdn.com/w320/me.png",
     "imageUrl": "",
     "capital": "Podgorica",
-    "population": 0,
+    "population": 631219,
     "languages": [
       "Montenegrin"
     ],
-    "gdpUsd": 0,
+    "gdpUsd": 7100000000,
     "lat": 42.5,
     "lng": 19.3,
     "currency": "EUR (Euro)"
@@ -1809,12 +1809,12 @@
     "flagUrl": "https://flagcdn.com/w320/ma.png",
     "imageUrl": "",
     "capital": "Rabat",
-    "population": 0,
+    "population": 36029138,
     "languages": [
       "Arabic",
       "Berber"
     ],
-    "gdpUsd": 0,
+    "gdpUsd": 134000000000,
     "lat": 32,
     "lng": -5,
     "currency": "MAD (Moroccan dirham)"
@@ -1825,11 +1825,11 @@
     "flagUrl": "https://flagcdn.com/w320/mz.png",
     "imageUrl": "",
     "capital": "Maputo",
-    "population": 0,
+    "population": 29495962,
     "languages": [
       "Portuguese"
     ],
-    "gdpUsd": 0,
+    "gdpUsd": 17900000000,
     "lat": -18.25,
     "lng": 35,
     "currency": "MZN (Mozambican metical)"
@@ -1840,11 +1840,11 @@
     "flagUrl": "https://flagcdn.com/w320/mm.png",
     "imageUrl": "",
     "capital": "Naypyidaw",
-    "population": 0,
+    "population": 53708395,
     "languages": [
       "Burmese"
     ],
-    "gdpUsd": 0,
+    "gdpUsd": 59400000000,
     "lat": 22,
     "lng": 98,
     "currency": "MMK (Burmese kyat)"
@@ -1855,7 +1855,7 @@
     "flagUrl": "https://flagcdn.com/w320/na.png",
     "imageUrl": "",
     "capital": "Windhoek",
-    "population": 0,
+    "population": 2448255,
     "languages": [
       "Afrikaans",
       "German",
@@ -1867,7 +1867,7 @@
       "Ndonga",
       "Tswana"
     ],
-    "gdpUsd": 0,
+    "gdpUsd": 12400000000,
     "lat": -22,
     "lng": 17,
     "currency": "NAD (Namibian dollar), ZAR (South African rand)"
@@ -1878,12 +1878,12 @@
     "flagUrl": "https://flagcdn.com/w320/nr.png",
     "imageUrl": "",
     "capital": "Yaren",
-    "population": 0,
+    "population": 12704,
     "languages": [
       "English",
       "Nauru"
     ],
-    "gdpUsd": 0,
+    "gdpUsd": 200000000,
     "lat": -0.53333333,
     "lng": 166.91666666,
     "currency": "AUD (Australian dollar)"
@@ -1894,11 +1894,11 @@
     "flagUrl": "https://flagcdn.com/w320/np.png",
     "imageUrl": "",
     "capital": "Kathmandu",
-    "population": 0,
+    "population": 28087871,
     "languages": [
       "Nepali"
     ],
-    "gdpUsd": 0,
+    "gdpUsd": 40800000000,
     "lat": 28,
     "lng": 84,
     "currency": "NPR (Nepalese rupee)"
@@ -1909,11 +1909,11 @@
     "flagUrl": "https://flagcdn.com/w320/nl.png",
     "imageUrl": "",
     "capital": "Amsterdam",
-    "population": 0,
+    "population": 17231624,
     "languages": [
       "Dutch"
     ],
-    "gdpUsd": 0,
+    "gdpUsd": 991000000000,
     "lat": 52.5,
     "lng": 5.75,
     "currency": "EUR (Euro)"
@@ -1924,13 +1924,13 @@
     "flagUrl": "https://flagcdn.com/w320/nz.png",
     "imageUrl": "",
     "capital": "Wellington",
-    "population": 0,
+    "population": 4841000,
     "languages": [
       "English",
       "Māori",
       "New Zealand Sign Language"
     ],
-    "gdpUsd": 0,
+    "gdpUsd": 247000000000,
     "lat": -41,
     "lng": 174,
     "currency": "NZD (New Zealand dollar)"
@@ -1941,11 +1941,11 @@
     "flagUrl": "https://flagcdn.com/w320/ni.png",
     "imageUrl": "",
     "capital": "Managua",
-    "population": 0,
+    "population": 6465513,
     "languages": [
       "Spanish"
     ],
-    "gdpUsd": 0,
+    "gdpUsd": 15700000000,
     "lat": 13,
     "lng": -85,
     "currency": "NIO (Nicaraguan córdoba)"
@@ -1956,11 +1956,11 @@
     "flagUrl": "https://flagcdn.com/w320/ne.png",
     "imageUrl": "",
     "capital": "Niamey",
-    "population": 0,
+    "population": 22442948,
     "languages": [
       "French"
     ],
-    "gdpUsd": 0,
+    "gdpUsd": 14900000000,
     "lat": 16,
     "lng": 8,
     "currency": "XOF (West African CFA franc)"
@@ -1971,11 +1971,11 @@
     "flagUrl": "https://flagcdn.com/w320/ng.png",
     "imageUrl": "",
     "capital": "Abuja",
-    "population": 0,
+    "population": 195874740,
     "languages": [
       "English"
     ],
-    "gdpUsd": 0,
+    "gdpUsd": 477000000000,
     "lat": 10,
     "lng": 8,
     "currency": "NGN (Nigerian naira)"
@@ -1986,11 +1986,11 @@
     "flagUrl": "https://flagcdn.com/w320/kp.png",
     "imageUrl": "",
     "capital": "Pyongyang",
-    "population": 0,
+    "population": 25549819,
     "languages": [
       "Korean"
     ],
-    "gdpUsd": 0,
+    "gdpUsd": 18000000000,
     "lat": 40,
     "lng": 127,
     "currency": "KPW (North Korean won)"
@@ -2001,11 +2001,11 @@
     "flagUrl": "https://flagcdn.com/w320/mk.png",
     "imageUrl": "",
     "capital": "Skopje",
-    "population": 0,
+    "population": 2084367,
     "languages": [
       "Macedonian"
     ],
-    "gdpUsd": 0,
+    "gdpUsd": 14000000000,
     "lat": 41.83333333,
     "lng": 22,
     "currency": "MKD (denar)"
@@ -2016,13 +2016,13 @@
     "flagUrl": "https://flagcdn.com/w320/no.png",
     "imageUrl": "",
     "capital": "Oslo",
-    "population": 0,
+    "population": 5311916,
     "languages": [
       "Norwegian Nynorsk",
       "Norwegian Bokmål",
       "Sami"
     ],
-    "gdpUsd": 0,
+    "gdpUsd": 579000000000,
     "lat": 62,
     "lng": 10,
     "currency": "NOK (Norwegian krone)"
@@ -2033,11 +2033,11 @@
     "flagUrl": "https://flagcdn.com/w320/om.png",
     "imageUrl": "",
     "capital": "Muscat",
-    "population": 0,
+    "population": 4829483,
     "languages": [
       "Arabic"
     ],
-    "gdpUsd": 0,
+    "gdpUsd": 104900000000,
     "lat": 21,
     "lng": 57,
     "currency": "OMR (Omani rial)"
@@ -2048,12 +2048,12 @@
     "flagUrl": "https://flagcdn.com/w320/pk.png",
     "imageUrl": "",
     "capital": "Islamabad",
-    "population": 0,
+    "population": 212215030,
     "languages": [
       "English",
       "Urdu"
     ],
-    "gdpUsd": 0,
+    "gdpUsd": 376000000000,
     "lat": 30,
     "lng": 70,
     "currency": "PKR (Pakistani rupee)"
@@ -2064,12 +2064,12 @@
     "flagUrl": "https://flagcdn.com/w320/pw.png",
     "imageUrl": "",
     "capital": "Ngerulmud",
-    "population": 0,
+    "population": 17907,
     "languages": [
       "English",
       "Palauan"
     ],
-    "gdpUsd": 0,
+    "gdpUsd": 300000000,
     "lat": 7.5,
     "lng": 134.5,
     "currency": "USD (United States dollar)"
@@ -2080,11 +2080,11 @@
     "flagUrl": "https://flagcdn.com/w320/pa.png",
     "imageUrl": "",
     "capital": "Panama City",
-    "population": 0,
+    "population": 4176873,
     "languages": [
       "Spanish"
     ],
-    "gdpUsd": 0,
+    "gdpUsd": 76400000000,
     "lat": 9,
     "lng": -80,
     "currency": "PAB (Panamanian balboa), USD (United States dollar)"
@@ -2095,13 +2095,13 @@
     "flagUrl": "https://flagcdn.com/w320/pg.png",
     "imageUrl": "",
     "capital": "Port Moresby",
-    "population": 0,
+    "population": 8606316,
     "languages": [
       "English",
       "Hiri Motu",
       "Tok Pisin"
     ],
-    "gdpUsd": 0,
+    "gdpUsd": 30600000000,
     "lat": -6,
     "lng": 147,
     "currency": "PGK (Papua New Guinean kina)"
@@ -2112,12 +2112,12 @@
     "flagUrl": "https://flagcdn.com/w320/py.png",
     "imageUrl": "",
     "capital": "Asunción",
-    "population": 0,
+    "population": 6956071,
     "languages": [
       "Guaraní",
       "Spanish"
     ],
-    "gdpUsd": 0,
+    "gdpUsd": 42000000000,
     "lat": -23,
     "lng": -58,
     "currency": "PYG (Paraguayan guaraní)"
@@ -2128,13 +2128,13 @@
     "flagUrl": "https://flagcdn.com/w320/pe.png",
     "imageUrl": "",
     "capital": "Lima",
-    "population": 0,
+    "population": 31989256,
     "languages": [
       "Aymara",
       "Quechua",
       "Spanish"
     ],
-    "gdpUsd": 0,
+    "gdpUsd": 242000000000,
     "lat": -10,
     "lng": -76,
     "currency": "PEN (Peruvian sol)"
@@ -2145,12 +2145,12 @@
     "flagUrl": "https://flagcdn.com/w320/ph.png",
     "imageUrl": "",
     "capital": "Manila",
-    "population": 0,
+    "population": 106651922,
     "languages": [
       "English",
       "Filipino"
     ],
-    "gdpUsd": 0,
+    "gdpUsd": 404000000000,
     "lat": 13,
     "lng": 122,
     "currency": "PHP (Philippine peso)"
@@ -2161,11 +2161,11 @@
     "flagUrl": "https://flagcdn.com/w320/pl.png",
     "imageUrl": "",
     "capital": "Warsaw",
-    "population": 0,
+    "population": 37974750,
     "languages": [
       "Polish"
     ],
-    "gdpUsd": 0,
+    "gdpUsd": 688000000000,
     "lat": 52,
     "lng": 20,
     "currency": "PLN (Polish złoty)"
@@ -2176,11 +2176,11 @@
     "flagUrl": "https://flagcdn.com/w320/pt.png",
     "imageUrl": "",
     "capital": "Lisbon",
-    "population": 0,
+    "population": 10283822,
     "languages": [
       "Portuguese"
     ],
-    "gdpUsd": 0,
+    "gdpUsd": 255000000000,
     "lat": 39.5,
     "lng": -8,
     "currency": "EUR (Euro)"
@@ -2191,11 +2191,11 @@
     "flagUrl": "https://flagcdn.com/w320/qa.png",
     "imageUrl": "",
     "capital": "Doha",
-    "population": 0,
+    "population": 2781677,
     "languages": [
       "Arabic"
     ],
-    "gdpUsd": 0,
+    "gdpUsd": 221000000000,
     "lat": 25.5,
     "lng": 51.25,
     "currency": "QAR (Qatari riyal)"
@@ -2206,11 +2206,11 @@
     "flagUrl": "https://flagcdn.com/w320/ro.png",
     "imageUrl": "",
     "capital": "Bucharest",
-    "population": 0,
+    "population": 19466145,
     "languages": [
       "Romanian"
     ],
-    "gdpUsd": 0,
+    "gdpUsd": 301000000000,
     "lat": 46,
     "lng": 25,
     "currency": "RON (Romanian leu)"
@@ -2221,11 +2221,11 @@
     "flagUrl": "https://flagcdn.com/w320/ru.png",
     "imageUrl": "",
     "capital": "Moscow",
-    "population": 0,
+    "population": 144478050,
     "languages": [
       "Russian"
     ],
-    "gdpUsd": 0,
+    "gdpUsd": 2240000000000,
     "lat": 60,
     "lng": 100,
     "currency": "RUB (Russian ruble)"
@@ -2236,13 +2236,13 @@
     "flagUrl": "https://flagcdn.com/w320/rw.png",
     "imageUrl": "",
     "capital": "Kigali",
-    "population": 0,
+    "population": 12301939,
     "languages": [
       "English",
       "French",
       "Kinyarwanda"
     ],
-    "gdpUsd": 0,
+    "gdpUsd": 13300000000,
     "lat": -2,
     "lng": 30,
     "currency": "RWF (Rwandan franc)"
@@ -2253,11 +2253,11 @@
     "flagUrl": "https://flagcdn.com/w320/kn.png",
     "imageUrl": "",
     "capital": "Basseterre",
-    "population": 0,
+    "population": 52441,
     "languages": [
       "English"
     ],
-    "gdpUsd": 0,
+    "gdpUsd": 1100000000,
     "lat": 17.33333333,
     "lng": -62.75,
     "currency": "XCD (Eastern Caribbean dollar)"
@@ -2268,11 +2268,11 @@
     "flagUrl": "https://flagcdn.com/w320/lc.png",
     "imageUrl": "",
     "capital": "Castries",
-    "population": 0,
+    "population": 181889,
     "languages": [
       "English"
     ],
-    "gdpUsd": 0,
+    "gdpUsd": 2100000000,
     "lat": 13.88333333,
     "lng": -60.96666666,
     "currency": "XCD (Eastern Caribbean dollar)"
@@ -2283,11 +2283,11 @@
     "flagUrl": "https://flagcdn.com/w320/vc.png",
     "imageUrl": "",
     "capital": "Kingstown",
-    "population": 0,
+    "population": 110210,
     "languages": [
       "English"
     ],
-    "gdpUsd": 0,
+    "gdpUsd": 1000000000,
     "lat": 13.25,
     "lng": -61.2,
     "currency": "XCD (Eastern Caribbean dollar)"
@@ -2298,12 +2298,12 @@
     "flagUrl": "https://flagcdn.com/w320/ws.png",
     "imageUrl": "",
     "capital": "Apia",
-    "population": 0,
+    "population": 196130,
     "languages": [
       "English",
       "Samoan"
     ],
-    "gdpUsd": 0,
+    "gdpUsd": 900000000,
     "lat": -13.58333333,
     "lng": -172.33333333,
     "currency": "WST (Samoan tālā)"
@@ -2314,11 +2314,11 @@
     "flagUrl": "https://flagcdn.com/w320/sm.png",
     "imageUrl": "",
     "capital": "City of San Marino",
-    "population": 0,
+    "population": 33785,
     "languages": [
       "Italian"
     ],
-    "gdpUsd": 0,
+    "gdpUsd": 1900000000,
     "lat": 43.76666666,
     "lng": 12.41666666,
     "currency": "EUR (Euro)"
@@ -2329,11 +2329,11 @@
     "flagUrl": "https://flagcdn.com/w320/st.png",
     "imageUrl": "",
     "capital": "São Tomé",
-    "population": 0,
+    "population": 211028,
     "languages": [
       "Portuguese"
     ],
-    "gdpUsd": 0,
+    "gdpUsd": 500000000,
     "lat": 1,
     "lng": 7,
     "currency": "STN (São Tomé and Príncipe dobra)"
@@ -2344,11 +2344,11 @@
     "flagUrl": "https://flagcdn.com/w320/sa.png",
     "imageUrl": "",
     "capital": "Riyadh",
-    "population": 0,
+    "population": 33699947,
     "languages": [
       "Arabic"
     ],
-    "gdpUsd": 0,
+    "gdpUsd": 1108000000000,
     "lat": 25,
     "lng": 45,
     "currency": "SAR (Saudi riyal)"
@@ -2359,11 +2359,11 @@
     "flagUrl": "https://flagcdn.com/w320/sn.png",
     "imageUrl": "",
     "capital": "Dakar",
-    "population": 0,
+    "population": 15854360,
     "languages": [
       "French"
     ],
-    "gdpUsd": 0,
+    "gdpUsd": 27600000000,
     "lat": 14,
     "lng": -14,
     "currency": "XOF (West African CFA franc)"
@@ -2374,11 +2374,11 @@
     "flagUrl": "https://flagcdn.com/w320/rs.png",
     "imageUrl": "",
     "capital": "Belgrade",
-    "population": 0,
+    "population": 6963764,
     "languages": [
       "Serbian"
     ],
-    "gdpUsd": 0,
+    "gdpUsd": 63600000000,
     "lat": 44,
     "lng": 21,
     "currency": "RSD (Serbian dinar)"
@@ -2389,13 +2389,13 @@
     "flagUrl": "https://flagcdn.com/w320/sc.png",
     "imageUrl": "",
     "capital": "Victoria",
-    "population": 0,
+    "population": 96762,
     "languages": [
       "Seychellois Creole",
       "English",
       "French"
     ],
-    "gdpUsd": 0,
+    "gdpUsd": 2000000000,
     "lat": -4.58333333,
     "lng": 55.66666666,
     "currency": "SCR (Seychellois rupee)"
@@ -2406,11 +2406,11 @@
     "flagUrl": "https://flagcdn.com/w320/sl.png",
     "imageUrl": "",
     "capital": "Freetown",
-    "population": 0,
+    "population": 7650154,
     "languages": [
       "English"
     ],
-    "gdpUsd": 0,
+    "gdpUsd": 4200000000,
     "lat": 8.5,
     "lng": -11.5,
     "currency": "SLL (Sierra Leonean leone)"
@@ -2421,14 +2421,14 @@
     "flagUrl": "https://flagcdn.com/w320/sg.png",
     "imageUrl": "",
     "capital": "Singapore",
-    "population": 0,
+    "population": 5638676,
     "languages": [
       "English",
       "Malay",
       "Tamil",
       "Chinese"
     ],
-    "gdpUsd": 0,
+    "gdpUsd": 397000000000,
     "lat": 1.36666666,
     "lng": 103.8,
     "currency": "SGD (Singapore dollar)"
@@ -2439,11 +2439,11 @@
     "flagUrl": "https://flagcdn.com/w320/sk.png",
     "imageUrl": "",
     "capital": "Bratislava",
-    "population": 0,
+    "population": 5446771,
     "languages": [
       "Slovak"
     ],
-    "gdpUsd": 0,
+    "gdpUsd": 115000000000,
     "lat": 48.66666666,
     "lng": 19.5,
     "currency": "EUR (Euro)"
@@ -2454,11 +2454,11 @@
     "flagUrl": "https://flagcdn.com/w320/si.png",
     "imageUrl": "",
     "capital": "Ljubljana",
-    "population": 0,
+    "population": 2073894,
     "languages": [
       "Slovene"
     ],
-    "gdpUsd": 0,
+    "gdpUsd": 62100000000,
     "lat": 46.11666666,
     "lng": 14.81666666,
     "currency": "EUR (Euro)"
@@ -2469,11 +2469,11 @@
     "flagUrl": "https://flagcdn.com/w320/sb.png",
     "imageUrl": "",
     "capital": "Honiara",
-    "population": 0,
+    "population": 652858,
     "languages": [
       "English"
     ],
-    "gdpUsd": 0,
+    "gdpUsd": 1600000000,
     "lat": -8,
     "lng": 159,
     "currency": "SBD (Solomon Islands dollar)"
@@ -2484,12 +2484,12 @@
     "flagUrl": "https://flagcdn.com/w320/so.png",
     "imageUrl": "",
     "capital": "Mogadishu",
-    "population": 0,
+    "population": 15008154,
     "languages": [
       "Arabic",
       "Somali"
     ],
-    "gdpUsd": 0,
+    "gdpUsd": 8100000000,
     "lat": 10,
     "lng": 49,
     "currency": "SOS (Somali shilling)"
@@ -2500,7 +2500,7 @@
     "flagUrl": "https://flagcdn.com/w320/za.png",
     "imageUrl": "",
     "capital": "Pretoria",
-    "population": 0,
+    "population": 57779622,
     "languages": [
       "Afrikaans",
       "English",
@@ -2514,7 +2514,7 @@
       "Xhosa",
       "Zulu"
     ],
-    "gdpUsd": 0,
+    "gdpUsd": 405000000000,
     "lat": -29,
     "lng": 24,
     "currency": "ZAR (South African rand)"
@@ -2525,11 +2525,11 @@
     "flagUrl": "https://flagcdn.com/w320/kr.png",
     "imageUrl": "",
     "capital": "Seoul",
-    "population": 0,
+    "population": 51606633,
     "languages": [
       "Korean"
     ],
-    "gdpUsd": 0,
+    "gdpUsd": 1665000000000,
     "lat": 37,
     "lng": 127.5,
     "currency": "KRW (South Korean won)"
@@ -2540,11 +2540,11 @@
     "flagUrl": "https://flagcdn.com/w320/ss.png",
     "imageUrl": "",
     "capital": "Juba",
-    "population": 0,
+    "population": 10975920,
     "languages": [
       "English"
     ],
-    "gdpUsd": 0,
+    "gdpUsd": 11000000000,
     "lat": 7,
     "lng": 30,
     "currency": "SSP (South Sudanese pound)"
@@ -2555,11 +2555,11 @@
     "flagUrl": "https://flagcdn.com/w320/es.png",
     "imageUrl": "",
     "capital": "Madrid",
-    "population": 0,
+    "population": 46796540,
     "languages": [
       "Spanish"
     ],
-    "gdpUsd": 0,
+    "gdpUsd": 1397000000000,
     "lat": 40,
     "lng": -4,
     "currency": "EUR (Euro)"
@@ -2570,12 +2570,12 @@
     "flagUrl": "https://flagcdn.com/w320/lk.png",
     "imageUrl": "",
     "capital": "Colombo",
-    "population": 0,
+    "population": 21670000,
     "languages": [
       "Sinhala",
       "Tamil"
     ],
-    "gdpUsd": 0,
+    "gdpUsd": 75300000000,
     "lat": 7,
     "lng": 81,
     "currency": "LKR (Sri Lankan rupee)"
@@ -2586,12 +2586,12 @@
     "flagUrl": "https://flagcdn.com/w320/sd.png",
     "imageUrl": "",
     "capital": "Khartoum",
-    "population": 0,
+    "population": 41801533,
     "languages": [
       "Arabic",
       "English"
     ],
-    "gdpUsd": 0,
+    "gdpUsd": 34299999999.999996,
     "lat": 15,
     "lng": 30,
     "currency": "SDG (Sudanese pound)"
@@ -2602,11 +2602,11 @@
     "flagUrl": "https://flagcdn.com/w320/sr.png",
     "imageUrl": "",
     "capital": "Paramaribo",
-    "population": 0,
+    "population": 575991,
     "languages": [
       "Dutch"
     ],
-    "gdpUsd": 0,
+    "gdpUsd": 3500000000,
     "lat": 4,
     "lng": -56,
     "currency": "SRD (Surinamese dollar)"
@@ -2617,11 +2617,11 @@
     "flagUrl": "https://flagcdn.com/w320/se.png",
     "imageUrl": "",
     "capital": "Stockholm",
-    "population": 0,
+    "population": 10175214,
     "languages": [
       "Swedish"
     ],
-    "gdpUsd": 0,
+    "gdpUsd": 586000000000,
     "lat": 62,
     "lng": 15,
     "currency": "SEK (Swedish krona)"
@@ -2632,14 +2632,14 @@
     "flagUrl": "https://flagcdn.com/w320/ch.png",
     "imageUrl": "",
     "capital": "Bern",
-    "population": 0,
+    "population": 8513227,
     "languages": [
       "French",
       "Swiss German",
       "Italian",
       "Romansh"
     ],
-    "gdpUsd": 0,
+    "gdpUsd": 808000000000,
     "lat": 47,
     "lng": 8,
     "currency": "CHF (Swiss franc)"
@@ -2650,11 +2650,11 @@
     "flagUrl": "https://flagcdn.com/w320/sy.png",
     "imageUrl": "",
     "capital": "Damascus",
-    "population": 0,
+    "population": 16906283,
     "languages": [
       "Arabic"
     ],
-    "gdpUsd": 0,
+    "gdpUsd": 12000000000,
     "lat": 35,
     "lng": 38,
     "currency": "SYP (Syrian pound)"
@@ -2665,12 +2665,12 @@
     "flagUrl": "https://flagcdn.com/w320/tj.png",
     "imageUrl": "",
     "capital": "Dushanbe",
-    "population": 0,
+    "population": 9100837,
     "languages": [
       "Russian",
       "Tajik"
     ],
-    "gdpUsd": 0,
+    "gdpUsd": 11000000000,
     "lat": 39,
     "lng": 71,
     "currency": "TJS (Tajikistani somoni)"
@@ -2681,12 +2681,12 @@
     "flagUrl": "https://flagcdn.com/w320/tz.png",
     "imageUrl": "",
     "capital": "Dodoma",
-    "population": 0,
+    "population": 56318348,
     "languages": [
       "English",
       "Swahili"
     ],
-    "gdpUsd": 0,
+    "gdpUsd": 75700000000,
     "lat": -6,
     "lng": 35,
     "currency": "TZS (Tanzanian shilling)"
@@ -2697,11 +2697,11 @@
     "flagUrl": "https://flagcdn.com/w320/th.png",
     "imageUrl": "",
     "capital": "Bangkok",
-    "population": 0,
+    "population": 69428524,
     "languages": [
       "Thai"
     ],
-    "gdpUsd": 0,
+    "gdpUsd": 495000000000,
     "lat": 15,
     "lng": 100,
     "currency": "THB (Thai baht)"
@@ -2712,12 +2712,12 @@
     "flagUrl": "https://flagcdn.com/w320/tl.png",
     "imageUrl": "",
     "capital": "Dili",
-    "population": 0,
+    "population": 1267972,
     "languages": [
       "Portuguese",
       "Tetum"
     ],
-    "gdpUsd": 0,
+    "gdpUsd": 3000000000,
     "lat": -8.83333333,
     "lng": 125.91666666,
     "currency": "USD (United States dollar)"
@@ -2728,11 +2728,11 @@
     "flagUrl": "https://flagcdn.com/w320/tg.png",
     "imageUrl": "",
     "capital": "Lomé",
-    "population": 0,
+    "population": 7889094,
     "languages": [
       "French"
     ],
-    "gdpUsd": 0,
+    "gdpUsd": 8100000000,
     "lat": 8,
     "lng": 1.16666666,
     "currency": "XOF (West African CFA franc)"
@@ -2743,12 +2743,12 @@
     "flagUrl": "https://flagcdn.com/w320/to.png",
     "imageUrl": "",
     "capital": "Nuku'alofa",
-    "population": 0,
+    "population": 103197,
     "languages": [
       "English",
       "Tongan"
     ],
-    "gdpUsd": 0,
+    "gdpUsd": 500000000,
     "lat": -20,
     "lng": -175,
     "currency": "TOP (Tongan paʻanga)"
@@ -2759,11 +2759,11 @@
     "flagUrl": "https://flagcdn.com/w320/tt.png",
     "imageUrl": "",
     "capital": "Port of Spain",
-    "population": 0,
+    "population": 1389858,
     "languages": [
       "English"
     ],
-    "gdpUsd": 0,
+    "gdpUsd": 27500000000,
     "lat": 11,
     "lng": -61,
     "currency": "TTD (Trinidad and Tobago dollar)"
@@ -2774,11 +2774,11 @@
     "flagUrl": "https://flagcdn.com/w320/tn.png",
     "imageUrl": "",
     "capital": "Tunis",
-    "population": 0,
+    "population": 11565204,
     "languages": [
       "Arabic"
     ],
-    "gdpUsd": 0,
+    "gdpUsd": 46300000000,
     "lat": 34,
     "lng": 9,
     "currency": "TND (Tunisian dinar)"
@@ -2789,11 +2789,11 @@
     "flagUrl": "https://flagcdn.com/w320/tr.png",
     "imageUrl": "",
     "capital": "Ankara",
-    "population": 0,
+    "population": 82319724,
     "languages": [
       "Turkish"
     ],
-    "gdpUsd": 0,
+    "gdpUsd": 906000000000,
     "lat": 39,
     "lng": 35,
     "currency": "TRY (Turkish lira)"
@@ -2804,12 +2804,12 @@
     "flagUrl": "https://flagcdn.com/w320/tm.png",
     "imageUrl": "",
     "capital": "Ashgabat",
-    "population": 0,
+    "population": 5850908,
     "languages": [
       "Russian",
       "Turkmen"
     ],
-    "gdpUsd": 0,
+    "gdpUsd": 45000000000,
     "lat": 40,
     "lng": 60,
     "currency": "TMT (Turkmenistan manat)"
@@ -2820,12 +2820,12 @@
     "flagUrl": "https://flagcdn.com/w320/tv.png",
     "imageUrl": "",
     "capital": "Funafuti",
-    "population": 0,
+    "population": 11508,
     "languages": [
       "English",
       "Tuvaluan"
     ],
-    "gdpUsd": 0,
+    "gdpUsd": 60000000,
     "lat": -8,
     "lng": 178,
     "currency": "AUD (Australian dollar), TVD (Tuvaluan dollar)"
@@ -2836,12 +2836,12 @@
     "flagUrl": "https://flagcdn.com/w320/ug.png",
     "imageUrl": "",
     "capital": "Kampala",
-    "population": 0,
+    "population": 42723139,
     "languages": [
       "English",
       "Swahili"
     ],
-    "gdpUsd": 0,
+    "gdpUsd": 45600000000,
     "lat": 1,
     "lng": 32,
     "currency": "UGX (Ugandan shilling)"
@@ -2852,11 +2852,11 @@
     "flagUrl": "https://flagcdn.com/w320/ua.png",
     "imageUrl": "",
     "capital": "Kyiv",
-    "population": 0,
+    "population": 44622516,
     "languages": [
       "Ukrainian"
     ],
-    "gdpUsd": 0,
+    "gdpUsd": 160000000000,
     "lat": 49,
     "lng": 32,
     "currency": "UAH (Ukrainian hryvnia)"
@@ -2867,11 +2867,11 @@
     "flagUrl": "https://flagcdn.com/w320/ae.png",
     "imageUrl": "",
     "capital": "Abu Dhabi",
-    "population": 0,
+    "population": 9630959,
     "languages": [
       "Arabic"
     ],
-    "gdpUsd": 0,
+    "gdpUsd": 507000000000,
     "lat": 24,
     "lng": 54,
     "currency": "AED (United Arab Emirates dirham)"
@@ -2882,11 +2882,11 @@
     "flagUrl": "https://flagcdn.com/w320/gb.png",
     "imageUrl": "",
     "capital": "London",
-    "population": 0,
+    "population": 66460344,
     "languages": [
       "English"
     ],
-    "gdpUsd": 0,
+    "gdpUsd": 3070000000000,
     "lat": 54,
     "lng": -2,
     "currency": "GBP (British pound)"
@@ -2897,11 +2897,11 @@
     "flagUrl": "https://flagcdn.com/w320/us.png",
     "imageUrl": "",
     "capital": "Washington D.C.",
-    "population": 0,
+    "population": 326687501,
     "languages": [
       "English"
     ],
-    "gdpUsd": 0,
+    "gdpUsd": 25462000000000,
     "lat": 38,
     "lng": -97,
     "currency": "USD (United States dollar)"
@@ -2912,11 +2912,11 @@
     "flagUrl": "https://flagcdn.com/w320/uy.png",
     "imageUrl": "",
     "capital": "Montevideo",
-    "population": 0,
+    "population": 3449299,
     "languages": [
       "Spanish"
     ],
-    "gdpUsd": 0,
+    "gdpUsd": 71200000000,
     "lat": -33,
     "lng": -56,
     "currency": "UYU (Uruguayan peso)"
@@ -2927,12 +2927,12 @@
     "flagUrl": "https://flagcdn.com/w320/uz.png",
     "imageUrl": "",
     "capital": "Tashkent",
-    "population": 0,
+    "population": 32955400,
     "languages": [
       "Russian",
       "Uzbek"
     ],
-    "gdpUsd": 0,
+    "gdpUsd": 80400000000,
     "lat": 41,
     "lng": 64,
     "currency": "UZS (Uzbekistani soʻm)"
@@ -2943,13 +2943,13 @@
     "flagUrl": "https://flagcdn.com/w320/vu.png",
     "imageUrl": "",
     "capital": "Port Vila",
-    "population": 0,
+    "population": 292680,
     "languages": [
       "Bislama",
       "English",
       "French"
     ],
-    "gdpUsd": 0,
+    "gdpUsd": 1000000000,
     "lat": -16,
     "lng": 167,
     "currency": "VUV (Vanuatu vatu)"
@@ -2960,12 +2960,12 @@
     "flagUrl": "https://flagcdn.com/w320/va.png",
     "imageUrl": "",
     "capital": "Vatican City",
-    "population": 0,
+    "population": 825,
     "languages": [
       "Italian",
       "Latin"
     ],
-    "gdpUsd": 0,
+    "gdpUsd": 10000000,
     "lat": 41.9,
     "lng": 12.45,
     "currency": "EUR (Euro)"
@@ -2976,11 +2976,11 @@
     "flagUrl": "https://flagcdn.com/w320/ve.png",
     "imageUrl": "",
     "capital": "Caracas",
-    "population": 0,
+    "population": 28870195,
     "languages": [
       "Spanish"
     ],
-    "gdpUsd": 0,
+    "gdpUsd": 92000000000,
     "lat": 8,
     "lng": -66,
     "currency": "VES (Venezuelan bolívar soberano)"
@@ -2991,11 +2991,11 @@
     "flagUrl": "https://flagcdn.com/w320/vn.png",
     "imageUrl": "",
     "capital": "Hanoi",
-    "population": 0,
+    "population": 95540395,
     "languages": [
       "Vietnamese"
     ],
-    "gdpUsd": 0,
+    "gdpUsd": 409000000000,
     "lat": 16.16666666,
     "lng": 107.83333333,
     "currency": "VND (Vietnamese đồng)"
@@ -3006,11 +3006,11 @@
     "flagUrl": "https://flagcdn.com/w320/ye.png",
     "imageUrl": "",
     "capital": "Sana'a",
-    "population": 0,
+    "population": 28498687,
     "languages": [
       "Arabic"
     ],
-    "gdpUsd": 0,
+    "gdpUsd": 21600000000,
     "lat": 15,
     "lng": 48,
     "currency": "YER (Yemeni rial)"
@@ -3021,11 +3021,11 @@
     "flagUrl": "https://flagcdn.com/w320/zm.png",
     "imageUrl": "",
     "capital": "Lusaka",
-    "population": 0,
+    "population": 17351822,
     "languages": [
       "English"
     ],
-    "gdpUsd": 0,
+    "gdpUsd": 29000000000,
     "lat": -15,
     "lng": 30,
     "currency": "ZMW (Zambian kwacha)"
@@ -3036,7 +3036,7 @@
     "flagUrl": "https://flagcdn.com/w320/zw.png",
     "imageUrl": "",
     "capital": "Harare",
-    "population": 0,
+    "population": 14439018,
     "languages": [
       "Chibarwe",
       "English",
@@ -3054,7 +3054,7 @@
       "Xhosa",
       "Zimbabwean Sign Language"
     ],
-    "gdpUsd": 0,
+    "gdpUsd": 21400000000,
     "lat": -20,
     "lng": 30,
     "currency": "BWP (Botswana pula), CNY (Chinese yuan), EUR (Euro), GBP (British pound), INR (Indian rupee), JPY (Japanese yen), USD (United States dollar), ZAR (South African rand), ZWB (Zimbabwean bonds)"

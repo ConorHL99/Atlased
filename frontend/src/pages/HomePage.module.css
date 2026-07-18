@@ -265,7 +265,7 @@
   }
 
   .searchWrap {
-    width: min(140px, 42vw);
+    width: min(120px, 36vw);
   }
 
   .searchInput {
@@ -290,5 +290,10 @@
   .logoutBtn {
     padding: 0.35rem 0.6rem;
     font-size: 0.75rem;
+  }
+
+  /* Hide dark/light toggle on mobile — accessible via Settings */
+  .themeToggle {
+    display: none;
   }
 }

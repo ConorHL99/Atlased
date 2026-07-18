@@ -4,70 +4,13 @@
 
 import GlobeGL from 'react-globe.gl';
 import React, { useEffect, useMemo, useRef, useState } from 'react';
-import worldGeoJsonData from 'geojson-world-map';
 import { Country } from '../types';
 import { useTheme } from '../contexts/ThemeContext';
+import { matchCountriesToGeoJson, MatchedPolygonFeature } from '../lib/countryGeoMatch';
 
 interface MarkerPoint extends Country {
   markerColor: string;
 }
-
-interface RawWorldFeature {
-  type: 'Feature';
-  properties: {
-    name?: string;
-    [key: string]: unknown;
-  };
-  geometry: GeoJSON.Geometry;
-}
-
-interface WorldFeatureCollection {
-  type: 'FeatureCollection';
-  features: RawWorldFeature[];
-}
-
-interface GlobePolygonCountry {
-  type: 'Feature';
-  properties: {
-    isoCode: string;
-    name: string;
-  };
-  geometry: GeoJSON.Geometry;
-}
-
-const worldGeoJson = worldGeoJsonData as WorldFeatureCollection;
-
-const normalizeName = (value: string) =>
-  value
-    .toLowerCase()
-    .normalize('NFD')
-    .replace(/[^a-z0-9\s]/g, '')
-    .replace(/\b(republic|democratic|federal|kingdom|state|states|of|the)\b/g, ' ')
-    .replace(/\s+/g, ' ')
-    .trim();
-
-const NAME_ALIASES: Record<string, string[]> = {
-  'united states': ['united states of america'],
-  'czechia': ['czech rep'],
-  'czech republic': ['czech rep'],
-  'ivory coast': ["cote divoire", "cote d ivoire", "cote d'ivoire"],
-  'bosnia and herzegovina': ['bosnia and herz'],
-  'north macedonia': ['macedonia'],
-  'eswatini': ['swaziland'],
-  'myanmar': ['myanmar burma'],
-  'democratic republic congo': ['dem rep congo'],
-  'dr congo': ['dem rep congo'],
-  'congo republic': ['congo'],
-  'cape verde': ['cabo verde'],
-  'south korea': ['korea', 'korea republic of', 'korea south'],
-  'north korea': ['dem rep korea', 'korea north'],
-  'russia': ['russian federation'],
-  'laos': ['lao peoples democratic republic'],
-  'syria': ['syrian arab republic'],
-  'taiwan': ['taiwan province of china'],
-  'micronesia': ['micronesia federated states of'],
-  'vatican city': ['holy see'],
-};
 
 type GlobeRef = {
   controls: () => {
@@ -98,6 +41,8 @@ export const GlobeView: React.FC<GlobeViewProps> = ({
   const containerRef = useRef<HTMLDivElement>(null);
   const [globeSize, setGlobeSize] = useState({ width: 960, height: 560 });
   const [activeList, setActiveList] = useState<'visited' | 'want' | 'favorite' | null>(null);
+  const [activeCityList, setActiveCityList] = useState<'city-visited' | 'city-favorite' | null>(null);
+  const [userCities, setUserCities] = useState<Array<{ id: string; name: string; countryName: string; isVisited: boolean; isFavorite: boolean }>>([]);
   const { theme } = useTheme();
   const backgroundColor = 'var(--color-bg)';
   const textColor = 'var(--color-text)';
@@ -135,45 +80,9 @@ export const GlobeView: React.FC<GlobeViewProps> = ({
       }));
   }, [countries]);
 
-  const polygonCountries = useMemo<GlobePolygonCountry[]>(() => {
-    const featureByName = new Map<string, RawWorldFeature>();
-
-    worldGeoJson.features.forEach((feature) => {
-      const featureName = feature.properties?.name;
-      if (!featureName) {
-        return;
-      }
-      featureByName.set(normalizeName(featureName), feature);
-    });
-
-    const result: GlobePolygonCountry[] = [];
-    for (const country of countries) {
-      const countryKey = normalizeName(country.name);
-      const candidates = [countryKey, ...(NAME_ALIASES[countryKey] || [])];
-
-      let matchedFeature: RawWorldFeature | undefined;
-      for (const candidate of candidates) {
-        matchedFeature = featureByName.get(normalizeName(candidate));
-        if (matchedFeature) {
-          break;
-        }
-      }
-
-      if (!matchedFeature) {
-        continue;
-      }
-
-      result.push({
-        type: 'Feature',
-        properties: {
-          isoCode: country.isoCode,
-          name: country.name,
-        },
-        geometry: matchedFeature.geometry,
-      });
-    }
-
-    return result;
+  const polygonCountries = useMemo(() => {
+    const { features } = matchCountriesToGeoJson(countries);
+    return features;
   }, [countries]);
 
   useEffect(() => {
@@ -192,6 +101,25 @@ export const GlobeView: React.FC<GlobeViewProps> = ({
     observer.observe(node);
     return () => observer.disconnect();
   }, []);
+
+  // Fetch user city statuses for the cities panel
+  useEffect(() => {
+    const loadCityStatuses = async () => {
+      try {
+        const res = await fetch('/api/user/cities/status', { credentials: 'include' });
+        if (res.ok) {
+          const data = await res.json();
+          setUserCities(data.cities || []);
+        }
+      } catch (err) {
+        console.warn('Failed to load city statuses:', err);
+      }
+    };
+    loadCityStatuses();
+  }, [selectedCountry]); // Refresh when panel closes after toggling
+
+  const visitedCities = userCities.filter((c) => c.isVisited);
+  const favoriteCities = userCities.filter((c) => c.isFavorite);
 
   useEffect(() => {
     if (!globeRef.current) {
@@ -261,7 +189,7 @@ export const GlobeView: React.FC<GlobeViewProps> = ({
             polygonsData={polygonCountries}
             polygonGeoJsonGeometry="geometry"
             polygonLabel={(polygon: object) => {
-              const feature = polygon as GlobePolygonCountry;
+              const feature = polygon as MatchedPolygonFeature;
               const country = countries.find((item) => item.isoCode === feature.properties.isoCode);
               if (!country) {
                 return feature.properties.name;
@@ -278,39 +206,30 @@ export const GlobeView: React.FC<GlobeViewProps> = ({
               return `${country.name} (${country.isoCode}) - ${status}`;
             }}
             onPolygonClick={(polygon: object) => {
-              const feature = polygon as GlobePolygonCountry;
+              const feature = polygon as MatchedPolygonFeature;
               const country = countries.find((item) => item.isoCode === feature.properties.isoCode);
               if (country) {
                 onSelectCountry(country);
               }
             }}
             polygonCapColor={(polygon: object) => {
-              const feature = polygon as GlobePolygonCountry;
+              const feature = polygon as MatchedPolygonFeature;
               const country = countries.find((item) => item.isoCode === feature.properties.isoCode);
               if (!country) {
                 return 'rgba(255,255,255,0.14)';
               }
-              if (country.isFavorite) {
-                return 'rgba(220, 38, 38, 0.72)';
-              }
+              // Green infill for visited (independent of favorite)
               if (country.userStatus === 'VISITED') {
                 return 'rgba(5, 150, 105, 0.72)';
               }
               if (country.userStatus === 'WANT_TO_VISIT') {
-                return 'rgba(37, 99, 235, 0.72)';
+                return 'rgba(37, 99, 235, 0.62)';
               }
-              return 'rgba(148, 163, 184, 0.42)';
+              return 'rgba(148, 163, 184, 0.32)';
             }}
-            polygonSideColor={(polygon: object) => {
-              const feature = polygon as GlobePolygonCountry;
-              const country = countries.find((item) => item.isoCode === feature.properties.isoCode);
-              if (country?.isFavorite) {
-                return 'rgba(220, 38, 38, 0.35)';
-              }
-              return 'rgba(15, 23, 42, 0.22)';
-            }}
+            polygonSideColor={() => 'rgba(15, 23, 42, 0.22)'}
             polygonAltitude={(polygon: object) => {
-              const feature = polygon as GlobePolygonCountry;
+              const feature = polygon as MatchedPolygonFeature;
               if (selectedCountry?.isoCode === feature.properties.isoCode) {
                 return 0.035;
               }
@@ -321,11 +240,12 @@ export const GlobeView: React.FC<GlobeViewProps> = ({
               return 0.006;
             }}
             polygonStrokeColor={(polygon: object) => {
-              const feature = polygon as GlobePolygonCountry;
+              const feature = polygon as MatchedPolygonFeature;
               if (selectedCountry?.isoCode === feature.properties.isoCode) {
                 return '#ffffff';
               }
               const country = countries.find((item) => item.isoCode === feature.properties.isoCode);
+              // Red outline for favorite (independent of visited)
               if (country?.isFavorite) {
                 return '#dc2626';
               }
@@ -335,7 +255,7 @@ export const GlobeView: React.FC<GlobeViewProps> = ({
               if (country?.userStatus === 'WANT_TO_VISIT') {
                 return '#2563eb';
               }
-              return 'rgba(203, 213, 225, 0.5)';
+              return 'rgba(203, 213, 225, 0.4)';
             }}
             pointsData={markerPoints}
             pointLat="lat"
@@ -451,6 +371,76 @@ export const GlobeView: React.FC<GlobeViewProps> = ({
               </div>
             ) : null}
           </div>
+
+          {/* Cities status panel */}
+          {(visitedCities.length > 0 || favoriteCities.length > 0) && (
+            <div
+              style={{
+                position: 'absolute',
+                top: 'calc(1rem + 200px)',
+                left: '1rem',
+                backgroundColor: theme === 'dark' ? '#1e293b' : '#f8fafc',
+                border: '1px solid var(--color-border)',
+                borderRadius: '0.5rem',
+                padding: '0.75rem',
+                zIndex: 15,
+                maxWidth: '260px',
+              }}
+            >
+              <div style={{ fontSize: '0.78rem', opacity: 0.75, marginBottom: '0.5rem' }}>Cities</div>
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '0.5rem' }}>
+                <button
+                  type="button"
+                  onClick={() => setActiveCityList(activeCityList === 'city-visited' ? null : 'city-visited')}
+                  style={{ background: 'transparent', border: 'none', color: 'inherit', textAlign: 'left' }}
+                >
+                  <div style={{ color: 'var(--color-visited)', fontWeight: 700, fontSize: '1.1rem' }}>{visitedCities.length}</div>
+                  <div style={{ fontSize: '0.72rem', opacity: 0.8 }}>Visited</div>
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setActiveCityList(activeCityList === 'city-favorite' ? null : 'city-favorite')}
+                  style={{ background: 'transparent', border: 'none', color: 'inherit', textAlign: 'left' }}
+                >
+                  <div style={{ color: 'var(--color-favorite)', fontWeight: 700, fontSize: '1.1rem' }}>{favoriteCities.length}</div>
+                  <div style={{ fontSize: '0.72rem', opacity: 0.8 }}>Favourites</div>
+                </button>
+              </div>
+
+              {activeCityList ? (
+                <div
+                  style={{
+                    marginTop: '0.6rem',
+                    maxHeight: '180px',
+                    overflowY: 'auto',
+                    borderTop: '1px solid var(--color-border)',
+                    paddingTop: '0.5rem',
+                  }}
+                >
+                  {(activeCityList === 'city-visited' ? visitedCities : favoriteCities).length === 0 ? (
+                    <div style={{ fontSize: '0.75rem', opacity: 0.7 }}>No cities in this list</div>
+                  ) : (
+                    (activeCityList === 'city-visited' ? visitedCities : favoriteCities).map((city) => (
+                      <div
+                        key={city.id}
+                        style={{
+                          marginBottom: '0.25rem',
+                          border: '1px solid var(--color-border)',
+                          borderRadius: '0.3rem',
+                          padding: '0.3rem 0.5rem',
+                          backgroundColor: 'var(--color-surface-raised)',
+                          color: 'var(--color-text)',
+                          fontSize: '0.75rem',
+                        }}
+                      >
+                        {city.name} <span style={{ opacity: 0.6, fontSize: '0.68rem' }}>({city.countryName})</span>
+                      </div>
+                    ))
+                  )}
+                </div>
+              ) : null}
+            </div>
+          )}
 
           {selectedCountry ? (
             <div

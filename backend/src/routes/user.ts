@@ -13,6 +13,39 @@ const router = Router();
 router.use(authenticate);
 
 /**
+ * GET /api/user/cities/status
+ * Fetch all cities the user has visited or favourited, with country info.
+ */
+router.get('/cities/status', async (req: Request, res: Response) => {
+  try {
+    const statuses = await prisma.userCityStatus.findMany({
+      where: { userId: req.user!.userId },
+      include: {
+        city: {
+          include: {
+            country: { select: { isoCode: true, name: true } },
+          },
+        },
+      },
+    });
+
+    const cities = statuses.map((s: any) => ({
+      id: s.cityId,
+      name: s.city.name,
+      countryIsoCode: s.city.country.isoCode,
+      countryName: s.city.country.name,
+      isVisited: Boolean(s.isVisited),
+      isFavorite: Boolean(s.isFavorite),
+    }));
+
+    res.json({ cities });
+  } catch (err) {
+    console.error('[user/cities/status]', err);
+    res.status(500).json({ error: 'Failed to fetch city statuses' });
+  }
+});
+
+/**
  * PUT /api/user/countries/:isoCode/status
  * Set or update the user's travel status for a country (VISITED or WANT_TO_VISIT).
  *

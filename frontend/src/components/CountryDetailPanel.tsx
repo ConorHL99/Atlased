@@ -232,7 +232,9 @@ export const CountryDetailPanel: React.FC<CountryDetailPanelProps> = ({
       <div
         style={{
           width: '100%',
-          height: '160px',
+          height: '120px',
+          minHeight: '80px',
+          flexShrink: 0,
           backgroundImage: country.imageUrl
             ? `url('${country.imageUrl}')`
             : `linear-gradient(135deg, ${theme === 'dark' ? '#1e293b' : '#e2e8f0'}, ${theme === 'dark' ? '#334155' : '#cbd5e1'})`,
@@ -331,17 +333,19 @@ export const CountryDetailPanel: React.FC<CountryDetailPanelProps> = ({
       {/* Action Buttons */}
       <div
         style={{
-          padding: '1rem',
+          padding: '0.6rem 1rem',
           borderBottom: `1px solid ${borderColor}`,
           display: 'flex',
-          flexDirection: 'column',
-          gap: '0.5rem',
+          flexDirection: 'row',
+          gap: '0.4rem',
+          flexShrink: 0,
         }}
       >
         <button
           onClick={() => onMarkVisited?.(country.isoCode)}
           style={{
-            padding: '0.75rem',
+            flex: 1,
+            padding: '0.5rem 0.25rem',
             backgroundColor: country.userStatus === 'VISITED' ? 'var(--color-visited)' : 'transparent',
             color: country.userStatus === 'VISITED' ? '#fff' : textColor,
             border: `1px solid ${country.userStatus === 'VISITED' ? 'var(--color-visited)' : borderColor}`,
@@ -364,13 +368,14 @@ export const CountryDetailPanel: React.FC<CountryDetailPanelProps> = ({
             }
           }}
         >
-          {country.userStatus === 'VISITED' ? '✓ Visited' : 'Mark as Visited'}
+          {country.userStatus === 'VISITED' ? '✓ Visited' : 'Visited'}
         </button>
 
         <button
           onClick={() => onMarkWantToVisit?.(country.isoCode)}
           style={{
-            padding: '0.75rem',
+            flex: 1,
+            padding: '0.5rem 0.25rem',
             backgroundColor:
               country.userStatus === 'WANT_TO_VISIT' ? 'var(--color-want-to-visit)' : 'transparent',
             color: country.userStatus === 'WANT_TO_VISIT' ? '#fff' : textColor,
@@ -395,14 +400,15 @@ export const CountryDetailPanel: React.FC<CountryDetailPanelProps> = ({
           }}
         >
           {country.userStatus === 'WANT_TO_VISIT'
-            ? '✓ Want to Visit'
-            : 'Want to Visit'}
+            ? '✓ Want'
+            : 'Want'}
         </button>
 
         <button
           onClick={() => onMarkFavorite?.(country.isoCode)}
           style={{
-            padding: '0.75rem',
+            flex: 1,
+            padding: '0.5rem 0.25rem',
             backgroundColor: country.isFavorite ? 'var(--color-favorite)' : 'transparent',
             color: country.isFavorite ? '#fff' : textColor,
             border: `1px solid ${country.isFavorite ? 'var(--color-favorite)' : borderColor}`,

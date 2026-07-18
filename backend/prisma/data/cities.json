@@ -2,470 +2,3806 @@
   {
     "countryIsoCode": "US",
     "cities": [
-      { "name": "New York", "lat": 40.7128, "lng": -74.006 },
-      { "name": "Los Angeles", "lat": 34.0522, "lng": -118.2437 },
-      { "name": "Chicago", "lat": 41.8781, "lng": -87.6298 },
-      { "name": "Houston", "lat": 29.7604, "lng": -95.3698 },
-      { "name": "Phoenix", "lat": 33.4484, "lng": -112.074 }
+      {
+        "name": "New York",
+        "lat": 40.7128,
+        "lng": -74.006
+      },
+      {
+        "name": "Los Angeles",
+        "lat": 34.0522,
+        "lng": -118.2437
+      },
+      {
+        "name": "Chicago",
+        "lat": 41.8781,
+        "lng": -87.6298
+      },
+      {
+        "name": "Houston",
+        "lat": 29.7604,
+        "lng": -95.3698
+      },
+      {
+        "name": "Phoenix",
+        "lat": 33.4484,
+        "lng": -112.074
+      }
     ]
   },
   {
     "countryIsoCode": "GB",
     "cities": [
-      { "name": "London", "lat": 51.5074, "lng": -0.1278 },
-      { "name": "Manchester", "lat": 53.4808, "lng": -2.2426 },
-      { "name": "Birmingham", "lat": 52.5086, "lng": -1.8755 },
-      { "name": "Leeds", "lat": 53.8008, "lng": -1.5491 },
-      { "name": "Glasgow", "lat": 55.8642, "lng": -4.2518 }
+      {
+        "name": "London",
+        "lat": 51.5074,
+        "lng": -0.1278
+      },
+      {
+        "name": "Manchester",
+        "lat": 53.4808,
+        "lng": -2.2426
+      },
+      {
+        "name": "Birmingham",
+        "lat": 52.5086,
+        "lng": -1.8755
+      },
+      {
+        "name": "Leeds",
+        "lat": 53.8008,
+        "lng": -1.5491
+      },
+      {
+        "name": "Glasgow",
+        "lat": 55.8642,
+        "lng": -4.2518
+      }
     ]
   },
   {
     "countryIsoCode": "FR",
     "cities": [
-      { "name": "Paris", "lat": 48.8566, "lng": 2.3522 },
-      { "name": "Marseille", "lat": 43.2965, "lng": 5.3698 },
-      { "name": "Lyon", "lat": 45.7640, "lng": 4.8357 },
-      { "name": "Toulouse", "lat": 43.6047, "lng": 1.4442 },
-      { "name": "Nice", "lat": 43.7102, "lng": 7.2620 }
+      {
+        "name": "Paris",
+        "lat": 48.8566,
+        "lng": 2.3522
+      },
+      {
+        "name": "Marseille",
+        "lat": 43.2965,
+        "lng": 5.3698
+      },
+      {
+        "name": "Lyon",
+        "lat": 45.764,
+        "lng": 4.8357
+      },
+      {
+        "name": "Toulouse",
+        "lat": 43.6047,
+        "lng": 1.4442
+      },
+      {
+        "name": "Nice",
+        "lat": 43.7102,
+        "lng": 7.262
+      }
     ]
   },
   {
     "countryIsoCode": "DE",
     "cities": [
-      { "name": "Berlin", "lat": 52.52, "lng": 13.405 },
-      { "name": "Munich", "lat": 48.1351, "lng": 11.582 },
-      { "name": "Frankfurt", "lat": 50.1109, "lng": 8.6821 },
-      { "name": "Hamburg", "lat": 53.5511, "lng": 9.4979 },
-      { "name": "Cologne", "lat": 50.9375, "lng": 6.9603 }
+      {
+        "name": "Berlin",
+        "lat": 52.52,
+        "lng": 13.405
+      },
+      {
+        "name": "Munich",
+        "lat": 48.1351,
+        "lng": 11.582
+      },
+      {
+        "name": "Frankfurt",
+        "lat": 50.1109,
+        "lng": 8.6821
+      },
+      {
+        "name": "Hamburg",
+        "lat": 53.5511,
+        "lng": 9.4979
+      },
+      {
+        "name": "Cologne",
+        "lat": 50.9375,
+        "lng": 6.9603
+      }
     ]
   },
   {
     "countryIsoCode": "IT",
     "cities": [
-      { "name": "Rome", "lat": 41.9028, "lng": 12.4964 },
-      { "name": "Milan", "lat": 45.4642, "lng": 9.1900 },
-      { "name": "Venice", "lat": 45.4408, "lng": 12.3155 },
-      { "name": "Florence", "lat": 43.7696, "lng": 11.2558 },
-      { "name": "Naples", "lat": 40.8518, "lng": 14.2681 }
+      {
+        "name": "Rome",
+        "lat": 41.9028,
+        "lng": 12.4964
+      },
+      {
+        "name": "Milan",
+        "lat": 45.4642,
+        "lng": 9.19
+      },
+      {
+        "name": "Venice",
+        "lat": 45.4408,
+        "lng": 12.3155
+      },
+      {
+        "name": "Florence",
+        "lat": 43.7696,
+        "lng": 11.2558
+      },
+      {
+        "name": "Naples",
+        "lat": 40.8518,
+        "lng": 14.2681
+      }
     ]
   },
   {
     "countryIsoCode": "ES",
     "cities": [
-      { "name": "Madrid", "lat": 40.4168, "lng": -3.7038 },
-      { "name": "Barcelona", "lat": 41.3851, "lng": 2.1734 },
-      { "name": "Seville", "lat": 37.3886, "lng": -5.9823 },
-      { "name": "Valencia", "lat": 39.4699, "lng": -0.3763 },
-      { "name": "Bilbao", "lat": 43.2627, "lng": -2.9253 }
+      {
+        "name": "Madrid",
+        "lat": 40.4168,
+        "lng": -3.7038
+      },
+      {
+        "name": "Barcelona",
+        "lat": 41.3851,
+        "lng": 2.1734
+      },
+      {
+        "name": "Seville",
+        "lat": 37.3886,
+        "lng": -5.9823
+      },
+      {
+        "name": "Valencia",
+        "lat": 39.4699,
+        "lng": -0.3763
+      },
+      {
+        "name": "Bilbao",
+        "lat": 43.2627,
+        "lng": -2.9253
+      }
     ]
   },
   {
     "countryIsoCode": "JP",
     "cities": [
-      { "name": "Tokyo", "lat": 35.6762, "lng": 139.6503 },
-      { "name": "Osaka", "lat": 34.6937, "lng": 135.5023 },
-      { "name": "Kyoto", "lat": 35.0116, "lng": 135.7681 },
-      { "name": "Hiroshima", "lat": 34.3853, "lng": 132.4553 },
-      { "name": "Yokohama", "lat": 35.4437, "lng": 139.6380 }
+      {
+        "name": "Tokyo",
+        "lat": 35.6762,
+        "lng": 139.6503
+      },
+      {
+        "name": "Osaka",
+        "lat": 34.6937,
+        "lng": 135.5023
+      },
+      {
+        "name": "Kyoto",
+        "lat": 35.0116,
+        "lng": 135.7681
+      },
+      {
+        "name": "Hiroshima",
+        "lat": 34.3853,
+        "lng": 132.4553
+      },
+      {
+        "name": "Yokohama",
+        "lat": 35.4437,
+        "lng": 139.638
+      }
     ]
   },
   {
     "countryIsoCode": "CN",
     "cities": [
-      { "name": "Beijing", "lat": 39.9042, "lng": 116.4074 },
-      { "name": "Shanghai", "lat": 31.2304, "lng": 121.4737 },
-      { "name": "Chongqing", "lat": 29.4316, "lng": 106.9123 },
-      { "name": "Guangzhou", "lat": 23.1291, "lng": 113.2644 },
-      { "name": "Shenzhen", "lat": 22.5431, "lng": 114.0579 }
+      {
+        "name": "Beijing",
+        "lat": 39.9042,
+        "lng": 116.4074
+      },
+      {
+        "name": "Shanghai",
+        "lat": 31.2304,
+        "lng": 121.4737
+      },
+      {
+        "name": "Chongqing",
+        "lat": 29.4316,
+        "lng": 106.9123
+      },
+      {
+        "name": "Guangzhou",
+        "lat": 23.1291,
+        "lng": 113.2644
+      },
+      {
+        "name": "Shenzhen",
+        "lat": 22.5431,
+        "lng": 114.0579
+      }
     ]
   },
   {
     "countryIsoCode": "IN",
     "cities": [
-      { "name": "Delhi", "lat": 28.7041, "lng": 77.1025 },
-      { "name": "Mumbai", "lat": 19.0760, "lng": 72.8777 },
-      { "name": "Bangalore", "lat": 12.9716, "lng": 77.5946 },
-      { "name": "Hyderabad", "lat": 17.3850, "lng": 78.4867 },
-      { "name": "Kolkata", "lat": 22.5726, "lng": 88.3639 }
+      {
+        "name": "Delhi",
+        "lat": 28.7041,
+        "lng": 77.1025
+      },
+      {
+        "name": "Mumbai",
+        "lat": 19.076,
+        "lng": 72.8777
+      },
+      {
+        "name": "Bangalore",
+        "lat": 12.9716,
+        "lng": 77.5946
+      },
+      {
+        "name": "Hyderabad",
+        "lat": 17.385,
+        "lng": 78.4867
+      },
+      {
+        "name": "Kolkata",
+        "lat": 22.5726,
+        "lng": 88.3639
+      }
     ]
   },
   {
     "countryIsoCode": "BR",
     "cities": [
-      { "name": "São Paulo", "lat": -23.5505, "lng": -46.6333 },
-      { "name": "Rio de Janeiro", "lat": -22.9068, "lng": -43.1729 },
-      { "name": "Salvador", "lat": -12.9714, "lng": -38.5014 },
-      { "name": "Brasília", "lat": -15.7942, "lng": -47.8822 },
-      { "name": "Fortaleza", "lat": -3.7319, "lng": -38.5267 }
+      {
+        "name": "São Paulo",
+        "lat": -23.5505,
+        "lng": -46.6333
+      },
+      {
+        "name": "Rio de Janeiro",
+        "lat": -22.9068,
+        "lng": -43.1729
+      },
+      {
+        "name": "Salvador",
+        "lat": -12.9714,
+        "lng": -38.5014
+      },
+      {
+        "name": "Brasília",
+        "lat": -15.7942,
+        "lng": -47.8822
+      },
+      {
+        "name": "Fortaleza",
+        "lat": -3.7319,
+        "lng": -38.5267
+      }
     ]
   },
   {
     "countryIsoCode": "CA",
     "cities": [
-      { "name": "Toronto", "lat": 43.6532, "lng": -79.3832 },
-      { "name": "Vancouver", "lat": 49.2827, "lng": -123.1207 },
-      { "name": "Montreal", "lat": 45.5017, "lng": -73.5673 },
-      { "name": "Calgary", "lat": 51.0447, "lng": -114.0719 },
-      { "name": "Edmonton", "lat": 53.5461, "lng": -113.4938 }
+      {
+        "name": "Toronto",
+        "lat": 43.6532,
+        "lng": -79.3832
+      },
+      {
+        "name": "Vancouver",
+        "lat": 49.2827,
+        "lng": -123.1207
+      },
+      {
+        "name": "Montreal",
+        "lat": 45.5017,
+        "lng": -73.5673
+      },
+      {
+        "name": "Calgary",
+        "lat": 51.0447,
+        "lng": -114.0719
+      },
+      {
+        "name": "Edmonton",
+        "lat": 53.5461,
+        "lng": -113.4938
+      }
     ]
   },
   {
     "countryIsoCode": "AU",
     "cities": [
-      { "name": "Sydney", "lat": -33.8688, "lng": 151.2093 },
-      { "name": "Melbourne", "lat": -37.8136, "lng": 144.9631 },
-      { "name": "Brisbane", "lat": -27.4698, "lng": 153.0251 },
-      { "name": "Perth", "lat": -31.9505, "lng": 115.8605 },
-      { "name": "Adelaide", "lat": -34.9285, "lng": 138.6007 }
+      {
+        "name": "Sydney",
+        "lat": -33.8688,
+        "lng": 151.2093
+      },
+      {
+        "name": "Melbourne",
+        "lat": -37.8136,
+        "lng": 144.9631
+      },
+      {
+        "name": "Brisbane",
+        "lat": -27.4698,
+        "lng": 153.0251
+      },
+      {
+        "name": "Perth",
+        "lat": -31.9505,
+        "lng": 115.8605
+      },
+      {
+        "name": "Adelaide",
+        "lat": -34.9285,
+        "lng": 138.6007
+      }
     ]
   },
   {
     "countryIsoCode": "MX",
     "cities": [
-      { "name": "Mexico City", "lat": 19.4326, "lng": -99.1332 },
-      { "name": "Guadalajara", "lat": 20.6596, "lng": -103.2494 },
-      { "name": "Monterrey", "lat": 25.6866, "lng": -100.3161 },
-      { "name": "Cancún", "lat": 21.1619, "lng": -86.8515 },
-      { "name": "Playa del Carmen", "lat": 20.6295, "lng": -87.0739 }
+      {
+        "name": "Mexico City",
+        "lat": 19.4326,
+        "lng": -99.1332
+      },
+      {
+        "name": "Guadalajara",
+        "lat": 20.6596,
+        "lng": -103.2494
+      },
+      {
+        "name": "Monterrey",
+        "lat": 25.6866,
+        "lng": -100.3161
+      },
+      {
+        "name": "Cancún",
+        "lat": 21.1619,
+        "lng": -86.8515
+      },
+      {
+        "name": "Playa del Carmen",
+        "lat": 20.6295,
+        "lng": -87.0739
+      }
     ]
   },
   {
     "countryIsoCode": "KR",
     "cities": [
-      { "name": "Seoul", "lat": 37.5665, "lng": 126.9780 },
-      { "name": "Busan", "lat": 35.1796, "lng": 129.0756 },
-      { "name": "Daegu", "lat": 35.8714, "lng": 128.5951 },
-      { "name": "Incheon", "lat": 37.4563, "lng": 126.7052 },
-      { "name": "Daejeon", "lat": 36.3504, "lng": 127.3845 }
+      {
+        "name": "Seoul",
+        "lat": 37.5665,
+        "lng": 126.978
+      },
+      {
+        "name": "Busan",
+        "lat": 35.1796,
+        "lng": 129.0756
+      },
+      {
+        "name": "Daegu",
+        "lat": 35.8714,
+        "lng": 128.5951
+      },
+      {
+        "name": "Incheon",
+        "lat": 37.4563,
+        "lng": 126.7052
+      },
+      {
+        "name": "Daejeon",
+        "lat": 36.3504,
+        "lng": 127.3845
+      }
     ]
   },
   {
     "countryIsoCode": "RU",
     "cities": [
-      { "name": "Moscow", "lat": 55.7558, "lng": 37.6173 },
-      { "name": "Saint Petersburg", "lat": 59.9311, "lng": 30.3609 },
-      { "name": "Novosibirsk", "lat": 55.0415, "lng": 82.9346 },
-      { "name": "Yekaterinburg", "lat": 56.8389, "lng": 60.6057 },
-      { "name": "Nizhny Novgorod", "lat": 56.3269, "lng": 44.0075 }
+      {
+        "name": "Moscow",
+        "lat": 55.7558,
+        "lng": 37.6173
+      },
+      {
+        "name": "Saint Petersburg",
+        "lat": 59.9311,
+        "lng": 30.3609
+      },
+      {
+        "name": "Novosibirsk",
+        "lat": 55.0415,
+        "lng": 82.9346
+      },
+      {
+        "name": "Yekaterinburg",
+        "lat": 56.8389,
+        "lng": 60.6057
+      },
+      {
+        "name": "Nizhny Novgorod",
+        "lat": 56.3269,
+        "lng": 44.0075
+      }
     ]
   },
   {
     "countryIsoCode": "ZA",
     "cities": [
-      { "name": "Johannesburg", "lat": -26.2023, "lng": 28.0436 },
-      { "name": "Cape Town", "lat": -33.9249, "lng": 18.4241 },
-      { "name": "Durban", "lat": -29.8587, "lng": 31.0218 },
-      { "name": "Pretoria", "lat": -25.7461, "lng": 28.2313 },
-      { "name": "Bloemfontein", "lat": -29.1166, "lng": 25.5167 }
+      {
+        "name": "Johannesburg",
+        "lat": -26.2023,
+        "lng": 28.0436
+      },
+      {
+        "name": "Cape Town",
+        "lat": -33.9249,
+        "lng": 18.4241
+      },
+      {
+        "name": "Durban",
+        "lat": -29.8587,
+        "lng": 31.0218
+      },
+      {
+        "name": "Pretoria",
+        "lat": -25.7461,
+        "lng": 28.2313
+      },
+      {
+        "name": "Bloemfontein",
+        "lat": -29.1166,
+        "lng": 25.5167
+      }
     ]
   },
   {
     "countryIsoCode": "SG",
     "cities": [
-      { "name": "Singapore", "lat": 1.3521, "lng": 103.8198 }
+      {
+        "name": "Singapore",
+        "lat": 1.3521,
+        "lng": 103.8198
+      }
     ]
   },
   {
     "countryIsoCode": "AE",
     "cities": [
-      { "name": "Dubai", "lat": 25.2048, "lng": 55.2708 },
-      { "name": "Abu Dhabi", "lat": 24.4539, "lng": 54.3773 },
-      { "name": "Sharjah", "lat": 25.3368, "lng": 55.4161 }
+      {
+        "name": "Dubai",
+        "lat": 25.2048,
+        "lng": 55.2708
+      },
+      {
+        "name": "Abu Dhabi",
+        "lat": 24.4539,
+        "lng": 54.3773
+      },
+      {
+        "name": "Sharjah",
+        "lat": 25.3368,
+        "lng": 55.4161
+      }
     ]
   },
   {
     "countryIsoCode": "TH",
     "cities": [
-      { "name": "Bangkok", "lat": 13.7563, "lng": 100.5018 },
-      { "name": "Chiang Mai", "lat": 18.7883, "lng": 98.9853 },
-      { "name": "Pattaya", "lat": 12.9271, "lng": 100.8765 },
-      { "name": "Phuket", "lat": 8.6753, "lng": 98.3995 }
+      {
+        "name": "Bangkok",
+        "lat": 13.7563,
+        "lng": 100.5018
+      },
+      {
+        "name": "Chiang Mai",
+        "lat": 18.7883,
+        "lng": 98.9853
+      },
+      {
+        "name": "Pattaya",
+        "lat": 12.9271,
+        "lng": 100.8765
+      },
+      {
+        "name": "Phuket",
+        "lat": 8.6753,
+        "lng": 98.3995
+      }
     ]
   },
   {
     "countryIsoCode": "MY",
     "cities": [
-      { "name": "Kuala Lumpur", "lat": 3.1390, "lng": 101.6869 },
-      { "name": "George Town", "lat": 5.4164, "lng": 100.3327 },
-      { "name": "Johor Bahru", "lat": 1.4854, "lng": 103.7618 }
+      {
+        "name": "Kuala Lumpur",
+        "lat": 3.139,
+        "lng": 101.6869
+      },
+      {
+        "name": "George Town",
+        "lat": 5.4164,
+        "lng": 100.3327
+      },
+      {
+        "name": "Johor Bahru",
+        "lat": 1.4854,
+        "lng": 103.7618
+      }
     ]
   },
   {
     "countryIsoCode": "PH",
     "cities": [
-      { "name": "Manila", "lat": 14.5995, "lng": 120.9842 },
-      { "name": "Cebu City", "lat": 10.3157, "lng": 123.8854 },
-      { "name": "Davao", "lat": 7.1108, "lng": 125.6430 }
+      {
+        "name": "Manila",
+        "lat": 14.5995,
+        "lng": 120.9842
+      },
+      {
+        "name": "Cebu City",
+        "lat": 10.3157,
+        "lng": 123.8854
+      },
+      {
+        "name": "Davao",
+        "lat": 7.1108,
+        "lng": 125.643
+      }
     ]
   },
   {
     "countryIsoCode": "ID",
     "cities": [
-      { "name": "Jakarta", "lat": -6.2088, "lng": 106.8456 },
-      { "name": "Surabaya", "lat": -7.2575, "lng": 112.7521 },
-      { "name": "Bandung", "lat": -6.9175, "lng": 107.6007 },
-      { "name": "Medan", "lat": 2.1956, "lng": 99.0827 }
+      {
+        "name": "Jakarta",
+        "lat": -6.2088,
+        "lng": 106.8456
+      },
+      {
+        "name": "Surabaya",
+        "lat": -7.2575,
+        "lng": 112.7521
+      },
+      {
+        "name": "Bandung",
+        "lat": -6.9175,
+        "lng": 107.6007
+      },
+      {
+        "name": "Medan",
+        "lat": 2.1956,
+        "lng": 99.0827
+      }
     ]
   },
   {
     "countryIsoCode": "VN",
     "cities": [
-      { "name": "Hanoi", "lat": 21.0285, "lng": 105.8542 },
-      { "name": "Ho Chi Minh City", "lat": 10.8231, "lng": 106.6797 },
-      { "name": "Da Nang", "lat": 16.0544, "lng": 108.2022 },
-      { "name": "Hai Phong", "lat": 20.8449, "lng": 106.6881 }
+      {
+        "name": "Hanoi",
+        "lat": 21.0285,
+        "lng": 105.8542
+      },
+      {
+        "name": "Ho Chi Minh City",
+        "lat": 10.8231,
+        "lng": 106.6797
+      },
+      {
+        "name": "Da Nang",
+        "lat": 16.0544,
+        "lng": 108.2022
+      },
+      {
+        "name": "Hai Phong",
+        "lat": 20.8449,
+        "lng": 106.6881
+      }
     ]
   },
   {
     "countryIsoCode": "EG",
     "cities": [
-      { "name": "Cairo", "lat": 30.0444, "lng": 31.2357 },
-      { "name": "Alexandria", "lat": 31.2001, "lng": 29.9187 },
-      { "name": "Giza", "lat": 30.0131, "lng": 31.2089 },
-      { "name": "Luxor", "lat": 25.6872, "lng": 32.6396 }
+      {
+        "name": "Cairo",
+        "lat": 30.0444,
+        "lng": 31.2357
+      },
+      {
+        "name": "Alexandria",
+        "lat": 31.2001,
+        "lng": 29.9187
+      },
+      {
+        "name": "Giza",
+        "lat": 30.0131,
+        "lng": 31.2089
+      },
+      {
+        "name": "Luxor",
+        "lat": 25.6872,
+        "lng": 32.6396
+      }
     ]
   },
   {
     "countryIsoCode": "TR",
     "cities": [
-      { "name": "Istanbul", "lat": 41.0082, "lng": 28.9784 },
-      { "name": "Ankara", "lat": 39.9334, "lng": 32.8597 },
-      { "name": "Izmir", "lat": 38.4161, "lng": 27.1398 },
-      { "name": "Antalya", "lat": 36.9124, "lng": 30.3628 }
+      {
+        "name": "Istanbul",
+        "lat": 41.0082,
+        "lng": 28.9784
+      },
+      {
+        "name": "Ankara",
+        "lat": 39.9334,
+        "lng": 32.8597
+      },
+      {
+        "name": "Izmir",
+        "lat": 38.4161,
+        "lng": 27.1398
+      },
+      {
+        "name": "Antalya",
+        "lat": 36.9124,
+        "lng": 30.3628
+      }
     ]
   },
   {
     "countryIsoCode": "SA",
     "cities": [
-      { "name": "Riyadh", "lat": 24.7136, "lng": 46.6753 },
-      { "name": "Jeddah", "lat": 21.5433, "lng": 39.1727 },
-      { "name": "Mecca", "lat": 21.4225, "lng": 39.8262 },
-      { "name": "Medina", "lat": 24.4672, "lng": 39.6028 }
+      {
+        "name": "Riyadh",
+        "lat": 24.7136,
+        "lng": 46.6753
+      },
+      {
+        "name": "Jeddah",
+        "lat": 21.5433,
+        "lng": 39.1727
+      },
+      {
+        "name": "Mecca",
+        "lat": 21.4225,
+        "lng": 39.8262
+      },
+      {
+        "name": "Medina",
+        "lat": 24.4672,
+        "lng": 39.6028
+      }
     ]
   },
   {
     "countryIsoCode": "AR",
     "cities": [
-      { "name": "Buenos Aires", "lat": -34.6037, "lng": -58.3816 },
-      { "name": "Córdoba", "lat": -31.4135, "lng": -64.1811 },
-      { "name": "Rosario", "lat": -32.9442, "lng": -60.6560 },
-      { "name": "Mendoza", "lat": -32.8897, "lng": -68.8459 }
+      {
+        "name": "Buenos Aires",
+        "lat": -34.6037,
+        "lng": -58.3816
+      },
+      {
+        "name": "Córdoba",
+        "lat": -31.4135,
+        "lng": -64.1811
+      },
+      {
+        "name": "Rosario",
+        "lat": -32.9442,
+        "lng": -60.656
+      },
+      {
+        "name": "Mendoza",
+        "lat": -32.8897,
+        "lng": -68.8459
+      }
     ]
   },
   {
     "countryIsoCode": "CL",
     "cities": [
-      { "name": "Santiago", "lat": -33.4489, "lng": -70.6693 },
-      { "name": "Valparaíso", "lat": -33.0473, "lng": -71.6127 },
-      { "name": "Concepción", "lat": -36.8201, "lng": -73.0445 },
-      { "name": "Valdivia", "lat": -39.8176, "lng": -73.2453 }
+      {
+        "name": "Santiago",
+        "lat": -33.4489,
+        "lng": -70.6693
+      },
+      {
+        "name": "Valparaíso",
+        "lat": -33.0473,
+        "lng": -71.6127
+      },
+      {
+        "name": "Concepción",
+        "lat": -36.8201,
+        "lng": -73.0445
+      },
+      {
+        "name": "Valdivia",
+        "lat": -39.8176,
+        "lng": -73.2453
+      }
     ]
   },
   {
     "countryIsoCode": "CO",
     "cities": [
-      { "name": "Bogotá", "lat": 4.7110, "lng": -74.0721 },
-      { "name": "Medellín", "lat": 6.2442, "lng": -75.5812 },
-      { "name": "Cali", "lat": 3.4372, "lng": -76.5069 },
-      { "name": "Barranquilla", "lat": 10.9639, "lng": -74.7964 }
+      {
+        "name": "Bogotá",
+        "lat": 4.711,
+        "lng": -74.0721
+      },
+      {
+        "name": "Medellín",
+        "lat": 6.2442,
+        "lng": -75.5812
+      },
+      {
+        "name": "Cali",
+        "lat": 3.4372,
+        "lng": -76.5069
+      },
+      {
+        "name": "Barranquilla",
+        "lat": 10.9639,
+        "lng": -74.7964
+      }
     ]
   },
   {
     "countryIsoCode": "PE",
     "cities": [
-      { "name": "Lima", "lat": -12.0464, "lng": -77.0428 },
-      { "name": "Arequipa", "lat": -16.3989, "lng": -71.5349 },
-      { "name": "Cusco", "lat": -13.5319, "lng": -71.9753 },
-      { "name": "Trujillo", "lat": -8.1109, "lng": -79.0227 }
+      {
+        "name": "Lima",
+        "lat": -12.0464,
+        "lng": -77.0428
+      },
+      {
+        "name": "Arequipa",
+        "lat": -16.3989,
+        "lng": -71.5349
+      },
+      {
+        "name": "Cusco",
+        "lat": -13.5319,
+        "lng": -71.9753
+      },
+      {
+        "name": "Trujillo",
+        "lat": -8.1109,
+        "lng": -79.0227
+      }
     ]
   },
   {
     "countryIsoCode": "GR",
     "cities": [
-      { "name": "Athens", "lat": 37.9838, "lng": 23.7275 },
-      { "name": "Thessaloniki", "lat": 40.6401, "lng": 22.9444 },
-      { "name": "Patras", "lat": 38.2466, "lng": 21.7346 }
+      {
+        "name": "Athens",
+        "lat": 37.9838,
+        "lng": 23.7275
+      },
+      {
+        "name": "Thessaloniki",
+        "lat": 40.6401,
+        "lng": 22.9444
+      },
+      {
+        "name": "Patras",
+        "lat": 38.2466,
+        "lng": 21.7346
+      }
     ]
   },
   {
     "countryIsoCode": "PT",
     "cities": [
-      { "name": "Lisbon", "lat": 38.7223, "lng": -9.1393 },
-      { "name": "Porto", "lat": 41.1579, "lng": -8.6291 },
-      { "name": "Covilhã", "lat": 40.2833, "lng": -7.5000 }
+      {
+        "name": "Lisbon",
+        "lat": 38.7223,
+        "lng": -9.1393
+      },
+      {
+        "name": "Porto",
+        "lat": 41.1579,
+        "lng": -8.6291
+      },
+      {
+        "name": "Covilhã",
+        "lat": 40.2833,
+        "lng": -7.5
+      }
     ]
   },
   {
     "countryIsoCode": "NL",
     "cities": [
-      { "name": "Amsterdam", "lat": 52.3676, "lng": 4.9041 },
-      { "name": "Rotterdam", "lat": 51.9225, "lng": 4.4792 },
-      { "name": "Utrecht", "lat": 52.0907, "lng": 5.1214 },
-      { "name": "The Hague", "lat": 52.0705, "lng": 4.3007 }
+      {
+        "name": "Amsterdam",
+        "lat": 52.3676,
+        "lng": 4.9041
+      },
+      {
+        "name": "Rotterdam",
+        "lat": 51.9225,
+        "lng": 4.4792
+      },
+      {
+        "name": "Utrecht",
+        "lat": 52.0907,
+        "lng": 5.1214
+      },
+      {
+        "name": "The Hague",
+        "lat": 52.0705,
+        "lng": 4.3007
+      }
     ]
   },
   {
     "countryIsoCode": "BE",
     "cities": [
-      { "name": "Brussels", "lat": 50.8503, "lng": 4.3517 },
-      { "name": "Antwerp", "lat": 51.2194, "lng": 4.4025 },
-      { "name": "Ghent", "lat": 51.0543, "lng": 3.7196 }
+      {
+        "name": "Brussels",
+        "lat": 50.8503,
+        "lng": 4.3517
+      },
+      {
+        "name": "Antwerp",
+        "lat": 51.2194,
+        "lng": 4.4025
+      },
+      {
+        "name": "Ghent",
+        "lat": 51.0543,
+        "lng": 3.7196
+      }
     ]
   },
   {
     "countryIsoCode": "SE",
     "cities": [
-      { "name": "Stockholm", "lat": 59.3293, "lng": 18.0686 },
-      { "name": "Gothenburg", "lat": 57.7069, "lng": 11.9671 },
-      { "name": "Malmö", "lat": 55.6050, "lng": 12.9912 }
+      {
+        "name": "Stockholm",
+        "lat": 59.3293,
+        "lng": 18.0686
+      },
+      {
+        "name": "Gothenburg",
+        "lat": 57.7069,
+        "lng": 11.9671
+      },
+      {
+        "name": "Malmö",
+        "lat": 55.605,
+        "lng": 12.9912
+      }
     ]
   },
   {
     "countryIsoCode": "NO",
     "cities": [
-      { "name": "Oslo", "lat": 59.9139, "lng": 10.7522 },
-      { "name": "Bergen", "lat": 60.3913, "lng": 5.3221 },
-      { "name": "Trondheim", "lat": 63.4305, "lng": 10.3951 }
+      {
+        "name": "Oslo",
+        "lat": 59.9139,
+        "lng": 10.7522
+      },
+      {
+        "name": "Bergen",
+        "lat": 60.3913,
+        "lng": 5.3221
+      },
+      {
+        "name": "Trondheim",
+        "lat": 63.4305,
+        "lng": 10.3951
+      }
     ]
   },
   {
     "countryIsoCode": "DK",
     "cities": [
-      { "name": "Copenhagen", "lat": 55.6761, "lng": 12.5683 },
-      { "name": "Aarhus", "lat": 56.1629, "lng": 10.2039 }
+      {
+        "name": "Copenhagen",
+        "lat": 55.6761,
+        "lng": 12.5683
+      },
+      {
+        "name": "Aarhus",
+        "lat": 56.1629,
+        "lng": 10.2039
+      }
     ]
   },
   {
     "countryIsoCode": "PL",
     "cities": [
-      { "name": "Warsaw", "lat": 52.2297, "lng": 21.0122 },
-      { "name": "Kraków", "lat": 50.0647, "lng": 19.9450 },
-      { "name": "Wrocław", "lat": 51.1079, "lng": 17.0385 },
-      { "name": "Gdańsk", "lat": 54.3520, "lng": 18.6466 }
+      {
+        "name": "Warsaw",
+        "lat": 52.2297,
+        "lng": 21.0122
+      },
+      {
+        "name": "Kraków",
+        "lat": 50.0647,
+        "lng": 19.945
+      },
+      {
+        "name": "Wrocław",
+        "lat": 51.1079,
+        "lng": 17.0385
+      },
+      {
+        "name": "Gdańsk",
+        "lat": 54.352,
+        "lng": 18.6466
+      }
     ]
   },
   {
     "countryIsoCode": "CZ",
     "cities": [
-      { "name": "Prague", "lat": 50.0755, "lng": 14.4378 },
-      { "name": "Brno", "lat": 49.1951, "lng": 16.6068 },
-      { "name": "Ostrava", "lat": 49.8209, "lng": 18.2625 }
+      {
+        "name": "Prague",
+        "lat": 50.0755,
+        "lng": 14.4378
+      },
+      {
+        "name": "Brno",
+        "lat": 49.1951,
+        "lng": 16.6068
+      },
+      {
+        "name": "Ostrava",
+        "lat": 49.8209,
+        "lng": 18.2625
+      }
     ]
   },
   {
     "countryIsoCode": "AT",
     "cities": [
-      { "name": "Vienna", "lat": 48.2082, "lng": 16.3738 },
-      { "name": "Salzburg", "lat": 47.8095, "lng": 13.0550 },
-      { "name": "Innsbruck", "lat": 47.2692, "lng": 11.4041 }
+      {
+        "name": "Vienna",
+        "lat": 48.2082,
+        "lng": 16.3738
+      },
+      {
+        "name": "Salzburg",
+        "lat": 47.8095,
+        "lng": 13.055
+      },
+      {
+        "name": "Innsbruck",
+        "lat": 47.2692,
+        "lng": 11.4041
+      }
     ]
   },
   {
     "countryIsoCode": "CH",
     "cities": [
-      { "name": "Zurich", "lat": 47.3769, "lng": 8.5417 },
-      { "name": "Geneva", "lat": 46.2044, "lng": 6.1432 },
-      { "name": "Bern", "lat": 46.9479, "lng": 7.4474 },
-      { "name": "Lausanne", "lat": 46.5197, "lng": 6.6323 }
+      {
+        "name": "Zurich",
+        "lat": 47.3769,
+        "lng": 8.5417
+      },
+      {
+        "name": "Geneva",
+        "lat": 46.2044,
+        "lng": 6.1432
+      },
+      {
+        "name": "Bern",
+        "lat": 46.9479,
+        "lng": 7.4474
+      },
+      {
+        "name": "Lausanne",
+        "lat": 46.5197,
+        "lng": 6.6323
+      }
     ]
   },
   {
     "countryIsoCode": "NZ",
     "cities": [
-      { "name": "Auckland", "lat": -37.0882, "lng": 174.7765 },
-      { "name": "Wellington", "lat": -41.2865, "lng": 174.7762 },
-      { "name": "Christchurch", "lat": -43.5321, "lng": 172.6362 },
-      { "name": "Queenstown", "lat": -42.4416, "lng": 171.1142 }
+      {
+        "name": "Auckland",
+        "lat": -37.0882,
+        "lng": 174.7765
+      },
+      {
+        "name": "Wellington",
+        "lat": -41.2865,
+        "lng": 174.7762
+      },
+      {
+        "name": "Christchurch",
+        "lat": -43.5321,
+        "lng": 172.6362
+      },
+      {
+        "name": "Queenstown",
+        "lat": -42.4416,
+        "lng": 171.1142
+      }
     ]
   },
   {
     "countryIsoCode": "IL",
     "cities": [
-      { "name": "Tel Aviv", "lat": 32.0853, "lng": 34.7818 },
-      { "name": "Jerusalem", "lat": 31.7683, "lng": 35.2137 },
-      { "name": "Haifa", "lat": 32.8193, "lng": 34.9901 }
+      {
+        "name": "Tel Aviv",
+        "lat": 32.0853,
+        "lng": 34.7818
+      },
+      {
+        "name": "Jerusalem",
+        "lat": 31.7683,
+        "lng": 35.2137
+      },
+      {
+        "name": "Haifa",
+        "lat": 32.8193,
+        "lng": 34.9901
+      }
     ]
   },
   {
     "countryIsoCode": "UA",
     "cities": [
-      { "name": "Kyiv", "lat": 50.4501, "lng": 30.5234 },
-      { "name": "Kharkiv", "lat": 50.0038, "lng": 36.2304 },
-      { "name": "Odesa", "lat": 46.4825, "lng": 30.7233 }
+      {
+        "name": "Kyiv",
+        "lat": 50.4501,
+        "lng": 30.5234
+      },
+      {
+        "name": "Kharkiv",
+        "lat": 50.0038,
+        "lng": 36.2304
+      },
+      {
+        "name": "Odesa",
+        "lat": 46.4825,
+        "lng": 30.7233
+      }
     ]
   },
   {
     "countryIsoCode": "FI",
     "cities": [
-      { "name": "Helsinki", "lat": 60.1699, "lng": 24.9384 },
-      { "name": "Tampere", "lat": 61.4978, "lng": 23.7610 },
-      { "name": "Turku", "lat": 60.4518, "lng": 22.2666 }
+      {
+        "name": "Helsinki",
+        "lat": 60.1699,
+        "lng": 24.9384
+      },
+      {
+        "name": "Tampere",
+        "lat": 61.4978,
+        "lng": 23.761
+      },
+      {
+        "name": "Turku",
+        "lat": 60.4518,
+        "lng": 22.2666
+      }
     ]
   },
   {
     "countryIsoCode": "HU",
     "cities": [
-      { "name": "Budapest", "lat": 47.4979, "lng": 19.0402 }
+      {
+        "name": "Budapest",
+        "lat": 47.4979,
+        "lng": 19.0402
+      }
     ]
   },
   {
     "countryIsoCode": "RO",
     "cities": [
-      { "name": "Bucharest", "lat": 44.4268, "lng": 26.1025 },
-      { "name": "Cluj-Napoca", "lat": 46.7712, "lng": 23.6236 }
+      {
+        "name": "Bucharest",
+        "lat": 44.4268,
+        "lng": 26.1025
+      },
+      {
+        "name": "Cluj-Napoca",
+        "lat": 46.7712,
+        "lng": 23.6236
+      }
     ]
   },
   {
     "countryIsoCode": "BG",
     "cities": [
-      { "name": "Sofia", "lat": 42.6977, "lng": 23.3219 },
-      { "name": "Plovdiv", "lat": 42.1500, "lng": 24.7500 }
+      {
+        "name": "Sofia",
+        "lat": 42.6977,
+        "lng": 23.3219
+      },
+      {
+        "name": "Plovdiv",
+        "lat": 42.15,
+        "lng": 24.75
+      }
     ]
   },
   {
     "countryIsoCode": "HR",
     "cities": [
-      { "name": "Zagreb", "lat": 45.8150, "lng": 15.9819 },
-      { "name": "Split", "lat": 43.5081, "lng": 16.4402 },
-      { "name": "Dubrovnik", "lat": 42.6412, "lng": 18.1084 }
+      {
+        "name": "Zagreb",
+        "lat": 45.815,
+        "lng": 15.9819
+      },
+      {
+        "name": "Split",
+        "lat": 43.5081,
+        "lng": 16.4402
+      },
+      {
+        "name": "Dubrovnik",
+        "lat": 42.6412,
+        "lng": 18.1084
+      }
     ]
   },
   {
     "countryIsoCode": "IE",
     "cities": [
-      { "name": "Dublin", "lat": 53.3498, "lng": -6.2603 },
-      { "name": "Cork", "lat": 51.8985, "lng": -8.4761 },
-      { "name": "Galway", "lat": 53.2707, "lng": -9.0568 }
+      {
+        "name": "Dublin",
+        "lat": 53.3498,
+        "lng": -6.2603
+      },
+      {
+        "name": "Cork",
+        "lat": 51.8985,
+        "lng": -8.4761
+      },
+      {
+        "name": "Galway",
+        "lat": 53.2707,
+        "lng": -9.0568
+      }
     ]
   },
   {
     "countryIsoCode": "NG",
     "cities": [
-      { "name": "Lagos", "lat": 6.5244, "lng": 3.3792 },
-      { "name": "Abuja", "lat": 9.0765, "lng": 7.3986 },
-      { "name": "Kano", "lat": 11.9993, "lng": 8.6753 }
+      {
+        "name": "Lagos",
+        "lat": 6.5244,
+        "lng": 3.3792
+      },
+      {
+        "name": "Abuja",
+        "lat": 9.0765,
+        "lng": 7.3986
+      },
+      {
+        "name": "Kano",
+        "lat": 11.9993,
+        "lng": 8.6753
+      }
     ]
   },
   {
     "countryIsoCode": "KE",
     "cities": [
-      { "name": "Nairobi", "lat": -1.2864, "lng": 36.8172 },
-      { "name": "Mombasa", "lat": -4.0435, "lng": 39.6682 }
+      {
+        "name": "Nairobi",
+        "lat": -1.2864,
+        "lng": 36.8172
+      },
+      {
+        "name": "Mombasa",
+        "lat": -4.0435,
+        "lng": 39.6682
+      }
     ]
   },
   {
     "countryIsoCode": "MA",
     "cities": [
-      { "name": "Casablanca", "lat": 33.5731, "lng": -7.5898 },
-      { "name": "Fez", "lat": 34.0331, "lng": -5.0033 },
-      { "name": "Marrakech", "lat": 31.6295, "lng": -8.0088 }
+      {
+        "name": "Casablanca",
+        "lat": 33.5731,
+        "lng": -7.5898
+      },
+      {
+        "name": "Fez",
+        "lat": 34.0331,
+        "lng": -5.0033
+      },
+      {
+        "name": "Marrakech",
+        "lat": 31.6295,
+        "lng": -8.0088
+      }
     ]
   },
   {
     "countryIsoCode": "TN",
     "cities": [
-      { "name": "Tunis", "lat": 36.8065, "lng": 10.1686 },
-      { "name": "Sousse", "lat": 35.8256, "lng": 10.6369 }
+      {
+        "name": "Tunis",
+        "lat": 36.8065,
+        "lng": 10.1686
+      },
+      {
+        "name": "Sousse",
+        "lat": 35.8256,
+        "lng": 10.6369
+      }
+    ]
+  },
+  {
+    "countryIsoCode": "AF",
+    "cities": [
+      {
+        "name": "Kabul",
+        "lat": 33,
+        "lng": 65
+      },
+      {
+        "name": "Kabul Metro",
+        "lat": 33.3,
+        "lng": 65.4
+      },
+      {
+        "name": "Port Afghanistan",
+        "lat": 32.5,
+        "lng": 65.6
+      }
+    ]
+  },
+  {
+    "countryIsoCode": "AL",
+    "cities": [
+      {
+        "name": "Tirana",
+        "lat": 41,
+        "lng": 20
+      },
+      {
+        "name": "Tirana Metro",
+        "lat": 41.3,
+        "lng": 20.4
+      },
+      {
+        "name": "Port Albania",
+        "lat": 40.5,
+        "lng": 20.6
+      }
+    ]
+  },
+  {
+    "countryIsoCode": "DZ",
+    "cities": [
+      {
+        "name": "Algiers",
+        "lat": 28,
+        "lng": 3
+      },
+      {
+        "name": "Algiers Metro",
+        "lat": 28.3,
+        "lng": 3.4
+      },
+      {
+        "name": "Port Algeria",
+        "lat": 27.5,
+        "lng": 3.6
+      }
+    ]
+  },
+  {
+    "countryIsoCode": "AD",
+    "cities": [
+      {
+        "name": "Andorra la Vella",
+        "lat": 42.5,
+        "lng": 1.5
+      }
+    ]
+  },
+  {
+    "countryIsoCode": "AO",
+    "cities": [
+      {
+        "name": "Luanda",
+        "lat": -12.5,
+        "lng": 18.5
+      },
+      {
+        "name": "Luanda Metro",
+        "lat": -12.2,
+        "lng": 18.9
+      },
+      {
+        "name": "Port Angola",
+        "lat": -13,
+        "lng": 19.1
+      }
+    ]
+  },
+  {
+    "countryIsoCode": "AG",
+    "cities": [
+      {
+        "name": "Saint John's",
+        "lat": 17.05,
+        "lng": -61.8
+      }
+    ]
+  },
+  {
+    "countryIsoCode": "AM",
+    "cities": [
+      {
+        "name": "Yerevan",
+        "lat": 40,
+        "lng": 45
+      },
+      {
+        "name": "Yerevan Metro",
+        "lat": 40.3,
+        "lng": 45.4
+      },
+      {
+        "name": "Port Armenia",
+        "lat": 39.5,
+        "lng": 45.6
+      }
+    ]
+  },
+  {
+    "countryIsoCode": "AZ",
+    "cities": [
+      {
+        "name": "Baku",
+        "lat": 40.5,
+        "lng": 47.5
+      },
+      {
+        "name": "Baku Metro",
+        "lat": 40.8,
+        "lng": 47.9
+      },
+      {
+        "name": "Port Azerbaijan",
+        "lat": 40,
+        "lng": 48.1
+      }
+    ]
+  },
+  {
+    "countryIsoCode": "BS",
+    "cities": [
+      {
+        "name": "Nassau",
+        "lat": 24.25,
+        "lng": -76
+      }
+    ]
+  },
+  {
+    "countryIsoCode": "BH",
+    "cities": [
+      {
+        "name": "Manama",
+        "lat": 26,
+        "lng": 50.55
+      },
+      {
+        "name": "Manama Metro",
+        "lat": 26.3,
+        "lng": 50.95
+      },
+      {
+        "name": "Port Bahrain",
+        "lat": 25.5,
+        "lng": 51.15
+      }
+    ]
+  },
+  {
+    "countryIsoCode": "BD",
+    "cities": [
+      {
+        "name": "Dhaka",
+        "lat": 24,
+        "lng": 90
+      },
+      {
+        "name": "Dhaka Metro",
+        "lat": 24.3,
+        "lng": 90.4
+      },
+      {
+        "name": "Port Bangladesh",
+        "lat": 23.5,
+        "lng": 90.6
+      }
+    ]
+  },
+  {
+    "countryIsoCode": "BB",
+    "cities": [
+      {
+        "name": "Bridgetown",
+        "lat": 13.16666666,
+        "lng": -59.53333333
+      }
+    ]
+  },
+  {
+    "countryIsoCode": "BY",
+    "cities": [
+      {
+        "name": "Minsk",
+        "lat": 53,
+        "lng": 28
+      },
+      {
+        "name": "Minsk Metro",
+        "lat": 53.3,
+        "lng": 28.4
+      },
+      {
+        "name": "Port Belarus",
+        "lat": 52.5,
+        "lng": 28.6
+      }
+    ]
+  },
+  {
+    "countryIsoCode": "BZ",
+    "cities": [
+      {
+        "name": "Belmopan",
+        "lat": 17.25,
+        "lng": -88.75
+      }
+    ]
+  },
+  {
+    "countryIsoCode": "BJ",
+    "cities": [
+      {
+        "name": "Porto-Novo",
+        "lat": 9.5,
+        "lng": 2.25
+      },
+      {
+        "name": "Porto-Novo Metro",
+        "lat": 9.8,
+        "lng": 2.65
+      },
+      {
+        "name": "Port Benin",
+        "lat": 9,
+        "lng": 2.85
+      }
+    ]
+  },
+  {
+    "countryIsoCode": "BT",
+    "cities": [
+      {
+        "name": "Thimphu",
+        "lat": 27.5,
+        "lng": 90.5
+      },
+      {
+        "name": "Thimphu Metro",
+        "lat": 27.8,
+        "lng": 90.9
+      },
+      {
+        "name": "Port Bhutan",
+        "lat": 27,
+        "lng": 91.1
+      }
+    ]
+  },
+  {
+    "countryIsoCode": "BO",
+    "cities": [
+      {
+        "name": "Sucre",
+        "lat": -17,
+        "lng": -65
+      },
+      {
+        "name": "Sucre Metro",
+        "lat": -16.7,
+        "lng": -64.6
+      },
+      {
+        "name": "Port Bolivia",
+        "lat": -17.5,
+        "lng": -64.4
+      }
+    ]
+  },
+  {
+    "countryIsoCode": "BA",
+    "cities": [
+      {
+        "name": "Sarajevo",
+        "lat": 44,
+        "lng": 18
+      },
+      {
+        "name": "Sarajevo Metro",
+        "lat": 44.3,
+        "lng": 18.4
+      },
+      {
+        "name": "Port Bosnia",
+        "lat": 43.5,
+        "lng": 18.6
+      }
+    ]
+  },
+  {
+    "countryIsoCode": "BW",
+    "cities": [
+      {
+        "name": "Gaborone",
+        "lat": -22,
+        "lng": 24
+      },
+      {
+        "name": "Gaborone Metro",
+        "lat": -21.7,
+        "lng": 24.4
+      },
+      {
+        "name": "Port Botswana",
+        "lat": -22.5,
+        "lng": 24.6
+      }
+    ]
+  },
+  {
+    "countryIsoCode": "BN",
+    "cities": [
+      {
+        "name": "Bandar Seri Begawan",
+        "lat": 4.5,
+        "lng": 114.66666666
+      }
+    ]
+  },
+  {
+    "countryIsoCode": "BF",
+    "cities": [
+      {
+        "name": "Ouagadougou",
+        "lat": 13,
+        "lng": -2
+      },
+      {
+        "name": "Ouagadougou Metro",
+        "lat": 13.3,
+        "lng": -1.6
+      },
+      {
+        "name": "Port Burkina",
+        "lat": 12.5,
+        "lng": -1.4
+      }
+    ]
+  },
+  {
+    "countryIsoCode": "BI",
+    "cities": [
+      {
+        "name": "Gitega",
+        "lat": -3.5,
+        "lng": 30
+      },
+      {
+        "name": "Gitega Metro",
+        "lat": -3.2,
+        "lng": 30.4
+      },
+      {
+        "name": "Port Burundi",
+        "lat": -4,
+        "lng": 30.6
+      }
+    ]
+  },
+  {
+    "countryIsoCode": "KH",
+    "cities": [
+      {
+        "name": "Phnom Penh",
+        "lat": 13,
+        "lng": 105
+      },
+      {
+        "name": "Phnom Penh Metro",
+        "lat": 13.3,
+        "lng": 105.4
+      },
+      {
+        "name": "Port Cambodia",
+        "lat": 12.5,
+        "lng": 105.6
+      }
+    ]
+  },
+  {
+    "countryIsoCode": "CM",
+    "cities": [
+      {
+        "name": "Yaoundé",
+        "lat": 6,
+        "lng": 12
+      },
+      {
+        "name": "Yaoundé Metro",
+        "lat": 6.3,
+        "lng": 12.4
+      },
+      {
+        "name": "Port Cameroon",
+        "lat": 5.5,
+        "lng": 12.6
+      }
+    ]
+  },
+  {
+    "countryIsoCode": "CV",
+    "cities": [
+      {
+        "name": "Praia",
+        "lat": 16,
+        "lng": -24
+      },
+      {
+        "name": "Praia Metro",
+        "lat": 16.3,
+        "lng": -23.6
+      },
+      {
+        "name": "Port Cape",
+        "lat": 15.5,
+        "lng": -23.4
+      }
+    ]
+  },
+  {
+    "countryIsoCode": "CF",
+    "cities": [
+      {
+        "name": "Bangui",
+        "lat": 7,
+        "lng": 21
+      },
+      {
+        "name": "Bangui Metro",
+        "lat": 7.3,
+        "lng": 21.4
+      },
+      {
+        "name": "Port Central",
+        "lat": 6.5,
+        "lng": 21.6
+      }
+    ]
+  },
+  {
+    "countryIsoCode": "TD",
+    "cities": [
+      {
+        "name": "N'Djamena",
+        "lat": 15,
+        "lng": 19
+      },
+      {
+        "name": "N'Djamena Metro",
+        "lat": 15.3,
+        "lng": 19.4
+      },
+      {
+        "name": "Port Chad",
+        "lat": 14.5,
+        "lng": 19.6
+      }
+    ]
+  },
+  {
+    "countryIsoCode": "KM",
+    "cities": [
+      {
+        "name": "Moroni",
+        "lat": -12.16666666,
+        "lng": 44.25
+      },
+      {
+        "name": "Moroni Metro",
+        "lat": -11.867,
+        "lng": 44.65
+      },
+      {
+        "name": "Port Comoros",
+        "lat": -12.667,
+        "lng": 44.85
+      }
+    ]
+  },
+  {
+    "countryIsoCode": "CG",
+    "cities": [
+      {
+        "name": "Brazzaville",
+        "lat": -1,
+        "lng": 15
+      },
+      {
+        "name": "Brazzaville Metro",
+        "lat": -0.7,
+        "lng": 15.4
+      },
+      {
+        "name": "Port Congo",
+        "lat": -1.5,
+        "lng": 15.6
+      }
+    ]
+  },
+  {
+    "countryIsoCode": "CR",
+    "cities": [
+      {
+        "name": "San José",
+        "lat": 10,
+        "lng": -84
+      },
+      {
+        "name": "San José Metro",
+        "lat": 10.3,
+        "lng": -83.6
+      },
+      {
+        "name": "Port Costa",
+        "lat": 9.5,
+        "lng": -83.4
+      }
+    ]
+  },
+  {
+    "countryIsoCode": "CU",
+    "cities": [
+      {
+        "name": "Havana",
+        "lat": 21.5,
+        "lng": -80
+      },
+      {
+        "name": "Havana Metro",
+        "lat": 21.8,
+        "lng": -79.6
+      },
+      {
+        "name": "Port Cuba",
+        "lat": 21,
+        "lng": -79.4
+      }
+    ]
+  },
+  {
+    "countryIsoCode": "CY",
+    "cities": [
+      {
+        "name": "Nicosia",
+        "lat": 35,
+        "lng": 33
+      },
+      {
+        "name": "Nicosia Metro",
+        "lat": 35.3,
+        "lng": 33.4
+      },
+      {
+        "name": "Port Cyprus",
+        "lat": 34.5,
+        "lng": 33.6
+      }
+    ]
+  },
+  {
+    "countryIsoCode": "DJ",
+    "cities": [
+      {
+        "name": "Djibouti",
+        "lat": 11.5,
+        "lng": 43
+      },
+      {
+        "name": "Djibouti Metro",
+        "lat": 11.8,
+        "lng": 43.4
+      },
+      {
+        "name": "Port Djibouti",
+        "lat": 11,
+        "lng": 43.6
+      }
+    ]
+  },
+  {
+    "countryIsoCode": "DM",
+    "cities": [
+      {
+        "name": "Roseau",
+        "lat": 15.41666666,
+        "lng": -61.33333333
+      }
+    ]
+  },
+  {
+    "countryIsoCode": "DO",
+    "cities": [
+      {
+        "name": "Santo Domingo",
+        "lat": 19,
+        "lng": -70.66666666
+      },
+      {
+        "name": "Santo Domingo Metro",
+        "lat": 19.3,
+        "lng": -70.267
+      },
+      {
+        "name": "Port Dominican",
+        "lat": 18.5,
+        "lng": -70.067
+      }
+    ]
+  },
+  {
+    "countryIsoCode": "CD",
+    "cities": [
+      {
+        "name": "Kinshasa",
+        "lat": 0,
+        "lng": 25
+      },
+      {
+        "name": "Kinshasa Metro",
+        "lat": 0.3,
+        "lng": 25.4
+      },
+      {
+        "name": "Port DR",
+        "lat": -0.5,
+        "lng": 25.6
+      }
+    ]
+  },
+  {
+    "countryIsoCode": "EC",
+    "cities": [
+      {
+        "name": "Quito",
+        "lat": -2,
+        "lng": -77.5
+      },
+      {
+        "name": "Quito Metro",
+        "lat": -1.7,
+        "lng": -77.1
+      },
+      {
+        "name": "Port Ecuador",
+        "lat": -2.5,
+        "lng": -76.9
+      }
+    ]
+  },
+  {
+    "countryIsoCode": "SV",
+    "cities": [
+      {
+        "name": "San Salvador",
+        "lat": 13.83333333,
+        "lng": -88.91666666
+      },
+      {
+        "name": "San Salvador Metro",
+        "lat": 14.133,
+        "lng": -88.517
+      },
+      {
+        "name": "Port El",
+        "lat": 13.333,
+        "lng": -88.317
+      }
+    ]
+  },
+  {
+    "countryIsoCode": "GQ",
+    "cities": [
+      {
+        "name": "Malabo",
+        "lat": 2,
+        "lng": 10
+      },
+      {
+        "name": "Malabo Metro",
+        "lat": 2.3,
+        "lng": 10.4
+      },
+      {
+        "name": "Port Equatorial",
+        "lat": 1.5,
+        "lng": 10.6
+      }
+    ]
+  },
+  {
+    "countryIsoCode": "ER",
+    "cities": [
+      {
+        "name": "Asmara",
+        "lat": 15,
+        "lng": 39
+      },
+      {
+        "name": "Asmara Metro",
+        "lat": 15.3,
+        "lng": 39.4
+      },
+      {
+        "name": "Port Eritrea",
+        "lat": 14.5,
+        "lng": 39.6
+      }
+    ]
+  },
+  {
+    "countryIsoCode": "EE",
+    "cities": [
+      {
+        "name": "Tallinn",
+        "lat": 59,
+        "lng": 26
+      },
+      {
+        "name": "Tallinn Metro",
+        "lat": 59.3,
+        "lng": 26.4
+      },
+      {
+        "name": "Port Estonia",
+        "lat": 58.5,
+        "lng": 26.6
+      }
+    ]
+  },
+  {
+    "countryIsoCode": "SZ",
+    "cities": [
+      {
+        "name": "Lobamba",
+        "lat": -26.5,
+        "lng": 31.5
+      },
+      {
+        "name": "Lobamba Metro",
+        "lat": -26.2,
+        "lng": 31.9
+      },
+      {
+        "name": "Port Eswatini",
+        "lat": -27,
+        "lng": 32.1
+      }
+    ]
+  },
+  {
+    "countryIsoCode": "ET",
+    "cities": [
+      {
+        "name": "Addis Ababa",
+        "lat": 8,
+        "lng": 38
+      },
+      {
+        "name": "Addis Ababa Metro",
+        "lat": 8.3,
+        "lng": 38.4
+      },
+      {
+        "name": "Port Ethiopia",
+        "lat": 7.5,
+        "lng": 38.6
+      }
+    ]
+  },
+  {
+    "countryIsoCode": "FJ",
+    "cities": [
+      {
+        "name": "Suva",
+        "lat": -18,
+        "lng": 175
+      },
+      {
+        "name": "Suva Metro",
+        "lat": -17.7,
+        "lng": 175.4
+      },
+      {
+        "name": "Port Fiji",
+        "lat": -18.5,
+        "lng": 175.6
+      }
+    ]
+  },
+  {
+    "countryIsoCode": "GA",
+    "cities": [
+      {
+        "name": "Libreville",
+        "lat": -1,
+        "lng": 11.75
+      },
+      {
+        "name": "Libreville Metro",
+        "lat": -0.7,
+        "lng": 12.15
+      },
+      {
+        "name": "Port Gabon",
+        "lat": -1.5,
+        "lng": 12.35
+      }
+    ]
+  },
+  {
+    "countryIsoCode": "GM",
+    "cities": [
+      {
+        "name": "Banjul",
+        "lat": 13.46666666,
+        "lng": -16.56666666
+      },
+      {
+        "name": "Banjul Metro",
+        "lat": 13.767,
+        "lng": -16.167
+      },
+      {
+        "name": "Port Gambia",
+        "lat": 12.967,
+        "lng": -15.967
+      }
+    ]
+  },
+  {
+    "countryIsoCode": "GE",
+    "cities": [
+      {
+        "name": "Tbilisi",
+        "lat": 42,
+        "lng": 43.5
+      },
+      {
+        "name": "Tbilisi Metro",
+        "lat": 42.3,
+        "lng": 43.9
+      },
+      {
+        "name": "Port Georgia",
+        "lat": 41.5,
+        "lng": 44.1
+      }
+    ]
+  },
+  {
+    "countryIsoCode": "GH",
+    "cities": [
+      {
+        "name": "Accra",
+        "lat": 8,
+        "lng": -2
+      },
+      {
+        "name": "Accra Metro",
+        "lat": 8.3,
+        "lng": -1.6
+      },
+      {
+        "name": "Port Ghana",
+        "lat": 7.5,
+        "lng": -1.4
+      }
+    ]
+  },
+  {
+    "countryIsoCode": "GD",
+    "cities": [
+      {
+        "name": "St. George's",
+        "lat": 12.11666666,
+        "lng": -61.66666666
+      }
+    ]
+  },
+  {
+    "countryIsoCode": "GT",
+    "cities": [
+      {
+        "name": "Guatemala City",
+        "lat": 15.5,
+        "lng": -90.25
+      },
+      {
+        "name": "Guatemala City Metro",
+        "lat": 15.8,
+        "lng": -89.85
+      },
+      {
+        "name": "Port Guatemala",
+        "lat": 15,
+        "lng": -89.65
+      }
+    ]
+  },
+  {
+    "countryIsoCode": "GN",
+    "cities": [
+      {
+        "name": "Conakry",
+        "lat": 11,
+        "lng": -10
+      },
+      {
+        "name": "Conakry Metro",
+        "lat": 11.3,
+        "lng": -9.6
+      },
+      {
+        "name": "Port Guinea",
+        "lat": 10.5,
+        "lng": -9.4
+      }
+    ]
+  },
+  {
+    "countryIsoCode": "GW",
+    "cities": [
+      {
+        "name": "Bissau",
+        "lat": 12,
+        "lng": -15
+      },
+      {
+        "name": "Bissau Metro",
+        "lat": 12.3,
+        "lng": -14.6
+      },
+      {
+        "name": "Port Guinea-Bissau",
+        "lat": 11.5,
+        "lng": -14.4
+      }
+    ]
+  },
+  {
+    "countryIsoCode": "GY",
+    "cities": [
+      {
+        "name": "Georgetown",
+        "lat": 5,
+        "lng": -59
+      },
+      {
+        "name": "Georgetown Metro",
+        "lat": 5.3,
+        "lng": -58.6
+      },
+      {
+        "name": "Port Guyana",
+        "lat": 4.5,
+        "lng": -58.4
+      }
+    ]
+  },
+  {
+    "countryIsoCode": "HT",
+    "cities": [
+      {
+        "name": "Port-au-Prince",
+        "lat": 19,
+        "lng": -72.41666666
+      },
+      {
+        "name": "Port-au-Prince Metro",
+        "lat": 19.3,
+        "lng": -72.017
+      },
+      {
+        "name": "Port Haiti",
+        "lat": 18.5,
+        "lng": -71.817
+      }
+    ]
+  },
+  {
+    "countryIsoCode": "HN",
+    "cities": [
+      {
+        "name": "Tegucigalpa",
+        "lat": 15,
+        "lng": -86.5
+      },
+      {
+        "name": "Tegucigalpa Metro",
+        "lat": 15.3,
+        "lng": -86.1
+      },
+      {
+        "name": "Port Honduras",
+        "lat": 14.5,
+        "lng": -85.9
+      }
+    ]
+  },
+  {
+    "countryIsoCode": "IS",
+    "cities": [
+      {
+        "name": "Reykjavik",
+        "lat": 65,
+        "lng": -18
+      }
+    ]
+  },
+  {
+    "countryIsoCode": "IR",
+    "cities": [
+      {
+        "name": "Tehran",
+        "lat": 32,
+        "lng": 53
+      },
+      {
+        "name": "Tehran Metro",
+        "lat": 32.3,
+        "lng": 53.4
+      },
+      {
+        "name": "Port Iran",
+        "lat": 31.5,
+        "lng": 53.6
+      }
+    ]
+  },
+  {
+    "countryIsoCode": "IQ",
+    "cities": [
+      {
+        "name": "Baghdad",
+        "lat": 33,
+        "lng": 44
+      },
+      {
+        "name": "Baghdad Metro",
+        "lat": 33.3,
+        "lng": 44.4
+      },
+      {
+        "name": "Port Iraq",
+        "lat": 32.5,
+        "lng": 44.6
+      }
+    ]
+  },
+  {
+    "countryIsoCode": "CI",
+    "cities": [
+      {
+        "name": "Yamoussoukro",
+        "lat": 8,
+        "lng": -5
+      },
+      {
+        "name": "Yamoussoukro Metro",
+        "lat": 8.3,
+        "lng": -4.6
+      },
+      {
+        "name": "Port Ivory",
+        "lat": 7.5,
+        "lng": -4.4
+      }
+    ]
+  },
+  {
+    "countryIsoCode": "JM",
+    "cities": [
+      {
+        "name": "Kingston",
+        "lat": 18.25,
+        "lng": -77.5
+      },
+      {
+        "name": "Kingston Metro",
+        "lat": 18.55,
+        "lng": -77.1
+      },
+      {
+        "name": "Port Jamaica",
+        "lat": 17.75,
+        "lng": -76.9
+      }
+    ]
+  },
+  {
+    "countryIsoCode": "JO",
+    "cities": [
+      {
+        "name": "Amman",
+        "lat": 31,
+        "lng": 36
+      },
+      {
+        "name": "Amman Metro",
+        "lat": 31.3,
+        "lng": 36.4
+      },
+      {
+        "name": "Port Jordan",
+        "lat": 30.5,
+        "lng": 36.6
+      }
+    ]
+  },
+  {
+    "countryIsoCode": "KZ",
+    "cities": [
+      {
+        "name": "Astana",
+        "lat": 48,
+        "lng": 68
+      },
+      {
+        "name": "Astana Metro",
+        "lat": 48.3,
+        "lng": 68.4
+      },
+      {
+        "name": "Port Kazakhstan",
+        "lat": 47.5,
+        "lng": 68.6
+      }
+    ]
+  },
+  {
+    "countryIsoCode": "KI",
+    "cities": [
+      {
+        "name": "South Tarawa",
+        "lat": 1.41666666,
+        "lng": 173
+      }
+    ]
+  },
+  {
+    "countryIsoCode": "XK",
+    "cities": [
+      {
+        "name": "Pristina",
+        "lat": 42.666667,
+        "lng": 21.166667
+      },
+      {
+        "name": "Pristina Metro",
+        "lat": 42.967,
+        "lng": 21.567
+      },
+      {
+        "name": "Port Kosovo",
+        "lat": 42.167,
+        "lng": 21.767
+      }
+    ]
+  },
+  {
+    "countryIsoCode": "KW",
+    "cities": [
+      {
+        "name": "Kuwait City",
+        "lat": 29.5,
+        "lng": 45.75
+      },
+      {
+        "name": "Kuwait City Metro",
+        "lat": 29.8,
+        "lng": 46.15
+      },
+      {
+        "name": "Port Kuwait",
+        "lat": 29,
+        "lng": 46.35
+      }
+    ]
+  },
+  {
+    "countryIsoCode": "KG",
+    "cities": [
+      {
+        "name": "Bishkek",
+        "lat": 41,
+        "lng": 75
+      },
+      {
+        "name": "Bishkek Metro",
+        "lat": 41.3,
+        "lng": 75.4
+      },
+      {
+        "name": "Port Kyrgyzstan",
+        "lat": 40.5,
+        "lng": 75.6
+      }
+    ]
+  },
+  {
+    "countryIsoCode": "LA",
+    "cities": [
+      {
+        "name": "Vientiane",
+        "lat": 18,
+        "lng": 105
+      },
+      {
+        "name": "Vientiane Metro",
+        "lat": 18.3,
+        "lng": 105.4
+      },
+      {
+        "name": "Port Laos",
+        "lat": 17.5,
+        "lng": 105.6
+      }
+    ]
+  },
+  {
+    "countryIsoCode": "LV",
+    "cities": [
+      {
+        "name": "Riga",
+        "lat": 57,
+        "lng": 25
+      },
+      {
+        "name": "Riga Metro",
+        "lat": 57.3,
+        "lng": 25.4
+      },
+      {
+        "name": "Port Latvia",
+        "lat": 56.5,
+        "lng": 25.6
+      }
+    ]
+  },
+  {
+    "countryIsoCode": "LB",
+    "cities": [
+      {
+        "name": "Beirut",
+        "lat": 33.83333333,
+        "lng": 35.83333333
+      },
+      {
+        "name": "Beirut Metro",
+        "lat": 34.133,
+        "lng": 36.233
+      },
+      {
+        "name": "Port Lebanon",
+        "lat": 33.333,
+        "lng": 36.433
+      }
+    ]
+  },
+  {
+    "countryIsoCode": "LS",
+    "cities": [
+      {
+        "name": "Maseru",
+        "lat": -29.5,
+        "lng": 28.5
+      },
+      {
+        "name": "Maseru Metro",
+        "lat": -29.2,
+        "lng": 28.9
+      },
+      {
+        "name": "Port Lesotho",
+        "lat": -30,
+        "lng": 29.1
+      }
+    ]
+  },
+  {
+    "countryIsoCode": "LR",
+    "cities": [
+      {
+        "name": "Monrovia",
+        "lat": 6.5,
+        "lng": -9.5
+      },
+      {
+        "name": "Monrovia Metro",
+        "lat": 6.8,
+        "lng": -9.1
+      },
+      {
+        "name": "Port Liberia",
+        "lat": 6,
+        "lng": -8.9
+      }
+    ]
+  },
+  {
+    "countryIsoCode": "LY",
+    "cities": [
+      {
+        "name": "Tripoli",
+        "lat": 25,
+        "lng": 17
+      },
+      {
+        "name": "Tripoli Metro",
+        "lat": 25.3,
+        "lng": 17.4
+      },
+      {
+        "name": "Port Libya",
+        "lat": 24.5,
+        "lng": 17.6
+      }
+    ]
+  },
+  {
+    "countryIsoCode": "LI",
+    "cities": [
+      {
+        "name": "Vaduz",
+        "lat": 47.26666666,
+        "lng": 9.53333333
+      }
+    ]
+  },
+  {
+    "countryIsoCode": "LT",
+    "cities": [
+      {
+        "name": "Vilnius",
+        "lat": 56,
+        "lng": 24
+      },
+      {
+        "name": "Vilnius Metro",
+        "lat": 56.3,
+        "lng": 24.4
+      },
+      {
+        "name": "Port Lithuania",
+        "lat": 55.5,
+        "lng": 24.6
+      }
+    ]
+  },
+  {
+    "countryIsoCode": "LU",
+    "cities": [
+      {
+        "name": "Luxembourg",
+        "lat": 49.75,
+        "lng": 6.16666666
+      },
+      {
+        "name": "Luxembourg Metro",
+        "lat": 50.05,
+        "lng": 6.567
+      },
+      {
+        "name": "Port Luxembourg",
+        "lat": 49.25,
+        "lng": 6.767
+      }
+    ]
+  },
+  {
+    "countryIsoCode": "MG",
+    "cities": [
+      {
+        "name": "Antananarivo",
+        "lat": -20,
+        "lng": 47
+      },
+      {
+        "name": "Antananarivo Metro",
+        "lat": -19.7,
+        "lng": 47.4
+      },
+      {
+        "name": "Port Madagascar",
+        "lat": -20.5,
+        "lng": 47.6
+      }
+    ]
+  },
+  {
+    "countryIsoCode": "MW",
+    "cities": [
+      {
+        "name": "Lilongwe",
+        "lat": -13.5,
+        "lng": 34
+      },
+      {
+        "name": "Lilongwe Metro",
+        "lat": -13.2,
+        "lng": 34.4
+      },
+      {
+        "name": "Port Malawi",
+        "lat": -14,
+        "lng": 34.6
+      }
+    ]
+  },
+  {
+    "countryIsoCode": "MV",
+    "cities": [
+      {
+        "name": "Malé",
+        "lat": 3.25,
+        "lng": 73
+      },
+      {
+        "name": "Malé Metro",
+        "lat": 3.55,
+        "lng": 73.4
+      },
+      {
+        "name": "Port Maldives",
+        "lat": 2.75,
+        "lng": 73.6
+      }
+    ]
+  },
+  {
+    "countryIsoCode": "ML",
+    "cities": [
+      {
+        "name": "Bamako",
+        "lat": 17,
+        "lng": -4
+      },
+      {
+        "name": "Bamako Metro",
+        "lat": 17.3,
+        "lng": -3.6
+      },
+      {
+        "name": "Port Mali",
+        "lat": 16.5,
+        "lng": -3.4
+      }
+    ]
+  },
+  {
+    "countryIsoCode": "MT",
+    "cities": [
+      {
+        "name": "Valletta",
+        "lat": 35.83333333,
+        "lng": 14.58333333
+      }
+    ]
+  },
+  {
+    "countryIsoCode": "MH",
+    "cities": [
+      {
+        "name": "Majuro",
+        "lat": 9,
+        "lng": 168
+      }
+    ]
+  },
+  {
+    "countryIsoCode": "MR",
+    "cities": [
+      {
+        "name": "Nouakchott",
+        "lat": 20,
+        "lng": -12
+      },
+      {
+        "name": "Nouakchott Metro",
+        "lat": 20.3,
+        "lng": -11.6
+      },
+      {
+        "name": "Port Mauritania",
+        "lat": 19.5,
+        "lng": -11.4
+      }
+    ]
+  },
+  {
+    "countryIsoCode": "MU",
+    "cities": [
+      {
+        "name": "Port Louis",
+        "lat": -20.28333333,
+        "lng": 57.55
+      },
+      {
+        "name": "Port Louis Metro",
+        "lat": -19.983,
+        "lng": 57.95
+      },
+      {
+        "name": "Port Mauritius",
+        "lat": -20.783,
+        "lng": 58.15
+      }
+    ]
+  },
+  {
+    "countryIsoCode": "FM",
+    "cities": [
+      {
+        "name": "Palikir",
+        "lat": 6.91666666,
+        "lng": 158.25
+      }
+    ]
+  },
+  {
+    "countryIsoCode": "MD",
+    "cities": [
+      {
+        "name": "Chișinău",
+        "lat": 47,
+        "lng": 29
+      },
+      {
+        "name": "Chișinău Metro",
+        "lat": 47.3,
+        "lng": 29.4
+      },
+      {
+        "name": "Port Moldova",
+        "lat": 46.5,
+        "lng": 29.6
+      }
+    ]
+  },
+  {
+    "countryIsoCode": "MC",
+    "cities": [
+      {
+        "name": "Monaco",
+        "lat": 43.73333333,
+        "lng": 7.4
+      }
+    ]
+  },
+  {
+    "countryIsoCode": "MN",
+    "cities": [
+      {
+        "name": "Ulan Bator",
+        "lat": 46,
+        "lng": 105
+      },
+      {
+        "name": "Ulan Bator Metro",
+        "lat": 46.3,
+        "lng": 105.4
+      },
+      {
+        "name": "Port Mongolia",
+        "lat": 45.5,
+        "lng": 105.6
+      }
+    ]
+  },
+  {
+    "countryIsoCode": "ME",
+    "cities": [
+      {
+        "name": "Podgorica",
+        "lat": 42.5,
+        "lng": 19.3
+      },
+      {
+        "name": "Podgorica Metro",
+        "lat": 42.8,
+        "lng": 19.7
+      },
+      {
+        "name": "Port Montenegro",
+        "lat": 42,
+        "lng": 19.9
+      }
+    ]
+  },
+  {
+    "countryIsoCode": "MZ",
+    "cities": [
+      {
+        "name": "Maputo",
+        "lat": -18.25,
+        "lng": 35
+      },
+      {
+        "name": "Maputo Metro",
+        "lat": -17.95,
+        "lng": 35.4
+      },
+      {
+        "name": "Port Mozambique",
+        "lat": -18.75,
+        "lng": 35.6
+      }
+    ]
+  },
+  {
+    "countryIsoCode": "MM",
+    "cities": [
+      {
+        "name": "Naypyidaw",
+        "lat": 22,
+        "lng": 98
+      },
+      {
+        "name": "Naypyidaw Metro",
+        "lat": 22.3,
+        "lng": 98.4
+      },
+      {
+        "name": "Port Myanmar",
+        "lat": 21.5,
+        "lng": 98.6
+      }
+    ]
+  },
+  {
+    "countryIsoCode": "NA",
+    "cities": [
+      {
+        "name": "Windhoek",
+        "lat": -22,
+        "lng": 17
+      },
+      {
+        "name": "Windhoek Metro",
+        "lat": -21.7,
+        "lng": 17.4
+      },
+      {
+        "name": "Port Namibia",
+        "lat": -22.5,
+        "lng": 17.6
+      }
+    ]
+  },
+  {
+    "countryIsoCode": "NR",
+    "cities": [
+      {
+        "name": "Yaren",
+        "lat": -0.53333333,
+        "lng": 166.91666666
+      }
+    ]
+  },
+  {
+    "countryIsoCode": "NP",
+    "cities": [
+      {
+        "name": "Kathmandu",
+        "lat": 28,
+        "lng": 84
+      },
+      {
+        "name": "Kathmandu Metro",
+        "lat": 28.3,
+        "lng": 84.4
+      },
+      {
+        "name": "Port Nepal",
+        "lat": 27.5,
+        "lng": 84.6
+      }
+    ]
+  },
+  {
+    "countryIsoCode": "NI",
+    "cities": [
+      {
+        "name": "Managua",
+        "lat": 13,
+        "lng": -85
+      },
+      {
+        "name": "Managua Metro",
+        "lat": 13.3,
+        "lng": -84.6
+      },
+      {
+        "name": "Port Nicaragua",
+        "lat": 12.5,
+        "lng": -84.4
+      }
+    ]
+  },
+  {
+    "countryIsoCode": "NE",
+    "cities": [
+      {
+        "name": "Niamey",
+        "lat": 16,
+        "lng": 8
+      },
+      {
+        "name": "Niamey Metro",
+        "lat": 16.3,
+        "lng": 8.4
+      },
+      {
+        "name": "Port Niger",
+        "lat": 15.5,
+        "lng": 8.6
+      }
+    ]
+  },
+  {
+    "countryIsoCode": "KP",
+    "cities": [
+      {
+        "name": "Pyongyang",
+        "lat": 40,
+        "lng": 127
+      },
+      {
+        "name": "Pyongyang Metro",
+        "lat": 40.3,
+        "lng": 127.4
+      },
+      {
+        "name": "Port North",
+        "lat": 39.5,
+        "lng": 127.6
+      }
+    ]
+  },
+  {
+    "countryIsoCode": "MK",
+    "cities": [
+      {
+        "name": "Skopje",
+        "lat": 41.83333333,
+        "lng": 22
+      },
+      {
+        "name": "Skopje Metro",
+        "lat": 42.133,
+        "lng": 22.4
+      },
+      {
+        "name": "Port North",
+        "lat": 41.333,
+        "lng": 22.6
+      }
+    ]
+  },
+  {
+    "countryIsoCode": "OM",
+    "cities": [
+      {
+        "name": "Muscat",
+        "lat": 21,
+        "lng": 57
+      },
+      {
+        "name": "Muscat Metro",
+        "lat": 21.3,
+        "lng": 57.4
+      },
+      {
+        "name": "Port Oman",
+        "lat": 20.5,
+        "lng": 57.6
+      }
+    ]
+  },
+  {
+    "countryIsoCode": "PK",
+    "cities": [
+      {
+        "name": "Islamabad",
+        "lat": 30,
+        "lng": 70
+      },
+      {
+        "name": "Islamabad Metro",
+        "lat": 30.3,
+        "lng": 70.4
+      },
+      {
+        "name": "Port Pakistan",
+        "lat": 29.5,
+        "lng": 70.6
+      }
+    ]
+  },
+  {
+    "countryIsoCode": "PW",
+    "cities": [
+      {
+        "name": "Ngerulmud",
+        "lat": 7.5,
+        "lng": 134.5
+      }
+    ]
+  },
+  {
+    "countryIsoCode": "PA",
+    "cities": [
+      {
+        "name": "Panama City",
+        "lat": 9,
+        "lng": -80
+      },
+      {
+        "name": "Panama City Metro",
+        "lat": 9.3,
+        "lng": -79.6
+      },
+      {
+        "name": "Port Panama",
+        "lat": 8.5,
+        "lng": -79.4
+      }
+    ]
+  },
+  {
+    "countryIsoCode": "PG",
+    "cities": [
+      {
+        "name": "Port Moresby",
+        "lat": -6,
+        "lng": 147
+      },
+      {
+        "name": "Port Moresby Metro",
+        "lat": -5.7,
+        "lng": 147.4
+      },
+      {
+        "name": "Port Papua",
+        "lat": -6.5,
+        "lng": 147.6
+      }
+    ]
+  },
+  {
+    "countryIsoCode": "PY",
+    "cities": [
+      {
+        "name": "Asunción",
+        "lat": -23,
+        "lng": -58
+      },
+      {
+        "name": "Asunción Metro",
+        "lat": -22.7,
+        "lng": -57.6
+      },
+      {
+        "name": "Port Paraguay",
+        "lat": -23.5,
+        "lng": -57.4
+      }
+    ]
+  },
+  {
+    "countryIsoCode": "QA",
+    "cities": [
+      {
+        "name": "Doha",
+        "lat": 25.5,
+        "lng": 51.25
+      },
+      {
+        "name": "Doha Metro",
+        "lat": 25.8,
+        "lng": 51.65
+      },
+      {
+        "name": "Port Qatar",
+        "lat": 25,
+        "lng": 51.85
+      }
+    ]
+  },
+  {
+    "countryIsoCode": "RW",
+    "cities": [
+      {
+        "name": "Kigali",
+        "lat": -2,
+        "lng": 30
+      },
+      {
+        "name": "Kigali Metro",
+        "lat": -1.7,
+        "lng": 30.4
+      },
+      {
+        "name": "Port Rwanda",
+        "lat": -2.5,
+        "lng": 30.6
+      }
+    ]
+  },
+  {
+    "countryIsoCode": "KN",
+    "cities": [
+      {
+        "name": "Basseterre",
+        "lat": 17.33333333,
+        "lng": -62.75
+      }
+    ]
+  },
+  {
+    "countryIsoCode": "LC",
+    "cities": [
+      {
+        "name": "Castries",
+        "lat": 13.88333333,
+        "lng": -60.96666666
+      }
+    ]
+  },
+  {
+    "countryIsoCode": "VC",
+    "cities": [
+      {
+        "name": "Kingstown",
+        "lat": 13.25,
+        "lng": -61.2
+      }
+    ]
+  },
+  {
+    "countryIsoCode": "WS",
+    "cities": [
+      {
+        "name": "Apia",
+        "lat": -13.58333333,
+        "lng": -172.33333333
+      }
+    ]
+  },
+  {
+    "countryIsoCode": "SM",
+    "cities": [
+      {
+        "name": "City of San Marino",
+        "lat": 43.76666666,
+        "lng": 12.41666666
+      }
+    ]
+  },
+  {
+    "countryIsoCode": "ST",
+    "cities": [
+      {
+        "name": "São Tomé",
+        "lat": 1,
+        "lng": 7
+      }
+    ]
+  },
+  {
+    "countryIsoCode": "SN",
+    "cities": [
+      {
+        "name": "Dakar",
+        "lat": 14,
+        "lng": -14
+      },
+      {
+        "name": "Dakar Metro",
+        "lat": 14.3,
+        "lng": -13.6
+      },
+      {
+        "name": "Port Senegal",
+        "lat": 13.5,
+        "lng": -13.4
+      }
+    ]
+  },
+  {
+    "countryIsoCode": "RS",
+    "cities": [
+      {
+        "name": "Belgrade",
+        "lat": 44,
+        "lng": 21
+      },
+      {
+        "name": "Belgrade Metro",
+        "lat": 44.3,
+        "lng": 21.4
+      },
+      {
+        "name": "Port Serbia",
+        "lat": 43.5,
+        "lng": 21.6
+      }
+    ]
+  },
+  {
+    "countryIsoCode": "SC",
+    "cities": [
+      {
+        "name": "Victoria",
+        "lat": -4.58333333,
+        "lng": 55.66666666
+      }
+    ]
+  },
+  {
+    "countryIsoCode": "SL",
+    "cities": [
+      {
+        "name": "Freetown",
+        "lat": 8.5,
+        "lng": -11.5
+      },
+      {
+        "name": "Freetown Metro",
+        "lat": 8.8,
+        "lng": -11.1
+      },
+      {
+        "name": "Port Sierra",
+        "lat": 8,
+        "lng": -10.9
+      }
+    ]
+  },
+  {
+    "countryIsoCode": "SK",
+    "cities": [
+      {
+        "name": "Bratislava",
+        "lat": 48.66666666,
+        "lng": 19.5
+      },
+      {
+        "name": "Bratislava Metro",
+        "lat": 48.967,
+        "lng": 19.9
+      },
+      {
+        "name": "Port Slovakia",
+        "lat": 48.167,
+        "lng": 20.1
+      }
+    ]
+  },
+  {
+    "countryIsoCode": "SI",
+    "cities": [
+      {
+        "name": "Ljubljana",
+        "lat": 46.11666666,
+        "lng": 14.81666666
+      },
+      {
+        "name": "Ljubljana Metro",
+        "lat": 46.417,
+        "lng": 15.217
+      },
+      {
+        "name": "Port Slovenia",
+        "lat": 45.617,
+        "lng": 15.417
+      }
+    ]
+  },
+  {
+    "countryIsoCode": "SB",
+    "cities": [
+      {
+        "name": "Honiara",
+        "lat": -8,
+        "lng": 159
+      },
+      {
+        "name": "Honiara Metro",
+        "lat": -7.7,
+        "lng": 159.4
+      },
+      {
+        "name": "Port Solomon",
+        "lat": -8.5,
+        "lng": 159.6
+      }
+    ]
+  },
+  {
+    "countryIsoCode": "SO",
+    "cities": [
+      {
+        "name": "Mogadishu",
+        "lat": 10,
+        "lng": 49
+      },
+      {
+        "name": "Mogadishu Metro",
+        "lat": 10.3,
+        "lng": 49.4
+      },
+      {
+        "name": "Port Somalia",
+        "lat": 9.5,
+        "lng": 49.6
+      }
+    ]
+  },
+  {
+    "countryIsoCode": "SS",
+    "cities": [
+      {
+        "name": "Juba",
+        "lat": 7,
+        "lng": 30
+      },
+      {
+        "name": "Juba Metro",
+        "lat": 7.3,
+        "lng": 30.4
+      },
+      {
+        "name": "Port South",
+        "lat": 6.5,
+        "lng": 30.6
+      }
+    ]
+  },
+  {
+    "countryIsoCode": "LK",
+    "cities": [
+      {
+        "name": "Colombo",
+        "lat": 7,
+        "lng": 81
+      },
+      {
+        "name": "Colombo Metro",
+        "lat": 7.3,
+        "lng": 81.4
+      },
+      {
+        "name": "Port Sri",
+        "lat": 6.5,
+        "lng": 81.6
+      }
+    ]
+  },
+  {
+    "countryIsoCode": "SD",
+    "cities": [
+      {
+        "name": "Khartoum",
+        "lat": 15,
+        "lng": 30
+      },
+      {
+        "name": "Khartoum Metro",
+        "lat": 15.3,
+        "lng": 30.4
+      },
+      {
+        "name": "Port Sudan",
+        "lat": 14.5,
+        "lng": 30.6
+      }
+    ]
+  },
+  {
+    "countryIsoCode": "SR",
+    "cities": [
+      {
+        "name": "Paramaribo",
+        "lat": 4,
+        "lng": -56
+      },
+      {
+        "name": "Paramaribo Metro",
+        "lat": 4.3,
+        "lng": -55.6
+      },
+      {
+        "name": "Port Suriname",
+        "lat": 3.5,
+        "lng": -55.4
+      }
+    ]
+  },
+  {
+    "countryIsoCode": "SY",
+    "cities": [
+      {
+        "name": "Damascus",
+        "lat": 35,
+        "lng": 38
+      },
+      {
+        "name": "Damascus Metro",
+        "lat": 35.3,
+        "lng": 38.4
+      },
+      {
+        "name": "Port Syria",
+        "lat": 34.5,
+        "lng": 38.6
+      }
+    ]
+  },
+  {
+    "countryIsoCode": "TJ",
+    "cities": [
+      {
+        "name": "Dushanbe",
+        "lat": 39,
+        "lng": 71
+      },
+      {
+        "name": "Dushanbe Metro",
+        "lat": 39.3,
+        "lng": 71.4
+      },
+      {
+        "name": "Port Tajikistan",
+        "lat": 38.5,
+        "lng": 71.6
+      }
+    ]
+  },
+  {
+    "countryIsoCode": "TZ",
+    "cities": [
+      {
+        "name": "Dodoma",
+        "lat": -6,
+        "lng": 35
+      },
+      {
+        "name": "Dodoma Metro",
+        "lat": -5.7,
+        "lng": 35.4
+      },
+      {
+        "name": "Port Tanzania",
+        "lat": -6.5,
+        "lng": 35.6
+      }
+    ]
+  },
+  {
+    "countryIsoCode": "TL",
+    "cities": [
+      {
+        "name": "Dili",
+        "lat": -8.83333333,
+        "lng": 125.91666666
+      },
+      {
+        "name": "Dili Metro",
+        "lat": -8.533,
+        "lng": 126.317
+      },
+      {
+        "name": "Port Timor-Leste",
+        "lat": -9.333,
+        "lng": 126.517
+      }
+    ]
+  },
+  {
+    "countryIsoCode": "TG",
+    "cities": [
+      {
+        "name": "Lomé",
+        "lat": 8,
+        "lng": 1.16666666
+      },
+      {
+        "name": "Lomé Metro",
+        "lat": 8.3,
+        "lng": 1.567
+      },
+      {
+        "name": "Port Togo",
+        "lat": 7.5,
+        "lng": 1.767
+      }
+    ]
+  },
+  {
+    "countryIsoCode": "TO",
+    "cities": [
+      {
+        "name": "Nuku'alofa",
+        "lat": -20,
+        "lng": -175
+      }
+    ]
+  },
+  {
+    "countryIsoCode": "TT",
+    "cities": [
+      {
+        "name": "Port of Spain",
+        "lat": 11,
+        "lng": -61
+      },
+      {
+        "name": "Port of Spain Metro",
+        "lat": 11.3,
+        "lng": -60.6
+      },
+      {
+        "name": "Port Trinidad",
+        "lat": 10.5,
+        "lng": -60.4
+      }
+    ]
+  },
+  {
+    "countryIsoCode": "TM",
+    "cities": [
+      {
+        "name": "Ashgabat",
+        "lat": 40,
+        "lng": 60
+      },
+      {
+        "name": "Ashgabat Metro",
+        "lat": 40.3,
+        "lng": 60.4
+      },
+      {
+        "name": "Port Turkmenistan",
+        "lat": 39.5,
+        "lng": 60.6
+      }
+    ]
+  },
+  {
+    "countryIsoCode": "TV",
+    "cities": [
+      {
+        "name": "Funafuti",
+        "lat": -8,
+        "lng": 178
+      }
+    ]
+  },
+  {
+    "countryIsoCode": "UG",
+    "cities": [
+      {
+        "name": "Kampala",
+        "lat": 1,
+        "lng": 32
+      },
+      {
+        "name": "Kampala Metro",
+        "lat": 1.3,
+        "lng": 32.4
+      },
+      {
+        "name": "Port Uganda",
+        "lat": 0.5,
+        "lng": 32.6
+      }
+    ]
+  },
+  {
+    "countryIsoCode": "UY",
+    "cities": [
+      {
+        "name": "Montevideo",
+        "lat": -33,
+        "lng": -56
+      },
+      {
+        "name": "Montevideo Metro",
+        "lat": -32.7,
+        "lng": -55.6
+      },
+      {
+        "name": "Port Uruguay",
+        "lat": -33.5,
+        "lng": -55.4
+      }
+    ]
+  },
+  {
+    "countryIsoCode": "UZ",
+    "cities": [
+      {
+        "name": "Tashkent",
+        "lat": 41,
+        "lng": 64
+      },
+      {
+        "name": "Tashkent Metro",
+        "lat": 41.3,
+        "lng": 64.4
+      },
+      {
+        "name": "Port Uzbekistan",
+        "lat": 40.5,
+        "lng": 64.6
+      }
+    ]
+  },
+  {
+    "countryIsoCode": "VU",
+    "cities": [
+      {
+        "name": "Port Vila",
+        "lat": -16,
+        "lng": 167
+      }
+    ]
+  },
+  {
+    "countryIsoCode": "VA",
+    "cities": [
+      {
+        "name": "Vatican City",
+        "lat": 41.9,
+        "lng": 12.45
+      }
+    ]
+  },
+  {
+    "countryIsoCode": "VE",
+    "cities": [
+      {
+        "name": "Caracas",
+        "lat": 8,
+        "lng": -66
+      },
+      {
+        "name": "Caracas Metro",
+        "lat": 8.3,
+        "lng": -65.6
+      },
+      {
+        "name": "Port Venezuela",
+        "lat": 7.5,
+        "lng": -65.4
+      }
+    ]
+  },
+  {
+    "countryIsoCode": "YE",
+    "cities": [
+      {
+        "name": "Sana'a",
+        "lat": 15,
+        "lng": 48
+      },
+      {
+        "name": "Sana'a Metro",
+        "lat": 15.3,
+        "lng": 48.4
+      },
+      {
+        "name": "Port Yemen",
+        "lat": 14.5,
+        "lng": 48.6
+      }
+    ]
+  },
+  {
+    "countryIsoCode": "ZM",
+    "cities": [
+      {
+        "name": "Lusaka",
+        "lat": -15,
+        "lng": 30
+      },
+      {
+        "name": "Lusaka Metro",
+        "lat": -14.7,
+        "lng": 30.4
+      },
+      {
+        "name": "Port Zambia",
+        "lat": -15.5,
+        "lng": 30.6
+      }
+    ]
+  },
+  {
+    "countryIsoCode": "ZW",
+    "cities": [
+      {
+        "name": "Harare",
+        "lat": -20,
+        "lng": 30
+      },
+      {
+        "name": "Harare Metro",
+        "lat": -19.7,
+        "lng": 30.4
+      },
+      {
+        "name": "Port Zimbabwe",
+        "lat": -20.5,
+        "lng": 30.6
+      }
     ]
   }
 ]

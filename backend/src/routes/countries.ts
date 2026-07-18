@@ -29,25 +29,33 @@ const PHOTO_TITLE_ALIASES: Record<string, string[]> = {
   'vatican city': ['Vatican City', 'Holy See'],
 };
 
-const looksLikeMapImage = (url: string): boolean => {
+const looksLikeMapOrFlag = (url: string): boolean => {
   const lowered = url.toLowerCase();
   return (
     lowered.includes('topographic') ||
     lowered.includes('location_map') ||
+    lowered.includes('location map') ||
     lowered.includes('relief') ||
-    lowered.includes('map') ||
+    lowered.includes('flag_of') ||
+    lowered.includes('flag of') ||
+    lowered.includes('/flag') ||
+    lowered.includes('coat_of_arms') ||
+    lowered.includes('emblem') ||
+    lowered.includes('in_its_region') ||
+    lowered.includes('orthographic') ||
+    (lowered.includes('map') && !lowered.includes('maputo')) ||
     lowered.endsWith('.svg')
   );
 };
 
-const getCountryPhotoUrl = async (countryName: string, fallbackUrl: string): Promise<string> => {
+const getCountryPhotoUrl = async (countryName: string, isoCode: string, flagUrl: string): Promise<string> => {
   const cacheKey = normalizeName(countryName);
   const cached = countryPhotoCache.get(cacheKey);
   if (typeof cached !== 'undefined') {
-    return cached || fallbackUrl;
+    return cached || '';
   }
 
-  // 1) Try Wikipedia page summary thumbnail
+  // 1) Try Wikipedia page summary — look for a real photo (not flag, not map)
   const titleCandidates = [countryName, ...(PHOTO_TITLE_ALIASES[cacheKey] || [])];
 
   for (const title of titleCandidates) {
@@ -65,7 +73,11 @@ const getCountryPhotoUrl = async (countryName: string, fallbackUrl: string): Pro
         originalimage?: { source?: string };
       };
       const photoUrl = data.originalimage?.source || data.thumbnail?.source;
-      if (photoUrl && !looksLikeMapImage(photoUrl)) {
+      if (
+        photoUrl &&
+        !looksLikeMapOrFlag(photoUrl) &&
+        photoUrl !== flagUrl // Ensure it's not the same as the flag
+      ) {
         countryPhotoCache.set(cacheKey, photoUrl);
         return photoUrl;
       }
@@ -74,10 +86,8 @@ const getCountryPhotoUrl = async (countryName: string, fallbackUrl: string): Pro
     }
   }
 
-  // 2) Fallback: flagcdn landscape image (reliable, always available)
-  const isoLower = cacheKey; // not usable as ISO — derive from DB later
-  // Use a generic landscape search image from Unsplash Source (no API key)
-  const unsplashUrl = `https://source.unsplash.com/600x300/?${encodeURIComponent(countryName)}+landscape`;
+  // 2) Fallback: Unsplash landscape photo for the country name
+  const unsplashUrl = `https://source.unsplash.com/600x300/?${encodeURIComponent(countryName)}+landscape+travel`;
   countryPhotoCache.set(cacheKey, unsplashUrl);
   return unsplashUrl;
 };
@@ -123,7 +133,7 @@ router.get('/', async (req: Request, res: Response) => {
         status: null,
         isFavorite: false,
       };
-      const imageUrl = await getCountryPhotoUrl(country.name, country.imageUrl);
+      const imageUrl = await getCountryPhotoUrl(country.name, country.isoCode, country.flagUrl);
       return {
         ...country,
         imageUrl,
@@ -240,7 +250,7 @@ router.get('/:isoCode', authenticate, async (req: Request, res: Response) => {
     res.json({
       country: {
         ...country,
-        imageUrl: await getCountryPhotoUrl(country.name, country.imageUrl),
+        imageUrl: await getCountryPhotoUrl(country.name, country.isoCode, country.flagUrl),
         userStatus: userStatus?.status ?? null,
         isFavorite: userStatus?.isFavorite ?? false,
       },
