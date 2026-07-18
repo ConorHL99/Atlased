@@ -12,6 +12,7 @@ import { matchCountriesToGeoJson } from '../lib/countryGeoMatch';
 interface MapViewProps {
   countries: Country[];
   selectedCountry: Country | null;
+  selectedCity?: { id: string; name: string; lat: number; lng: number; countryIsoCode: string; countryName: string } | null;
   onSelectCountry: (country: Country) => void;
   isLoading: boolean;
 }
@@ -30,6 +31,7 @@ const getCountryColor = (country: Country): string => {
 export const MapView: React.FC<MapViewProps> = React.memo(({
   countries,
   selectedCountry,
+  selectedCity,
   onSelectCountry,
   isLoading,
 }) => {
@@ -89,14 +91,19 @@ export const MapView: React.FC<MapViewProps> = React.memo(({
   }, [countries]);
 
   useEffect(() => {
-    if (!selectedCountry || !mapRef) {
+    if (!mapRef) {
       return;
     }
 
-    mapRef.flyTo([selectedCountry.lat, selectedCountry.lng], Math.max(mapRef.getZoom(), 4), {
+    const focus = selectedCity || selectedCountry;
+    if (!focus) {
+      return;
+    }
+
+    mapRef.flyTo([focus.lat, focus.lng], Math.max(mapRef.getZoom(), selectedCity ? 6 : 4), {
       duration: 0.7,
     });
-  }, [mapRef, selectedCountry]);
+  }, [mapRef, selectedCountry, selectedCity]);
 
   const ZoomTracker: React.FC = () => {
     const map = useMapEvents({
@@ -286,6 +293,19 @@ export const MapView: React.FC<MapViewProps> = React.memo(({
                 />
               );
             })}
+
+            {selectedCity ? (
+              <CircleMarker
+                center={[selectedCity.lat, selectedCity.lng]}
+                radius={11}
+                pathOptions={{
+                  color: '#f97316',
+                  weight: 3,
+                  fillColor: '#fb923c',
+                  fillOpacity: 0.95,
+                }}
+              />
+            ) : null}
           </MapContainer>
 
           {/* Legend */}

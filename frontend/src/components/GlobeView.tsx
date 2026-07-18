@@ -8,8 +8,9 @@ import { Country } from '../types';
 import { useTheme } from '../contexts/ThemeContext';
 import { matchCountriesToGeoJson, MatchedPolygonFeature } from '../lib/countryGeoMatch';
 
-interface MarkerPoint extends Country {
+interface MarkerPoint extends Partial<Country> {
   markerColor: string;
+  kind: 'country' | 'city';
 }
 
 type GlobeRef = {
@@ -27,6 +28,7 @@ type GlobeRef = {
 interface GlobeViewProps {
   countries: Country[];
   selectedCountry: Country | null;
+  selectedCity?: { id: string; name: string; lat: number; lng: number; countryIsoCode: string; countryName: string } | null;
   onSelectCountry: (country: Country) => void;
   isLoading: boolean;
   userCities: Array<{ id: string; name: string; countryName: string; isVisited: boolean; isWantToVisit: boolean; isFavorite: boolean }>;
@@ -35,6 +37,7 @@ interface GlobeViewProps {
 export const GlobeView: React.FC<GlobeViewProps> = React.memo(({
   countries,
   selectedCountry,
+  selectedCity,
   onSelectCountry,
   isLoading,
   userCities,
@@ -91,10 +94,11 @@ export const GlobeView: React.FC<GlobeViewProps> = React.memo(({
   }, [activeList, countries]);
 
   const markerPoints = useMemo<MarkerPoint[]>(() => {
-    return countries
+    const countryPoints = countries
       .filter((country) => Number.isFinite(country.lat) && Number.isFinite(country.lng))
       .map((country) => ({
         ...country,
+        kind: 'country' as const,
         markerColor: country.isFavorite
           ? '#dc2626'
           : country.userStatus === 'VISITED'
@@ -103,7 +107,30 @@ export const GlobeView: React.FC<GlobeViewProps> = React.memo(({
               ? '#2563eb'
               : '#94a3b8',
       }));
-  }, [countries]);
+
+    const cityPoint = selectedCity && Number.isFinite(selectedCity.lat) && Number.isFinite(selectedCity.lng)
+      ? [{
+          id: selectedCity.id,
+          isoCode: selectedCity.countryIsoCode,
+          name: selectedCity.name,
+          lat: selectedCity.lat,
+          lng: selectedCity.lng,
+          capital: selectedCity.name,
+          flagUrl: '',
+          imageUrl: '',
+          population: 0,
+          languages: [],
+          gdpUsd: undefined,
+          currency: '',
+          userStatus: undefined,
+          isFavorite: false,
+          kind: 'city' as const,
+          markerColor: '#f97316',
+        }]
+      : [];
+
+    return [...countryPoints, ...cityPoint];
+  }, [countries, selectedCity]);
 
   const polygonCountries = useMemo(() => {
     const { features } = matchCountriesToGeoJson(countries);
@@ -174,8 +201,27 @@ export const GlobeView: React.FC<GlobeViewProps> = React.memo(({
     );
   }, [selectedCountry]);
 
+  useEffect(() => {
+    if (!globeRef.current || !selectedCity) {
+      return;
+    }
+
+    globeRef.current.pointOfView(
+      {
+        lat: selectedCity.lat,
+        lng: selectedCity.lng,
+        altitude: 1.85,
+      },
+      1400,
+    );
+  }, [selectedCity]);
+
   const handlePointClick = useCallback((point: object) => {
     const clicked = point as MarkerPoint;
+    if (!clicked.isoCode) {
+      return;
+    }
+
     const country = countryByIso.get(clicked.isoCode);
     if (country) {
       onSelectCountry(country);
@@ -289,10 +335,14 @@ export const GlobeView: React.FC<GlobeViewProps> = React.memo(({
             pointLng="lng"
             pointColor="markerColor"
             pointAltitude={getPointAltitude}
-            pointRadius={0.22}
+            pointRadius={(point: object) => ((point as MarkerPoint).kind === 'city' ? 0.45 : 0.22)}
             pointResolution={14}
             pointLabel={(point: object) => {
               const marker = point as MarkerPoint;
+              if (marker.kind === 'city') {
+                return `${marker.name} (city pin)`;
+              }
+
               const status = marker.isFavorite
                 ? 'Favorite'
                 : marker.userStatus === 'VISITED'

@@ -177,7 +177,7 @@ const getCountryPhotoUrl = async (
  * No auth required for now (Phase 6 can gate this if needed).
  * In the future, add &filter=visited,favorites to reduce payload.
  */
-router.get('/', async (req: Request, res: Response) => {
+router.get('/', authenticate, async (req: Request, res: Response) => {
   try {
     const countries = await prisma.country.findMany({
       orderBy: { name: 'asc' },

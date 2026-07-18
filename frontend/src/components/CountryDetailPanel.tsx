@@ -31,6 +31,7 @@ interface CountryDetailPanelProps {
   onMarkWantToVisit?: (isoCode: string) => void;
   onMarkFavorite?: (isoCode: string) => void;
   onCityStatusChange?: (city: CityStatusChangePayload) => void;
+  onCitySelect?: (city: City) => void;
   highlightCityName?: string | null;
   styleOverride?: React.CSSProperties;
 }
@@ -42,6 +43,7 @@ export const CountryDetailPanel: React.FC<CountryDetailPanelProps> = React.memo(
   onMarkWantToVisit,
   onMarkFavorite,
   onCityStatusChange,
+  onCitySelect,
   highlightCityName,
   styleOverride,
 }) => {
@@ -59,6 +61,8 @@ export const CountryDetailPanel: React.FC<CountryDetailPanelProps> = React.memo(
   const [loadingMoreCities, setLoadingMoreCities] = useState(false);
   const [activeCityIndex, setActiveCityIndex] = useState(-1);
   const cityRowRefs = useRef<Record<string, HTMLDivElement | null>>({});
+  const panelScrollRef = useRef<HTMLDivElement | null>(null);
+  const loadMoreSentinelRef = useRef<HTMLDivElement | null>(null);
 
   const loadCities = useCallback(
     async (query: string, offset: number, append: boolean, controller?: AbortController) => {
@@ -193,6 +197,46 @@ export const CountryDetailPanel: React.FC<CountryDetailPanelProps> = React.memo(
       }
     }
   }, [highlightCityName, visibleCities]);
+
+  const loadMoreCities = useCallback(async () => {
+    if (!hasMoreCities || loadingMoreCities || loading) {
+      return;
+    }
+
+    try {
+      setLoadingMoreCities(true);
+      await loadCities(citySearchTerm, cityOffset, true);
+    } catch (err) {
+      console.error('Error loading more cities:', err);
+      setError(err instanceof Error ? err.message : 'Failed to load more cities');
+    } finally {
+      setLoadingMoreCities(false);
+    }
+  }, [cityOffset, citySearchTerm, hasMoreCities, loading, loadingMoreCities, loadCities]);
+
+  useEffect(() => {
+    const root = panelScrollRef.current;
+    const sentinel = loadMoreSentinelRef.current;
+    if (!root || !sentinel || !hasMoreCities) {
+      return;
+    }
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries.some((entry) => entry.isIntersecting)) {
+          void loadMoreCities();
+        }
+      },
+      {
+        root,
+        rootMargin: '200px',
+        threshold: 0.01,
+      },
+    );
+
+    observer.observe(sentinel);
+    return () => observer.disconnect();
+  }, [hasMoreCities, loadMoreCities]);
 
   const setCityBusy = (cityId: string, isBusy: boolean) => {
     setBusyCityActions((prev) => {
@@ -360,6 +404,7 @@ export const CountryDetailPanel: React.FC<CountryDetailPanelProps> = React.memo(
 
   return (
     <div
+      ref={panelScrollRef}
       style={{
         position: 'absolute',
         top: 0,
@@ -784,6 +829,7 @@ export const CountryDetailPanel: React.FC<CountryDetailPanelProps> = React.memo(
                   cityRowRefs.current[city.id] = node;
                 }}
                 onMouseEnter={() => setActiveCityIndex(index)}
+                onClick={() => onCitySelect?.(city)}
                 style={{
                   padding: '0.75rem',
                   backgroundColor: theme === 'dark' ? '#0f172a' : '#fff',
@@ -794,12 +840,16 @@ export const CountryDetailPanel: React.FC<CountryDetailPanelProps> = React.memo(
                   alignItems: 'center',
                   gap: '0.6rem',
                   boxShadow: activeCityIndex === index ? '0 0 0 2px rgba(37, 99, 235, 0.35)' : 'none',
+                  cursor: 'pointer',
                 }}
               >
                 <span style={{ flex: 1 }}>{city.name}</span>
                 <button
                   type="button"
-                  onClick={() => void handleToggleCityVisited(city.id)}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    void handleToggleCityVisited(city.id);
+                  }}
                   disabled={busyCityActions.has(city.id)}
                   style={{
                     border: `1px solid ${city.userVisited ? '#16a34a' : borderColor}`,
@@ -816,7 +866,10 @@ export const CountryDetailPanel: React.FC<CountryDetailPanelProps> = React.memo(
                 </button>
                 <button
                   type="button"
-                  onClick={() => void handleToggleCityWantToVisit(city.id)}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    void handleToggleCityWantToVisit(city.id);
+                  }}
                   disabled={busyCityActions.has(city.id)}
                   style={{
                     border: `1px solid ${city.userWantToVisit ? '#2563eb' : borderColor}`,
@@ -833,7 +886,10 @@ export const CountryDetailPanel: React.FC<CountryDetailPanelProps> = React.memo(
                 </button>
                 <button
                   type="button"
-                  onClick={() => void handleToggleCityFavorite(city.id)}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    void handleToggleCityFavorite(city.id);
+                  }}
                   disabled={busyCityActions.has(city.id)}
                   style={{
                     border: `1px solid ${city.userFavorite ? '#d97706' : borderColor}`,
@@ -852,40 +908,8 @@ export const CountryDetailPanel: React.FC<CountryDetailPanelProps> = React.memo(
             ))}
           </div>
         )}
+        <div ref={loadMoreSentinelRef} style={{ height: '1px' }} />
       </div>
-
-      {hasMoreCities ? (
-        <div style={{ padding: '0 1rem 1rem 1rem' }}>
-          <button
-            type="button"
-            onClick={async () => {
-              try {
-                setLoadingMoreCities(true);
-                await loadCities(citySearchTerm, cityOffset, true);
-              } catch (err) {
-                console.error('Error loading more cities:', err);
-                setError(err instanceof Error ? err.message : 'Failed to load more cities');
-              } finally {
-                setLoadingMoreCities(false);
-              }
-            }}
-            disabled={loadingMoreCities}
-            style={{
-              width: '100%',
-              border: `1px solid ${borderColor}`,
-              borderRadius: '0.375rem',
-              backgroundColor: 'var(--color-surface-raised)',
-              color: textColor,
-              padding: '0.55rem 0.65rem',
-              fontSize: '0.82rem',
-              cursor: loadingMoreCities ? 'not-allowed' : 'pointer',
-              opacity: loadingMoreCities ? 0.7 : 1,
-            }}
-          >
-            {loadingMoreCities ? 'Loading more cities...' : `Load more cities (${Math.max(cityTotal - cities.length, 0)} remaining)`}
-          </button>
-        </div>
-      ) : null}
 
       <div style={{ padding: '0 1rem 1rem 1rem', fontSize: '0.74rem', opacity: 0.68 }}>
         Showing {cities.length} of {cityTotal || cities.length} cities
