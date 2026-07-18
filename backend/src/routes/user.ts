@@ -249,6 +249,27 @@ router.put('/cities/:cityId/visited', async (req: Request, res: Response) => {
       },
     });
 
+    // If a city is marked visited, ensure the parent country is also marked visited.
+    if (toggledVisited) {
+      await prisma.userCountryStatus.upsert({
+        where: {
+          userId_countryId: {
+            userId: req.user!.userId,
+            countryId: city.countryId,
+          },
+        },
+        update: {
+          status: 'VISITED',
+        },
+        create: {
+          userId: req.user!.userId,
+          countryId: city.countryId,
+          status: 'VISITED',
+          isFavorite: false,
+        },
+      });
+    }
+
     res.json({ userStatus: updated });
   } catch (err) {
     console.error('[user/cities/:cityId/visited]', err);

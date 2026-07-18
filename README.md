@@ -147,6 +147,30 @@ Run this at least once before deploying to the Pi to catch any container-level i
 
 > Full deployment guide added in Phase 8.
 
+### Production Env File Notes
+
+If you run compose with a custom env file (for example, using `--env-file`), that file is the source of values for `${...}` substitutions in `docker-compose.yml`.
+
+That means any custom import tuning values must be present in the env file you pass to compose.
+
+GeoNames import variables supported by the backend service:
+
+```bash
+GEONAMES_FILE=./prisma/data/cities500.txt
+GEONAMES_MIN_POP=500
+GEONAMES_BATCH_SIZE=2000
+GEONAMES_REPLACE=true
+GEONAMES_MAX_ROWS=0
+```
+
+Example production flow:
+
+```bash
+docker compose --env-file .env.production build
+docker compose --env-file .env.production up -d
+docker compose --env-file .env.production run --rm backend npm run db:import:geonames
+```
+
 ---
 
 ## Environment Variable Reference
@@ -165,6 +189,11 @@ Run this at least once before deploying to the Pi to catch any container-level i
 | `FRONTEND_PORT`   |          | `3010`        | Host port for frontend container                 |
 | `DB_PORT`         |          | `5432`        | Host port for DB (docker-compose.dev.yml only)   |
 | `NODE_ENV`        |          | `development` | `development` or `production`                    |
+| `GEONAMES_FILE`   |          | `./prisma/data/cities500.txt` | GeoNames source file path used by import script |
+| `GEONAMES_MIN_POP` |         | `500`         | Minimum city population filter for import         |
+| `GEONAMES_BATCH_SIZE` |      | `2000`        | Rows per database write batch during import       |
+| `GEONAMES_REPLACE` |         | `true`        | Replace existing cities before importing           |
+| `GEONAMES_MAX_ROWS` |        | `0`           | Import row cap (`0` means no cap)                 |
 
 *PostgreSQL variables only needed when using `docker-compose.dev.yml` or production deployment.
 

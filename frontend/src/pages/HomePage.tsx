@@ -60,6 +60,7 @@ export const HomePage: React.FC = () => {
   const [searchCountries, setSearchCountries] = useState<SearchCountryResult[]>([]);
   const [searchCities, setSearchCities] = useState<SearchCityResult[]>([]);
   const [userCities, setUserCities] = useState<UserCityStatusItem[]>([]);
+  const [highlightCityName, setHighlightCityName] = useState<string | null>(null);
 
   const textColor = theme === 'dark' ? '#f1f5f9' : '#0f172a';
 
@@ -201,16 +202,22 @@ export const HomePage: React.FC = () => {
     }
   }, [countries]);
 
-  const handleSelectSearchCountry = useCallback(async (isoCode: string) => {
+  const handleSelectSearchCountry = useCallback(async (isoCode: string, selectedCityName?: string) => {
     const country = await ensureCountryLoaded(isoCode);
     if (!country) {
       return;
     }
 
+    setHighlightCityName(selectedCityName || null);
     setSelectedCountry(country);
     setSearchOpen(false);
     setSearchTerm('');
   }, [ensureCountryLoaded]);
+
+  const handleSelectCountryFromMap = useCallback((country: Country) => {
+    setHighlightCityName(null);
+    setSelectedCountry(country);
+  }, []);
 
   const handleMarkVisited = useCallback(async (isoCode: string) => {
     setActionError(null);
@@ -390,7 +397,7 @@ export const HomePage: React.FC = () => {
                           type="button"
                           key={`city-${city.countryIsoCode}-${city.name}-${index}`}
                           className={styles.searchItem}
-                          onClick={() => void handleSelectSearchCountry(city.countryIsoCode)}
+                          onClick={() => void handleSelectSearchCountry(city.countryIsoCode, city.name)}
                         >
                           <span>{city.name}</span>
                           <span className={styles.searchMeta}>{city.countryName}</span>
@@ -519,7 +526,7 @@ export const HomePage: React.FC = () => {
                 <GlobeView
                   countries={countries}
                   selectedCountry={selectedCountry}
-                  onSelectCountry={setSelectedCountry}
+                  onSelectCountry={handleSelectCountryFromMap}
                   isLoading={loading}
                   userCities={userCities}
                 />
@@ -544,7 +551,7 @@ export const HomePage: React.FC = () => {
                   <LazyMapView
                     countries={countries}
                     selectedCountry={selectedCountry}
-                    onSelectCountry={setSelectedCountry}
+                    onSelectCountry={handleSelectCountryFromMap}
                     isLoading={loading}
                   />
                 </Suspense>
@@ -553,11 +560,15 @@ export const HomePage: React.FC = () => {
             {selectedCountry && (
               <CountryDetailPanel
                 country={selectedCountry}
-                onClose={() => setSelectedCountry(null)}
+                onClose={() => {
+                  setSelectedCountry(null);
+                  setHighlightCityName(null);
+                }}
                 onMarkVisited={handleMarkVisited}
                 onMarkWantToVisit={handleMarkWantToVisit}
                 onMarkFavorite={handleMarkFavorite}
                 onCityStatusChange={handleCityStatusChange}
+                highlightCityName={highlightCityName}
                 styleOverride={{ zIndex: 40 }}
               />
             )}

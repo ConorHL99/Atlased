@@ -60,6 +60,12 @@ services:
       # In production, CORS_ORIGIN should be the URL the browser uses to
       # reach the frontend (e.g., http://100.x.x.x:3010 for Tailscale).
       CORS_ORIGIN: ${CORS_ORIGIN}
+      # Optional GeoNames import tuning (used by npm run db:import:geonames)
+      GEONAMES_FILE: ${GEONAMES_FILE:-./prisma/data/cities500.txt}
+      GEONAMES_MIN_POP: ${GEONAMES_MIN_POP:-500}
+      GEONAMES_BATCH_SIZE: ${GEONAMES_BATCH_SIZE:-2000}
+      GEONAMES_REPLACE: ${GEONAMES_REPLACE:-true}
+      GEONAMES_MAX_ROWS: ${GEONAMES_MAX_ROWS:-0}
       NODE_ENV: production
     networks:
       - internal

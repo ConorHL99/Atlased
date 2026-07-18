@@ -8,7 +8,7 @@
  * - Close button to return to globe
  */
 
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { Country, City } from '../types';
 import { useTheme } from '../contexts/ThemeContext';
 
@@ -31,6 +31,7 @@ interface CountryDetailPanelProps {
   onMarkWantToVisit?: (isoCode: string) => void;
   onMarkFavorite?: (isoCode: string) => void;
   onCityStatusChange?: (city: CityStatusChangePayload) => void;
+  highlightCityName?: string | null;
   styleOverride?: React.CSSProperties;
 }
 
@@ -41,6 +42,7 @@ export const CountryDetailPanel: React.FC<CountryDetailPanelProps> = React.memo(
   onMarkWantToVisit,
   onMarkFavorite,
   onCityStatusChange,
+  highlightCityName,
   styleOverride,
 }) => {
   const { theme } = useTheme();
@@ -56,6 +58,7 @@ export const CountryDetailPanel: React.FC<CountryDetailPanelProps> = React.memo(
   const [hasMoreCities, setHasMoreCities] = useState(false);
   const [loadingMoreCities, setLoadingMoreCities] = useState(false);
   const [activeCityIndex, setActiveCityIndex] = useState(-1);
+  const cityRowRefs = useRef<Record<string, HTMLDivElement | null>>({});
 
   const loadCities = useCallback(
     async (query: string, offset: number, append: boolean, controller?: AbortController) => {
@@ -136,6 +139,15 @@ export const CountryDetailPanel: React.FC<CountryDetailPanelProps> = React.memo(
     };
   }, [citySearchTerm, loadCities]);
 
+  useEffect(() => {
+    if (!highlightCityName) {
+      return;
+    }
+
+    // Force query to include searched city so it can be highlighted even in large lists.
+    setCitySearchTerm(highlightCityName);
+  }, [highlightCityName, country.isoCode]);
+
   const backgroundColor =
     theme === 'dark' ? '#1e293b' : '#f8fafc';
   const textColor = theme === 'dark' ? '#f1f5f9' : '#0f172a';
@@ -160,6 +172,27 @@ export const CountryDetailPanel: React.FC<CountryDetailPanelProps> = React.memo(
       return Math.min(prev, visibleCities.length - 1);
     });
   }, [visibleCities]);
+
+  useEffect(() => {
+    if (!highlightCityName || visibleCities.length === 0) {
+      return;
+    }
+
+    const target = highlightCityName.trim().toLowerCase();
+    if (!target) {
+      return;
+    }
+
+    const matchedIndex = visibleCities.findIndex((city) => city.name.trim().toLowerCase() === target);
+    if (matchedIndex >= 0) {
+      setActiveCityIndex(matchedIndex);
+      const matchedCity = visibleCities[matchedIndex];
+      const row = cityRowRefs.current[matchedCity.id];
+      if (row) {
+        row.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+      }
+    }
+  }, [highlightCityName, visibleCities]);
 
   const setCityBusy = (cityId: string, isBusy: boolean) => {
     setBusyCityActions((prev) => {
@@ -331,13 +364,14 @@ export const CountryDetailPanel: React.FC<CountryDetailPanelProps> = React.memo(
         position: 'absolute',
         top: 0,
         right: 0,
-        width: '100%',
-        maxWidth: '400px',
+        width: 'min(100vw, 420px)',
+        maxWidth: '100vw',
         height: '100%',
         backgroundColor,
         color: textColor,
         boxShadow: '-4px 0 12px rgba(0, 0, 0, 0.2)',
-        overflow: 'auto',
+        overflowY: 'auto',
+        overflowX: 'hidden',
         zIndex: 20,
         display: 'flex',
         flexDirection: 'column',
@@ -631,7 +665,7 @@ export const CountryDetailPanel: React.FC<CountryDetailPanelProps> = React.memo(
       </div>
 
       {/* Cities List */}
-      <div style={{ padding: '1rem', flex: 1, overflow: 'auto' }}>
+      <div style={{ padding: '1rem', minHeight: 0 }}>
         <div
           style={{
             fontSize: '0.75rem',
@@ -746,6 +780,9 @@ export const CountryDetailPanel: React.FC<CountryDetailPanelProps> = React.memo(
             {visibleCities.map((city, index) => (
               <div
                 key={city.id}
+                ref={(node) => {
+                  cityRowRefs.current[city.id] = node;
+                }}
                 onMouseEnter={() => setActiveCityIndex(index)}
                 style={{
                   padding: '0.75rem',

@@ -358,7 +358,7 @@ router.get('/:isoCode/cities', authenticate, async (req: Request, res: Response)
   const query = String(req.query.q || '').trim();
   const parsedLimit = Number.parseInt(String(req.query.limit || ''), 10);
   const parsedOffset = Number.parseInt(String(req.query.offset || ''), 10);
-  const limit = Number.isFinite(parsedLimit) ? Math.min(Math.max(parsedLimit, 1), 200) : 100;
+  const limit = Number.isFinite(parsedLimit) ? Math.min(Math.max(parsedLimit, 1), 1000) : 150;
   const offset = Number.isFinite(parsedOffset) ? Math.max(parsedOffset, 0) : 0;
 
   try {
